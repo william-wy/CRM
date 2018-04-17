@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ClueDao">    
+
+    <select  id="findAll" resultType="clue">
+           select * from clue
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="clue" >
+             select * from clue where xid=#{xid}
+    </select>
+  
+   <select id="findByXName" parameterType="String" resultType="clue">
+           select * from clue where xname=#{xname}
+   </select>
+  
+    <select id="findByXFid" parameterType="map" resultType="clue">
+         select *from (select * from clue where xfid=#{xfid}) aa limit #{start},#{end}
+     </select>
+   
+   
+     <select id="getPage" parameterType="map" resultType="clue">
+         select *from clue limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from clue
+	</select>
+	
+	 <select id="getTotalByXfid"  parameterType="String" resultType="int">
+		 select count(*) from clue  where xfid=#{xfid}
+	</select>
+	
+	<insert id="insert" parameterType="clue" >
+	    insert into clue values(#{xactual},null,#{xname},#{xcomname},#{xdeptno},#{xjob},#{xphone},#{xemail},#{xarea},#{xzip},#{xstatus},#{xsource},#{xnext},#{xremark},#{xfid})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from clue where xid in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="xid" separator="," close=")">#{xid}</foreach>
+   </delete>
+	
+	
+	<update id="update" parameterType="clue">
+	    update clue set xname=#{xname},
+	                    xcomname=#{xcomname},
+	                    xdeptno=#{xdeptno},
+	                    xjob=#{xjob},
+	                    xphone=#{xphone},
+	                    xemail=#{xemail},
+	                    xarea=#{xarea},
+	                    xzip=#{xzip},
+	                    xstatus=#{xstatus},
+	                    xsource=#{xsource},
+	                    xnext=#{xnext},
+	                    xremark=#{xremark},
+	                    xfid=#{xfid},
+	                    xactual=#{xactual}
+	                    where xid=#{xid}
+	</update>
+	
+	
+ </mapper>
