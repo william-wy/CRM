@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM系统-合同</title>
+    <title>CRM系统-短信群发</title>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Styles-->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -18,10 +18,6 @@
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="assets/js/Lightweight-Chart/cssCharts.css">
-    <!-- 地区-->
-    <link rel="stylesheet" type="text/css" href="assets/css/cityPicker.css">
-    <script type="text/javascript" src="assets/js/cityData.js"></script>
-    <script type="text/javascript" src="assets/js/cityPicker.js"></script>
     <!-- 时间-->
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
     <script type="text/javascript" src="assets/js/moment.js"></script>
@@ -29,40 +25,6 @@
     <script type="text/javascript">
         $(function() {
             <!-- 日期选择器配置-->
-            $('input[name="birthdate"]').daterangepicker({
-                autoUpdateInput:true,
-                singleDatePicker: true,
-                showDropdowns: true,
-                timePicker:true,
-                "locale": {
-                    "format": "MM/DD/YYYY h:mm A",
-                    "daysOfWeek": [
-                        "日",
-                        "一",
-                        "二",
-                        "三",
-                        "四",
-                        "五",
-                        "六"
-                    ],
-                    "monthNames": [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ],
-                    "applyLabel": "确定",
-                    "cancelLabel": "取消"
-                }
-            });
             $('input[name="daterange"]').daterangepicker({
                 alwaysShowCalendar:true,
                 "locale": {
@@ -263,7 +225,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增合同-->
+        <!--新增短信-->
         <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -272,101 +234,28 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="addClueLabel">
-                            新增合同
+                            新增短信
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">合同名称：</span>
+                                <span class="input-group-addon">收信人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="text" class="form-control" placeholder="">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">短信内容：</span>
+                                <textarea class="form-control" rows="10"></textarea>
                             </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">对应机会：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同金额：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">签约日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">开始日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">结束日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同状态：</span>
-                                <select class="form-control">
-                                    <option>选择合同状态</option>
-                                    <option>签约</option>
-                                    <option>执行中</option>
-                                    <option>成功结束</option>
-                                    <option>意外终止</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同编号：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同类型：</span>
-                                <select class="form-control">
-                                    <option>选择合同类型</option>
-                                    <option>直销合同</option>
-                                    <option>代理合同</option>
-                                    <option>采购合同</option>
-                                    <option>服务合同</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">客户方签约人：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">我方签约人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同附件：</span>
-                                <input type="file" class="form-control" placeholder="">
-                            </div>
-
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-default" name="save">
-                            保存草稿
-                        </button>
-
                         <button type="button" class="btn btn-primary" name="save">
-                            保存
+                            发送
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -467,18 +356,18 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            销售管理 <small>合同</small>
+                            销售支持 <small>短信群发</small>
                         </h1>
 						<ol class="breadcrumb" >
 					  <li><a href="index.html">CRM系统</a></li>
-					  <li><a href="#">销售管理</a></li>
-					  <li class="active">合同</li>
+					  <li><a href="#">销售支持</a></li>
+					  <li class="active">短信群发</li>
 					</ol>
 
 		</div>
             <div>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
-                    <i class="fa fa-folder fa-fw"></i>新建合同
+                    <i class="fa fa-folder fa-fw"></i>新建短信
                 </button>
             </div>
             <div id="page-inner">
@@ -488,64 +377,17 @@
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
                         <a href="#allClue" data-toggle="tab">
-                            全部合同
+                            全部短信
                         </a>
                     </li>
-                    <li><a href="#myClue" data-toggle="tab">我的合同</a></li>
-                    <li><a href="#customer" data-toggle="tab">我协作的合同</a></li>
-                    <li><a href="#caogao" data-toggle="tab">我的草稿</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
-                    <!--全部合同-->
+                    <!--全部短信-->
                     <div class="tab-pane fade in active text-left" id="allClue">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>合同状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="签约">
-                                <input type="button" class="btn btn-default" value="执行中">
-                                <input type="button" class="btn btn-default" value="成功结束">
-                                <input type="button" class="btn btn-default" value="意外终止">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>付款方式：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="支票">
-                                <input type="button" class="btn btn-default" value="现金">
-                                <input type="button" class="btn btn-default" value="银行转账">
-                                <input type="button" class="btn btn-default" value="其它">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                <span>产品筛选：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部产品</option>
-                                    <option>产品1</option>
-                                    <option>产品2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部客户</option>
-                                    <option>客户1</option>
-                                    <option>客户2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span>发送时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="button" class="btn btn-default" value="全部">
                                 <input type="button" class="btn btn-default" value="今天">
                                 <input type="button" class="btn btn-default" value="昨天">
@@ -559,20 +401,23 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                    <span>短信状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
-                                    <option>请选择部门</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其他</option>
+                                    <option>请选择短信状态</option>
+                                    <option>待审核</option>
+                                    <option>审核未通过</option>
+                                    <option>待送达</option>
+                                    <option>审核通过</option>
+                                    <option>发送失败</option>
                                 </select>
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                    <span>负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                    <span>发信人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
                                     <option>请选择用户</option>
                                     <option>张三</option>
@@ -582,153 +427,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--我的合同-->
-                    <div class="tab-pane fade" id="myClue">
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>合同状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="签约">
-                                <input type="button" class="btn btn-default" value="执行中">
-                                <input type="button" class="btn btn-default" value="成功结束">
-                                <input type="button" class="btn btn-default" value="意外终止">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>付款方式：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="支票">
-                                <input type="button" class="btn btn-default" value="现金">
-                                <input type="button" class="btn btn-default" value="银行转账">
-                                <input type="button" class="btn btn-default" value="其它">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>产品筛选：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部产品</option>
-                                    <option>产品1</option>
-                                    <option>产品2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部客户</option>
-                                    <option>客户1</option>
-                                    <option>客户2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="今天">
-                                <input type="button" class="btn btn-default" value="昨天">
-                                <input type="button" class="btn btn-default" value="本周">
-                                <input type="button" class="btn btn-default" value="上周">
-                                <input type="button" class="btn btn-default" value="本月">
-                                <input type="button" class="btn btn-default" value="上月">
-                                <input type="text" class="btn btn-default" name="daterange" value="" />
-                            </div>
-                        </div>
-                    </div>
-                    <!--我协作的合同-->
-                    <div class="tab-pane fade" id="customer">
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>合同状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="签约">
-                                <input type="button" class="btn btn-default" value="执行中">
-                                <input type="button" class="btn btn-default" value="成功结束">
-                                <input type="button" class="btn btn-default" value="意外终止">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>付款方式：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="支票">
-                                <input type="button" class="btn btn-default" value="现金">
-                                <input type="button" class="btn btn-default" value="银行转账">
-                                <input type="button" class="btn btn-default" value="其它">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>产品筛选：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部产品</option>
-                                    <option>产品1</option>
-                                    <option>产品2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>全部客户</option>
-                                    <option>客户1</option>
-                                    <option>客户2</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="今天">
-                                <input type="button" class="btn btn-default" value="昨天">
-                                <input type="button" class="btn btn-default" value="本周">
-                                <input type="button" class="btn btn-default" value="上周">
-                                <input type="button" class="btn btn-default" value="本月">
-                                <input type="button" class="btn btn-default" value="上月">
-                                <input type="text" class="btn btn-default" name="daterange" value="" />
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择部门</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择用户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <!--我的草稿-->
-                    <div class="tab-pane fade" id="caogao"></div>
 
                 </div>
 
@@ -738,43 +436,28 @@
                     <table class="table table-striped">
                         <caption>
                             <div>
-                                <span style="float: left">已选0件合同&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span style="float: left">已选0条短信&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <button type="button" class="btn btn-default" style="float: left" >
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
-
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: left" >
-                                    <i class="fa fa-pencil fa-fw"></i>
-                                    &nbsp;&nbsp;修改&nbsp;&nbsp;
-                                </button>
-                                <button type="button" class="btn btn-default" style="float: right" >
-                                    搜索
-                                </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
-                                    <option>请选择搜索方式</option>
-                                    <option>按姓名查找</option>
-                                    <option>按部门查找</option>
-                                    <option>其他</option>
-                                </select>
                             </div>
                         </caption>
                         <thead>
                         <tr>
                             <th>选择</th>
-                            <th>合同名称</th>
-                            <th>对应客户</th>
-                            <th>合同编号</th>
-                            <th>签约日期</th>
-                            <th>合同状态</th>
-                            <th>负责人</th>
+                            <th>提交时间</th>
+                            <th>短信内容</th>
+                            <th>发信人</th>
+                            <th>短信状态</th>
+                            <th>审核详情</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Tanmay</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>560001</td>
                             <td>Bangalore</td>
@@ -783,7 +466,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Sachin</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>400003</td>
                             <td>Bangalore</td>
@@ -792,7 +475,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -801,7 +484,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -810,7 +493,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -819,7 +502,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -828,7 +511,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -837,7 +520,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -846,7 +529,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -855,7 +538,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -864,7 +547,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -873,7 +556,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -882,16 +565,7 @@
                         </tr>
                         <tr>
                             <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
+                            <td>Uma</td>
                             <td><a href="customer-details.html">Bangalore</a></td>
                             <td>411027</td>
                             <td>Bangalore</td>
@@ -934,62 +608,17 @@
     <!-- Morris Chart Js -->
     <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
     <script src="assets/js/morris/morris.js"></script>
-
-
+	
+	
 	<script src="assets/js/easypiechart.js"></script>
 	<script src="assets/js/easypiechart-data.js"></script>
-
+	
 	 <script src="assets/js/Lightweight-Chart/jquery.chart.js"></script>
 	
     <!-- Custom Js -->
     <script src="assets/js/custom-scripts.js"></script>
 
 
-
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice',
-            valType: 'k-v',
-            hideCityInput: '#city',
-            hideProvinceInput: '#province',
-            callback: function(city_id){
-                $('#cityChoice').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice2',
-            valType: 'k-v',
-            hideCityInput: '#city2',
-            hideProvinceInput: '#province2',
-            callback: function(city_id){
-                $('#cityChoice2').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice3',
-            valType: 'k-v',
-            hideCityInput: '#city3',
-            hideProvinceInput: '#province3',
-            callback: function(city_id){
-                $('#cityChoice3').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
 
 
 </body>

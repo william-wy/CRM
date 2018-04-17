@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM系统-机会</title>
+    <title>CRM系统-工作报告</title>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Styles-->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -18,18 +18,16 @@
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="assets/js/Lightweight-Chart/cssCharts.css">
-    <!-- 地区-->
-    <link rel="stylesheet" type="text/css" href="assets/css/cityPicker.css">
-    <script type="text/javascript" src="assets/js/cityData.js"></script>
-    <script type="text/javascript" src="assets/js/cityPicker.js"></script>
     <!-- 时间-->
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
+
     <script type="text/javascript">
         $(function() {
+
             <!-- 日期选择器配置-->
-            $('input[name="birthdate"]').daterangepicker({
+            $('#birthdate').daterangepicker({
                 autoUpdateInput:true,
                 singleDatePicker: true,
                 showDropdowns: true,
@@ -63,37 +61,7 @@
                     "cancelLabel": "取消"
                 }
             });
-            $('input[name="daterange"]').daterangepicker({
-                alwaysShowCalendar:true,
-                "locale": {
-                    "format": "MM/DD/YYYY",
-                    "daysOfWeek": [
-                        "日",
-                        "一",
-                        "二",
-                        "三",
-                        "四",
-                        "五",
-                        "六"
-                    ],
-                    "monthNames": [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ],
-                    "applyLabel": "确定",
-                    "cancelLabel": "取消"
-                }
-            });
+
             <!-- 保存按钮点击事件-->
             $("button[name='save']").click(function(){
                 alert("保存成功");
@@ -263,7 +231,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增机会-->
+        <!--新增工作报告-->
         <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -272,83 +240,31 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="addClueLabel">
-                            新增机会
+                            编辑工作报告
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">机会名称：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">预计销售：</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">预计签单：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">销售阶段：</span>
+                                <span class="input-group-addon">报告类型：</span>
                                 <select class="form-control">
-                                    <option>选择销售阶段</option>
-                                    <option>初步接洽</option>
-                                    <option>确认需求</option>
-                                    <option>方案/报价</option>
-                                    <option>谈判审核</option>
-                                    <option>赢单</option>
-                                    <option>输单</option>
+                                    <option>选择报告类型</option>
+                                    <option>日报</option>
+                                    <option>周报</option>
+                                    <option>月报</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">获取日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <span class="input-group-addon">新建日期：</span>
+                                <input type="text" class="form-control" id="birthdate" value=""  />
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">机会来源：</span>
+                                <span class="input-group-addon">批阅人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <select class="form-control">
-                                    <option>选择机会来源</option>
-                                    <option>广告</option>
-                                    <option>社交推广</option>
-                                    <option>研讨会</option>
-                                    <option>搜索引擎</option>
-                                    <option>客户介绍</option>
-                                    <option>代理商</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择负责人</option>
+                                    <option>请选择用户</option>
                                     <option>张三</option>
                                     <option>李四</option>
                                     <option>其它</option>
@@ -356,13 +272,28 @@
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
-                                    <option>选择客户状态</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其它</option>
-                                </select>
+                                <span class="input-group-addon">抄送人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">今日总结：</span>
+                                <textarea class="form-control" rows="4"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">明日计划：</span>
+                                <textarea class="form-control" rows="4"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">上传图片：</span>
+                                <input type="file" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">上传附件：</span>
+                                <input type="file" class="form-control" placeholder="">
                             </div>
                         </form>
 
@@ -471,62 +402,56 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            销售管理 <small>机会</small>
+                            销售支持 <small>工作报告</small>
                         </h1>
 						<ol class="breadcrumb" >
 					  <li><a href="index.html">CRM系统</a></li>
-					  <li><a href="#">销售管理</a></li>
-					  <li class="active">机会</li>
+					  <li><a href="#">销售支持</a></li>
+					  <li class="active">工作报告</li>
 					</ol>
 
-		</div>
+          </div>
             <div>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
-                    <i class="fa fa-folder fa-fw"></i>新建机会
+                    <i class="fa fa-folder fa-fw"></i>新建工作报告
                 </button>
             </div>
-            <div id="page-inner">
-
-                <!-- /. ROW  -->
+            <div id="page-inner" class="container">
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
                         <a href="#allClue" data-toggle="tab">
-                            全部机会
+                            提交给我的报告
                         </a>
                     </li>
-                    <li><a href="#myClue" data-toggle="tab">我的机会</a></li>
-                    <li><a href="#customer" data-toggle="tab">我协作的机会</a></li>
+                    <li><a href="#myClue" data-toggle="tab">我提交的报告</a></li>
+                    <li><a href="#customer" data-toggle="tab">我下属的报告</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
-                    <!--全部机会-->
+                    <!-- 提交给我的报告-->
                     <div class="tab-pane fade in active text-left" id="allClue">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>销售阶段：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="初步接洽">
-                                <input type="button" class="btn btn-default" value="确认需求">
-                                <input type="button" class="btn btn-default" value="方案/报价">
-                                <input type="button" class="btn btn-default" value="谈判审核">
-                                <input type="button" class="btn btn-default" value="赢单">
-                                <input type="button" class="btn btn-default" value="输单">
+                                <span>报告类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="button" class="btn btn-default" value="日报">
+                                <input type="button" class="btn btn-default" value="周报">
+                                <input type="button" class="btn btn-default" value="月报">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>机会类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span>报告状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="高价值机会">
-                                <input type="button" class="btn btn-default" value="普通机会">
-                                <input type="button" class="btn btn-default" value="低价值机会">
+                                <input type="button" class="btn btn-default" value="已批阅">
+                                <input type="button" class="btn btn-default" value="未批阅">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                <span>提交人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
                                     <option>请选择用户</option>
                                     <option>张三</option>
@@ -538,9 +463,9 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
-                                    <option>请选择部门</option>
+                                    <option>请选择所属部门</option>
                                     <option>销售部</option>
                                     <option>营销部</option>
                                     <option>其他</option>
@@ -548,69 +473,48 @@
                             </div>
                         </div>
                     </div>
-                    <!--我的机会-->
+                    <!-- 我提交的报告-->
                     <div class="tab-pane fade" id="myClue">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>销售阶段：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="初步接洽">
-                                <input type="button" class="btn btn-default" value="确认需求">
-                                <input type="button" class="btn btn-default" value="方案/报价">
-                                <input type="button" class="btn btn-default" value="谈判审核">
-                                <input type="button" class="btn btn-default" value="赢单">
-                                <input type="button" class="btn btn-default" value="输单">
+                                <span>报告类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="button" class="btn btn-default" value="日报">
+                                <input type="button" class="btn btn-default" value="周报">
+                                <input type="button" class="btn btn-default" value="月报">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>机会类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span>报告状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="高价值机会">
-                                <input type="button" class="btn btn-default" value="普通机会">
-                                <input type="button" class="btn btn-default" value="低价值机会">
-                            </div>
-                        </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                                    <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择用户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其他</option>
-                                </select>
+                                <input type="button" class="btn btn-default" value="已批阅">
+                                <input type="button" class="btn btn-default" value="未批阅">
                             </div>
                         </div>
                     </div>
-                    <!--我协作的机会-->
+                    <!-- 我下属的报告-->
                     <div class="tab-pane fade" id="customer">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>销售阶段：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="初步接洽">
-                                <input type="button" class="btn btn-default" value="确认需求">
-                                <input type="button" class="btn btn-default" value="方案/报价">
-                                <input type="button" class="btn btn-default" value="谈判审核">
-                                <input type="button" class="btn btn-default" value="赢单">
-                                <input type="button" class="btn btn-default" value="输单">
+                                <span>报告类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="button" class="btn btn-default" value="日报">
+                                <input type="button" class="btn btn-default" value="周报">
+                                <input type="button" class="btn btn-default" value="月报">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>机会类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span>报告状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="高价值机会">
-                                <input type="button" class="btn btn-default" value="普通机会">
-                                <input type="button" class="btn btn-default" value="低价值机会">
+                                <input type="button" class="btn btn-default" value="已批阅">
+                                <input type="button" class="btn btn-default" value="未批阅">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                    <span>对应客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                <span>提交人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
                                     <option>请选择用户</option>
                                     <option>张三</option>
@@ -622,9 +526,9 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                    <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                    <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
                                 <select class="btn btn-default" style="float: left">
-                                    <option>请选择部门</option>
+                                    <option>请选择所属部门</option>
                                     <option>销售部</option>
                                     <option>营销部</option>
                                     <option>其他</option>
@@ -635,187 +539,197 @@
 
                 </div>
 
-                <!-- /. ROW  -->
-                <!--数据（从数据库中读取）-->
-                <form action="">
-                    <table class="table table-striped">
-                        <caption>
-                            <div>
-                                <span style="float: left">已选0个机会&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <button type="button" class="btn btn-default" style="float: left" >
+                <div class="row clearfix">
+                    <div class="col-md-2 column">
+                        <br/><br/>
+                        <div class="panel panel-default">
+                            <div class="panel-footer">
+                                <h3 class="panel-title">
+                                    2018年4月17日
+                                </h3>
+                            </div>
+                            <div class="panel-body" style="cursor: pointer">
+                                张三的日报
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-footer">
+                                <h3 class="panel-title">
+                                    2018年4月17日
+                                </h3>
+                            </div>
+                            <div class="panel-body" style="cursor: pointer">
+                                张三的日报
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-footer">
+                                <h3 class="panel-title">
+                                    2018年4月17日
+                                </h3>
+                            </div>
+                            <div class="panel-body" style="cursor: pointer">
+                                张三的日报
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-footer">
+                                <h3 class="panel-title">
+                                    2018年4月17日
+                                </h3>
+                            </div>
+                            <div class="panel-body" style="cursor: pointer">
+                                张三的日报
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 column">
+                        <br/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="border-bottom: double">
+                                <button type="button" class="btn btn-default" style="float: right" >
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
-
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: left" >
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right" >
                                     <i class="fa fa-pencil fa-fw"></i>
-                                    &nbsp;&nbsp;修改&nbsp;&nbsp;
+                                    &nbsp;&nbsp;编辑&nbsp;&nbsp;
                                 </button>
-                                <button type="button" class="btn btn-default" style="float: right" >
-                                    搜索
-                                </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
-                                    <option>请选择搜索方式</option>
-                                    <option>按姓名查找</option>
-                                    <option>按部门查找</option>
-                                    <option>其他</option>
-                                </select>
+                                <h2>
+                                    张三的日报（2018年4月17日）
+                                </h2><br/>
+                                <small>批阅人：李晓燕 &nbsp;&nbsp;&nbsp;&nbsp;
+                                    抄送：李晓燕 <span style="float: right">提交时间：2018-04-17 17:38</span></small>
                             </div>
-                        </caption>
-                        <thead>
-                        <tr>
-                            <th>选择</th>
-                            <th>机会名称</th>
-                            <th>对应客户</th>
-                            <th>预计销售额</th>
-                            <th>销售阶段</th>
-                            <th>跟进记录</th>
-                            <th>负责人</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>400003</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-                <ul class="pager">
-                    <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
-                    </li>
-                    <li class="previous"><a href="#">&larr; 上一页</a></li>
-                    <li class="next"><a href="#">下一页 &rarr;</a></li>
-                </ul>
+                            <div class="panel-body">
+                                <h4>
+                                    <span class="label label-primary">
+                                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;
+                                        新建线索&nbsp;&nbsp;3</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-success">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;
+                                        新建客户&nbsp;&nbsp; 5</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-info">
+                                        <span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;
+                                        新建机会&nbsp;&nbsp;6</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-warning">
+                                        <span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;
+                                        跟进次数&nbsp;&nbsp;5</span>
+                                </h4>
+                                <br/>
+                                <div>
+                                    <h3>今日总结</h3>
+                                    <h4>二个人个人 沃尔夫外文同人文</h4>
+                                    <br/>
+                                    <h3>今日总结</h3>
+                                    <h4>尔尕而过额如果serger而是</h4>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="border-bottom: double">
+                                <button type="button" class="btn btn-default" style="float: right" >
+                                    <i class="fa fa-share fa-fw"></i>
+                                    &nbsp;&nbsp;删除&nbsp;&nbsp;
+                                </button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right" >
+                                    <i class="fa fa-pencil fa-fw"></i>
+                                    &nbsp;&nbsp;编辑&nbsp;&nbsp;
+                                </button>
+                                <h2>
+                                    张三的日报（2018年4月17日）
+                                </h2><br/>
+                                <small>批阅人：李晓燕 &nbsp;&nbsp;&nbsp;&nbsp;
+                                    抄送：李晓燕 <span style="float: right">提交时间：2018-04-17 17:38</span></small>
+                            </div>
+                            <div class="panel-body">
+                                <h4>
+                                    <span class="label label-primary">
+                                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;
+                                        新建线索&nbsp;&nbsp;3</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-success">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;
+                                        新建客户&nbsp;&nbsp; 5</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-info">
+                                        <span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;
+                                        新建机会&nbsp;&nbsp;6</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-warning">
+                                        <span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;
+                                        跟进次数&nbsp;&nbsp;5</span>
+                                </h4>
+                                <br/>
+                                <div>
+                                    <h3>今日总结</h3>
+                                    <h4>二个人个人 沃尔夫外文同人文</h4>
+                                    <br/>
+                                    <h3>今日总结</h3>
+                                    <h4>尔尕而过额如果serger而是</h4>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="border-bottom: double">
+                                <button type="button" class="btn btn-default" style="float: right" >
+                                    <i class="fa fa-share fa-fw"></i>
+                                    &nbsp;&nbsp;删除&nbsp;&nbsp;
+                                </button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right" >
+                                    <i class="fa fa-pencil fa-fw"></i>
+                                    &nbsp;&nbsp;编辑&nbsp;&nbsp;
+                                </button>
+                                <h2>
+                                    张三的日报（2018年4月17日）
+                                </h2><br/>
+                                <small>批阅人：李晓燕 &nbsp;&nbsp;&nbsp;&nbsp;
+                                    抄送：李晓燕 <span style="float: right">提交时间：2018-04-17 17:38</span></small>
+                            </div>
+                            <div class="panel-body">
+                                <h4>
+                                    <span class="label label-primary">
+                                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;
+                                        新建线索&nbsp;&nbsp;3</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-success">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;
+                                        新建客户&nbsp;&nbsp; 5</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-info">
+                                        <span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;
+                                        新建机会&nbsp;&nbsp;6</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-warning">
+                                        <span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;
+                                        跟进次数&nbsp;&nbsp;5</span>
+                                </h4>
+                                <br/>
+                                <div>
+                                    <h3>今日总结</h3>
+                                    <h4>二个人个人 沃尔夫外文同人文</h4>
+                                    <br/>
+                                    <h3>今日总结</h3>
+                                    <h4>尔尕而过额如果serger而是</h4>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+
+                            </div>
+                        </div>
 
 
 
-
+                    </div>
+                </div>
 				<footer>
 
                     <br/><br/><br/>
@@ -846,53 +760,6 @@
 	
     <!-- Custom Js -->
     <script src="assets/js/custom-scripts.js"></script>
-
-
-
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice',
-            valType: 'k-v',
-            hideCityInput: '#city',
-            hideProvinceInput: '#province',
-            callback: function(city_id){
-                $('#cityChoice').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice2',
-            valType: 'k-v',
-            hideCityInput: '#city2',
-            hideProvinceInput: '#province2',
-            callback: function(city_id){
-                $('#cityChoice2').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice3',
-            valType: 'k-v',
-            hideCityInput: '#city3',
-            hideProvinceInput: '#province3',
-            callback: function(city_id){
-                $('#cityChoice3').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
 
 
 </body>

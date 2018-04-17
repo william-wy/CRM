@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM系统-回款详情</title>
+    <title>CRM系统-报销详情</title>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Styles-->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -18,10 +18,6 @@
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="assets/js/Lightweight-Chart/cssCharts.css">
-    <!-- 地区-->
-    <link rel="stylesheet" type="text/css" href="assets/css/cityPicker.css">
-    <script type="text/javascript" src="assets/js/cityData.js"></script>
-    <script type="text/javascript" src="assets/js/cityPicker.js"></script>
     <!-- 时间-->
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
     <script type="text/javascript" src="assets/js/moment.js"></script>
@@ -36,37 +32,6 @@
                 timePicker:true,
                 "locale": {
                     "format": "MM/DD/YYYY h:mm A",
-                    "daysOfWeek": [
-                        "日",
-                        "一",
-                        "二",
-                        "三",
-                        "四",
-                        "五",
-                        "六"
-                    ],
-                    "monthNames": [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ],
-                    "applyLabel": "确定",
-                    "cancelLabel": "取消"
-                }
-            });
-            $('input[name="daterange"]').daterangepicker({
-                alwaysShowCalendar:true,
-                "locale": {
-                    "format": "MM/DD/YYYY",
                     "daysOfWeek": [
                         "日",
                         "一",
@@ -263,8 +228,8 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增回款计划-->
-        <div class="modal fade" id="payment-plan" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <!--编辑费用报销单-->
+        <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -272,40 +237,35 @@
                             &times;
                         </button>
                         <h4 class="modal-title">
-                            新增回款计划
+                            编辑费用报销单
                         </h4>
                     </div>
-                    <div class="modal-body text-center">
+                    <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
+                                <span class="input-group-addon">报销单号：</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">报销人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="" disabled="disabled">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">报销部门：</span>
                                 <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
+                                    <option>选择部门</option>
+                                    <option>销售部</option>
+                                    <option>营销部</option>
                                     <option>其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">对应合同：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同金额：</span>
-                                <input type="text" class="form-control" placeholder="9999999" disabled="disabled">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">签约日期：</span>
-                                <input type="text" class="form-control" placeholder="04/13/2018" disabled="disabled">
+                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <textarea class="form-control" rows="4"></textarea>
                             </div>
                         </form>
 
@@ -319,97 +279,102 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增回款记录-->
-        <div class="modal fade" id="payment-record" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <!--新增费用-->
+        <div class="modal fade" id="addcost" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title">
-                            新增回款记录
+                        <h4 class="modal-title" id="addClueLabel">
+                            新增费用
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">回款日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <span class="input-group-addon">费用编号：</span>
+                                <input type="text" class="form-control" placeholder="">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">回款金额：</span>
+                                <span class="input-group-addon">费用类型：</span>
+                                <select class="form-control">
+                                    <option>请选择费用类型</option>
+                                    <option>招待费</option>
+                                    <option>交通费</option>
+                                    <option>酒店费</option>
+                                    <option>通讯费</option>
+                                    <option>物流费</option>
+                                    <option>礼品费</option>
+                                    <option>其它</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">费用描述：</span>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">费用金额：</span>
                                 <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">发生时间：</span>
+                                <input type="text" class="form-control" name="birthdate" value=""  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
                                 <select class="form-control">
                                     <option>请选择客户</option>
+                                    <option>客户1</option>
+                                    <option>客户2</option>
+                                    <option>其它</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">机会/合同：</span>
+                                <select class="form-control">
+                                    <option>请选择</option>
+                                    <option>机会</option>
+                                    <option>合同</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进记录：</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">拜访签到：</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">上传附件：</span>
+                                <input type="file" class="form-control">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <select class="form-control">
+                                    <option>请选择负责人</option>
                                     <option>张三</option>
                                     <option>李四</option>
                                     <option>其它</option>
                                 </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同名称：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">回款期次：</span>
-                                <select class="form-control">
-                                    <option>请选择期次</option>
-                                    <option>第一期</option>
-                                    <option>第二期</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">付款方式：</span>
-                                <select class="form-control">
-                                    <option>请选择付款方式</option>
-                                    <option>支票</option>
-                                    <option>现金</option>
-                                    <option>银行转账</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">回款类型：</span>
-                                <select class="form-control">
-                                    <option>请选择回款类型</option>
-                                    <option>正常回款</option>
-                                    <option>退款</option>
-                                    <option>保证金</option>
-                                    <option>预收款</option>
-                                    <option>尾款</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">收款人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择收款人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
                             </div>
                         </form>
 
@@ -518,23 +483,23 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            【业支】维所--亚拉拉特 第1期回款计划
+                            6451654 <small>负责人：张三</small>
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
-                            <li><a href="#">销售管理</a></li>
-					        <li><a href="payment.html">回款</a></li>
-					        <li class="active">【业支】维所--亚拉拉特 第1期回款计划</li>
+                            <li><a href="#">销售支持</a></li>
+					        <li><a href="reimbursement.html">费用报销</a></li>
+					        <li class="active">6451654</li>
 					    </ol>
-
 		  </div>
             <div class="btn-toolbar" role="toolbar">
                 <div class="panel-body">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#payment-plan">
-                        <i class="glyphicon glyphicon-plus"></i>配置
-                    </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#payment-record">
-                        <i class="fa fa-folder fa-fw"></i>新建回款记录
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue">
+                        <i class="fa fa-pencil fa-fw"></i>编辑
+                    </button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addcost">
+                        <i class="fa fa-folder fa-fw"></i>添加费用
                     </button>
                 </div>
             </div>
@@ -544,15 +509,16 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#khzl" data-toggle="tab">
-                            客户全景
+                        <a href="#allClue" data-toggle="tab">
+                            基本信息
                         </a>
                     </li>
+
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
-                    <!-- 基本信息  -->
-                    <div class="tab-pane fade in active text-left" id="khzl">
+                    <!--基本信息 -->
+                    <div class="tab-pane fade in active text-left" id="allClue">
                         <div class="row clearfix">
                             <div class="col-md-6 column" >
                                 <div class="panel panel-info">
@@ -561,25 +527,114 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">计划回款日期：</td><td>2018-04-09</td></tr>
-                                            <tr><td>计划回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>回款期次：</td><td>1</td></tr>
-                                            <tr><td>合同名称：</td><td>【业支】维所--亚拉拉特</td></tr>
-                                            <tr><td>对应客户：</td><td>维拉斯会所</td></tr>
-                                            <tr><td>备注：</td><td>-------</td></tr>
+                                            <tr><td width="20%">报销单号：</td><td>6451654</td></tr>
+                                            <tr><td>报销人：</td><td>张三</td></tr>
+                                            <tr><td>报销部门：</td><td>¥ 1,280.00</td></tr>
+                                            <tr><td>备注：</td><td>------</td></tr>
+                                            <tr><td>报销金额：</td><td>¥ 680.00</td></tr>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">其它信息</h3>
+                                        <h3 class="panel-title">费用信息</h3>
                                     </div>
                                     <div class="panel-body table-responsive">
-                                        <table class="table">
-                                            <tr><td width="20%">回款状态：</td><td>完成</td></tr>
-                                            <tr><td>逾期天数：</td><td>0</td></tr>
-                                            <tr><td>已回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>未回款金额：</td><td>¥ 19,164.75</td></tr>
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>费用编号</th>
+                                                <th>费用类型</th>
+                                                <th>发生时间</th>
+                                                <th>费用金额</th>
+                                                <th>费用描述</th>
+                                                <th>负责人</th>
+                                                <th>对应客户</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>400003</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="cost-details.html">Mumbai</a></td>
+                                                <td>411027</td>
+                                                <td>Bangalore</td>
+                                                <td>560001</td>
+                                                <td>560001</td>
+                                                <td>Bangalore</td>
+                                                <td>Bangalore</td>
+                                            </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -589,15 +644,17 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">创建时间：</td><td>2018-04-09 17:58</td></tr>
-                                            <tr><td>更新于：</td><td>2018-04-09 17:58</td></tr>
-                                            <tr><td>创建人：</td><td>李四</td></tr>
+                                            <tr><td width="20%">创建人：</td><td>张三</td></tr>
+                                            <tr><td>创建时间：</td><td>2018-04-22 15:00</td></tr>
+                                            <tr><td>更新于：</td><td>2018-04-22 15:00</td></tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
 
                 </div>
 
@@ -634,52 +691,6 @@
     <!-- Custom Js -->
     <script src="assets/js/custom-scripts.js"></script>
 
-
-
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice',
-            valType: 'k-v',
-            hideCityInput: '#city',
-            hideProvinceInput: '#province',
-            callback: function(city_id){
-                $('#cityChoice').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice2',
-            valType: 'k-v',
-            hideCityInput: '#city2',
-            hideProvinceInput: '#province2',
-            callback: function(city_id){
-                $('#cityChoice2').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
-
-    <script>
-        var cityPicker = new IIInsomniaCityPicker({
-            data: cityData,
-            target: '#cityChoice3',
-            valType: 'k-v',
-            hideCityInput: '#city3',
-            hideProvinceInput: '#province3',
-            callback: function(city_id){
-                $('#cityChoice3').html(city_id);
-            }
-        });
-
-        cityPicker.init();
-    </script>
 
 
 </body>

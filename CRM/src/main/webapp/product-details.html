@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM系统-回款详情</title>
+    <title>CRM系统-产品详情</title>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Styles-->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -263,8 +263,8 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增回款计划-->
-        <div class="modal fade" id="payment-plan" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <!--新增产品-->
+        <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -272,144 +272,109 @@
                             &times;
                         </button>
                         <h4 class="modal-title">
-                            新增回款计划
-                        </h4>
-                    </div>
-                    <div class="modal-body text-center">
-
-                        <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
-                                <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">对应合同：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">合同金额：</span>
-                                <input type="text" class="form-control" placeholder="9999999" disabled="disabled">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">签约日期：</span>
-                                <input type="text" class="form-control" placeholder="04/13/2018" disabled="disabled">
-                            </div>
-                        </form>
-
-                    </div>
-                    <div class="modal-footer">
-
-                        <button type="button" class="btn btn-primary" name="save">
-                            保存
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-        <!--新增回款记录-->
-        <div class="modal fade" id="payment-record" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">
-                            新增回款记录
+                            新增产品
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">回款日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">回款金额：</span>
+                                <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="text" class="form-control" placeholder="">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
+                                <span class="input-group-addon">公司名称：</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
+                                <input type="hidden" id="province3" value="">
+                                <input type="hidden" id="city3" value="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">线索状态：</span>
                                 <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
+                                    <option>选择线索状态</option>
+                                    <option>未处理</option>
+                                    <option>联系方式有效</option>
+                                    <option>联系方式无效</option>
+                                    <option>关闭</option>
+                                    <option>100-500人</option>
+                                    <option>500人以上</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">线索来源：</span>
+                                <select class="form-control">
+                                    <option>选择线索来源</option>
+                                    <option>广告</option>
+                                    <option>社交推广</option>
+                                    <option>研讨会</option>
+                                    <option>搜索引擎</option>
+                                    <option>客户介绍</option>
+                                    <option>代理商</option>
                                     <option>其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">合同名称：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">回款期次：</span>
-                                <select class="form-control">
-                                    <option>请选择期次</option>
-                                    <option>第一期</option>
-                                    <option>第二期</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">付款方式：</span>
-                                <select class="form-control">
-                                    <option>请选择付款方式</option>
-                                    <option>支票</option>
-                                    <option>现金</option>
-                                    <option>银行转账</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">回款类型：</span>
-                                <select class="form-control">
-                                    <option>请选择回款类型</option>
-                                    <option>正常回款</option>
-                                    <option>退款</option>
-                                    <option>保证金</option>
-                                    <option>预收款</option>
-                                    <option>尾款</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">收款人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择收款人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
-                                </select>
+                                <span class="input-group-addon">下次跟进：</span>
+                                <input type="text" class="form-control" name="birthdate" value=""  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <textarea class="form-control" rows="4"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <select class="form-control">
+                                    <option>选择负责人</option>
+                                    <option>张三</option>
+                                    <option>李四</option>
+                                    <option>其它</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">所属部门：</span>
+                                <select class="form-control">
+                                    <option>选择客户状态</option>
+                                    <option>销售部</option>
+                                    <option>营销部</option>
+                                    <option>其它</option>
+                                </select>
                             </div>
                         </form>
 
@@ -423,7 +388,43 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--安全退出-->
+        <!--新增附件-->
+        <div class="modal fade" id="fujian" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">
+                            新增附件
+                        </h4>
+                    </div>
+                    <div class="modal-body text-center pre-scrollable">
+
+                        <form class="bs-example bs-example-form" role="form">
+                            <div class="input-group">
+                                <span class="input-group-addon">上传附件：</span>
+                                <input type="file" class="form-control">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">备注：</span>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-primary" name="save">
+                            保存
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+         <!--安全退出-->
         <div class="modal fade" id="out" tabindex="-1" role="dialog" aria-labelledby="outLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -518,23 +519,23 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            【业支】维所--亚拉拉特 第1期回款计划
+                            竹木纤维系列
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
-                            <li><a href="#">销售管理</a></li>
-					        <li><a href="payment.html">回款</a></li>
-					        <li class="active">【业支】维所--亚拉拉特 第1期回款计划</li>
+                            <li><a href="#">销售支持</a></li>
+					        <li><a href="product.html">产品</a></li>
+					        <li class="active">竹木纤维系列</li>
 					    </ol>
-
 		  </div>
             <div class="btn-toolbar" role="toolbar">
                 <div class="panel-body">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#payment-plan">
-                        <i class="glyphicon glyphicon-plus"></i>配置
-                    </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#payment-record">
-                        <i class="fa fa-folder fa-fw"></i>新建回款记录
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue">
+                        <i class="fa fa-pencil fa-fw"></i>编辑
+                    </button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-share fa-fw"></i>删除
                     </button>
                 </div>
             </div>
@@ -544,15 +545,17 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#khzl" data-toggle="tab">
-                            客户全景
+                        <a href="#allClue" data-toggle="tab">
+                            基本信息
                         </a>
                     </li>
+                    <li><a href="#customer" data-toggle="tab">附件</a></li>
+
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
-                    <!-- 基本信息  -->
-                    <div class="tab-pane fade in active text-left" id="khzl">
+                    <!--基本信息 -->
+                    <div class="tab-pane fade in active text-left" id="allClue">
                         <div class="row clearfix">
                             <div class="col-md-6 column" >
                                 <div class="panel panel-info">
@@ -561,12 +564,22 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">计划回款日期：</td><td>2018-04-09</td></tr>
-                                            <tr><td>计划回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>回款期次：</td><td>1</td></tr>
-                                            <tr><td>合同名称：</td><td>【业支】维所--亚拉拉特</td></tr>
-                                            <tr><td>对应客户：</td><td>维拉斯会所</td></tr>
-                                            <tr><td>备注：</td><td>-------</td></tr>
+                                            <tr><td width="20%">产品名称：</td><td>竹木纤维系列</td></tr>
+                                            <tr><td>产品编号：</td><td>01</td></tr>
+                                            <tr><td>标准单价：</td><td>¥ 1,280.00</td></tr>
+                                            <tr><td>销售单位：</td><td>------</td></tr>
+                                            <tr><td>单位成本：</td><td>¥ 680.00</td></tr>
+                                            <tr><td>毛利率：</td><td>46.88%</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">自定义信息</h3>
+                                    </div>
+                                    <div class="panel-body table-responsive">
+                                        <table class="table">
+                                            <tr><td width="20%">规格：</td><td>-----</td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -576,10 +589,9 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">回款状态：</td><td>完成</td></tr>
-                                            <tr><td>逾期天数：</td><td>0</td></tr>
-                                            <tr><td>已回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>未回款金额：</td><td>¥ 19,164.75</td></tr>
+                                            <tr><td width="20%">产品分类：</td><td>默认分类</td></tr>
+                                            <tr><td>产品图片：</td><td>------</td></tr>
+                                            <tr><td>产品价格：</td><td>------</td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -589,15 +601,100 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">创建时间：</td><td>2018-04-09 17:58</td></tr>
-                                            <tr><td>更新于：</td><td>2018-04-09 17:58</td></tr>
-                                            <tr><td>创建人：</td><td>李四</td></tr>
+                                            <tr><td width="20%">创建时间：</td><td>2018-04-22 15:00</td></tr>
+                                            <tr><td>更新于：</td><td>2018-04-22 15:00</td></tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--附件 -->
+                    <div class="tab-pane fade" id="customer">
+                        <div>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#fujian" >
+                                <i class="fa fa-folder fa-fw"></i>上传附件
+                            </button>
+                        </div>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>上传时间</th>
+                                <th>附件名称</th>
+                                <th>大小</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Tanmay</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                            </tr>
+                            <tr>
+                                <td>Mumbai</td>
+                                <td>400003</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>411027</td>
+                                <td>Bangalore</td>
+                                <td>560001</td>
+                                <td>Bangalore</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
 
                 </div>
 
