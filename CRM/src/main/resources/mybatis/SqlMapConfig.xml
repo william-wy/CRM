@@ -5,11 +5,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 
 <typeAliases>
-    <package name="com.lanqiao.oa.pojo"/>
+    <package name="com.lanqiao.CRM.entity"/>
 </typeAliases>
 	
 	<mappers>
-	    <package name="com.lanqiao.oa.dao" />
+	    <package name="com.lanqiao.CRM.dao" />
 	</mappers>
 	
 </configuration>

@@ -37,7 +37,7 @@
 	
 <!-- mapper扫描器 ,根据扫描结果会自动生成相应接口的代理类-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
- 		<property name="basePackage" value="com.lanqiao.oa.dao"></property>
+ 		<property name="basePackage" value="com.lanqiao.CRM.dao"></property>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 
