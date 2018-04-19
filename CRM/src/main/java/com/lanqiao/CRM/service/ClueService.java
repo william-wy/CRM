@@ -1,8 +1,10 @@
 package com.lanqiao.CRM.service;
 
 import java.util.List;
+import com.lanqiao.CRM.entity.Area;
 import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.utils.PageUtil;
+
 
 public interface ClueService {
 	
@@ -19,5 +21,8 @@ public interface ClueService {
 	public void update(Clue clue);
 	public PageUtil findByXFid(int pageno, int pagesize,String xfid);
 	public int getTotalByXfid(String xfid);
-	
+
+
+	public Area findById2(int id);
+
 }

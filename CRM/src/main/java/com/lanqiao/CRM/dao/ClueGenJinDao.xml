@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ClueGenJinDao">    
+     <select id="findByClue" parameterType="String" resultType="ClueGenJin">
+         select * from cluegenjin  where clue=#{clue}
+     </select>
+     
+     <select id="insert" parameterType="ClueGenJin">
+         insert  into  cluegenjin values (null,#{way},#{time},#{content},#{clue},#{status},#{next},#{fname} )
+     </select>
+     
+     <select id="findByWay" parameterType="String" resultType="ClueGenJin">
+        select * from cluegenjin  where way=#{way}
+     </select>
+     
+ </mapper>

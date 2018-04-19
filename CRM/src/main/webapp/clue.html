@@ -27,42 +27,38 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-    var s="all";;
+    var s="all";
         $(function() {
         	var xid;
             var currentPageno =1 ;
-            
-            alert(s);
-          
+           
             getPage(currentPageno,s);
-            
-            
             $("#a1").click(function(){
                 if(currentPageno<=1){
-             	   alert(s);
+             	   
              	   getPage(1,s);
                 }else{
-             	   alert(s);
+             	   
       		     getPage(--currentPageno,s);
       		   }
       		});
       	    $('#a2').bind("click", function(){
-      	    	alert(s);
+      	    	
       		      getPage(++currentPageno,s);
       		   });
             
      	    $("#searchbutton").click(function(){
      	    	$('#a1').unbind('click').click(function(){
      	    		 if(currentPageno<=1){
-     	             	   alert(s);
+     	             	   
      	             	   getPage(1,s);
      	                }else{
-     	             	   alert(s);
+     	             	   
      	      		     getPage(--currentPageno,s);
      	      		   }
           		   });
           	    $('#a2').unbind('click').click(function(){
-          	    	alert(s);
+          	    	
           		      getPage(++currentPageno,s);
           		   });
      	    	
@@ -70,7 +66,7 @@
      	    	   
      	    	   var s=$("#searchtext").val();
      	    	   if(s==""){
-     	    		  
+     	    		   s="all";
      	    		   getPage(currentPageno,s);
      	    	   }
      	    	   else {
@@ -84,9 +80,10 @@
            		        	var str = '' ;  
            		        	str += '<tr>' ;
               				str += '<td><label><input type="checkbox" name="test" value='+data.xid+'></label></td>';
-              				str += '<td><a href="clue-details.html">'+data.xname+'</td>';
+              				str += '<td><a href="clue-details.html?xid='+data.xid+'">'+data.xname+'</td>';
               				str += '<td>'+data.xcomname+'</td>';
               				str += '<td>'+data.xsource+'</td>';
+              				str += '<td>'+data.xactual+'</td>';
               				str += '<td>'+data.xnext+'</td>';
               				str += '<td>'+data.xfid+'</td>';
               			    str += '</tr>' ;
@@ -102,12 +99,12 @@
      	    	}else if($("#searchway").val()=='2'){
      	    		var s=$("#searchtext").val();
      	    		if(s==""){
-     	    			s="all";
+     	    			 s="all";
      	    			 getPage(currentPageno,s);
      	    		}else {
      	    			 s="ByXfid";
      	    			 getPage(currentPageno,s);
-     	    			alert(s);
+     	    			
      	    		}
      	    	}else if($("#searchway").val()=='3'){
      	    		
@@ -124,16 +121,16 @@
         		   url:"/CRM/clue/saveClue.action",
                    data:{
                 	id:$("#xid").val(),
-                	
              	    xname:$("#xname").val(),
              	    xcomname:$("#xcomname").val(),
              	    xdeptno:$("#xdeptno").val(),
              	    xjob:$("#xjob").val(),
              	    xphone:$("#xphone").val(),
              	    xemail:$("#xemail").val(),
-             	   
-             	    xarea: $('#cityChoice3').html(),
+             	    xactual:$("#xactual").val(), 
+             	    xarea: $('#cityChoice3').val(),
              	    xzip:$("#xzip").val(),
+             	    xstatus:$("#xstatus").val(), 
              	    xsource:$("#xsource").val(),
              	    xnext:$("#birthdate").val(),
              	    xremark:$("#xremark").val(),
@@ -254,14 +251,15 @@
       			$.each(data.data,function(index,clue){
       			    str += '<tr>' ;
       				str += '<td><label><input type="checkbox" name="test" value='+clue.xid+'></label></td>';
-      				str += '<td><a href="clue-details.html">'+clue.xname+'</td>';
+      				str += '<td><a href="clue-details.html?xid='+clue.xid+'">'+clue.xname+'</td>';
       				str += '<td>'+clue.xcomname+'</td>';
       				str += '<td>'+clue.xsource+'</td>';
+      				str += '<td>'+clue.xactual+'</td>';
       				str += '<td>'+clue.xnext+'</td>';
       				str += '<td>'+clue.xfid+'</td>';
       			    str += '</tr>' ;
       			})
-      			
+
       			$('#cluelist').html(str);
       			$('#pageno').html(data.currentPageno);
     			$('#totalpage').html(data.totalPage);
@@ -270,7 +268,7 @@
       	});
       }
         
-        
+        //根据数组删除数据
         function deletes(){ 
         	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
         	//取到对象数组后，我们来循环检测它是不是被选中 
@@ -286,15 +284,13 @@
           		type:'get',
           		url:'/CRM/clue/delete.action',
           	    data:{
-          	    	 s:s,
+          	    	 s:s
           	    },
-          		contentType:"application/json;charset=utf-8",
-          		dataType:'json',
-          		success:function(data){
-          			
+          	    contentType:"application/json;charset=utf-8",
+          	    dataType:'json',
+          		error:function(data){
+          			alert("succeed");
           		}
-          		
-          				
           	});
         	} 
         
@@ -330,16 +326,17 @@
               		dataType:'json',
               		success:function(data){
               			
-              			$("#xid").val(data.xid)
+              			$("#xid").val(data.xid),
                   	    $("#xname").val(data.xname),
                   	    $("#xcomname").val(data.xcomname),
                   	    $("#xdeptno").val(data.xdeptno),
                   	    $("#xjob").val(data.xjob),
                   	    $("#xphone").val(data.xphone),
                   	    $("#xemail").val(data.xemail),
-                  	   
+                  	    $("#xactual").val(data.xactual),
                   	    $("#xarea").val(data.xarea),
                   	    $("#xzip").val(data.xzip),
+                  	    $("#xstatus").val(data.xstatus),
                   	    $("#xsource").val(data.xsource),
                   	    $("#birthdate").val(data.xnext),
                   	    $("#xremark").val(data.xremark),
@@ -454,7 +451,7 @@
                 <!-- /.dropdown -->
             </ul>
         </nav>
-        <!--个人信息-->
+                    <!--个人信息-->
         <div class="modal fade" id="information" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -528,12 +525,8 @@
                 <div class="modal-body text-center pre-scrollable">
 
                  
-        <form  method="post" enctype="multipart/form-data">
-                           <div class="input-group">
-                                <span class="input-group-addon">ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control"  id="xid"  name="xid" readonly/>
-                              
-                            </div>
+             <form  method="post" enctype="multipart/form-data">
+                           <input type="hidden"  class="form-control"  id="xid"  name="xid" readonly/>
 	                       <div class="input-group">
                                 <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="text" class="form-control"  id="xname"  name="xname"/>
@@ -586,6 +579,8 @@
                                     <option value="2">联系方式有效</option>
                                     <option value="3">联系方式无效</option>
                                     <option value="4">关闭</option>
+                                    <option value="5">100-500人</option>
+                                    <option value="6">500人以上</option>
                                 </select>
                             </div>
                             <br>
@@ -603,6 +598,11 @@
                                 </select>
                             </div>
                             <br/>
+                            <div class="input-group">
+                                <span class="input-group-addon">下次跟进：</span>
+                                <input type="date" class="form-control" id="xactual"  name="xactual"  />
+                            </div>
+                            <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
                                 <input type="text" class="form-control" id="birthdate"  name="xnext"  />
@@ -1024,6 +1024,7 @@
                             <th>姓名</th>
                             <th>公司名称</th>
                             <th>线索来源</th>
+                            <th>实际跟进时间</th>
                             <th>下次跟进时间</th>
                             <th>负责人</th>
                            
@@ -1088,7 +1089,7 @@
             hideCityInput: '#city',
             hideProvinceInput: '#province',
             callback: function(city_id){
-                $('#cityChoice').html(city_id);
+                $('#cityChoice').val(city_id);
               
             }
         
@@ -1104,7 +1105,7 @@
             hideCityInput: '#city2',
             hideProvinceInput: '#province2',
             callback: function(city_id){
-                $('#cityChoice2').html(city_id);
+                $('#cityChoice2').val(city_id);
                 
             }
         });
@@ -1120,7 +1121,7 @@
             hideCityInput: '#city3',
             hideProvinceInput: '#province3',
             callback: function(city_id){
-                $('#cityChoice3').html(city_id);
+                $('#cityChoice3').val(city_id);
                 
                 
             }

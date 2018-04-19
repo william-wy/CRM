@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteByArray"  parameterType="int[]">
            delete from clue where xid in            <!-- collection 后面跟array --> 
      <foreach collection="array" open="(" item="xid" separator="," close=")">#{xid}</foreach>
-   </delete>
+    </delete>
 	
 	
 	<update id="update" parameterType="clue">
@@ -61,5 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                    where xid=#{xid}
 	</update>
 	
+	
+	<select id="findById2"  parameterType="int" resultType="area">
+	         select * from area where id=#{id}
+	</select>
 	
  </mapper>

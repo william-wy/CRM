@@ -28,6 +28,166 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
         $(function() {
+        	var url=window.location.href;
+        	var c=url.split("?")[1];
+        	var cid=c.split("=")[1];
+        	var clue;
+        	
+        	
+        	//显示信息
+        	$.ajax({
+        	   type:"get",
+  			   url:"/CRM/clue/findByXid.action",
+  			   data:{xid:cid},
+  		       datatype:'json',
+		           contentType:"application/json;charset=utf-8",
+		           success:function(data){
+		        	   
+		        	    clue=data.xname;
+		        	    
+		        	    $("#clue1").val(data.xname);
+		        	    $("#xname1").html(data.xname),
+                	    $("#xcomname1").html(data.xcomname),
+                	    $("#xdeptno1").html(data.xdeptno),
+                	    $("#xjob1").html(data.xjob),
+                	    $("#xphone1").html(data.xphone),
+                	    $("#xemail1").html(data.xemail),
+                	    $("#xarea1").html(data.xarea),
+                	    $("#xzip1").html(data.xzip),
+                	    $("#xsource1").html(data.xsource),
+                	    $("#xstatus1").html(data.xstatus),
+                	    $("#xnext1").html(data.xnext),
+                	    $("#xremark1").html(data.xremark),
+                	    $("#xfid1").html(data.xfid)
+		           }
+        	});
+        	
+        	//显示销售动态
+        	$.ajax({
+         	   type:"get",
+   			   url:"/CRM/genjin/findByClue.action",
+   			   data:{clue:clue},
+   		       datatype:'json',
+ 		           contentType:"application/json;charset=utf-8",
+ 		           success:function(data){
+ 		        	   
+ 		        	   var str="";
+ 		        	  $.each(data,function(index,clue){
+ 		        		  str+="<br/><div class='panel panel-success' ><div class='panel-heading'>";
+ 		        		  str+=" <h3 class='panel-title' style='text-align:left'>04/13/2018 12:00 AM</h3>";
+ 		        		  str+="</div>";
+ 		        		  str+="<div class='panel-body' style='text-align: center' >";
+ 		        		  str+="<h4><i class='fa fa-user fa-fw'></i >"+clue.fname+"</h4>";
+ 		        		  str+="<h4 >跟进方式："+clue.way+"</h4>";
+ 		        		  str+="<h4 >跟进内容："+clue.content+"</h4>";
+ 		        		  str+="<h4 style='text-align: right'>来自线索 <a>"+clue.clue+"</a></h4>";
+ 		        		  str+="</div></div><br/>";
+            			}); 
+            			$("#xiaoshou").html(str);
+ 		           }
+         	});
+        	
+        	//点击编辑按钮事件
+        	$("#edit").click(
+        			function update(){ 
+                    	
+                    	$("#edit").attr("data-target","#addClue");
+         
+                    	$.ajax({
+                      		type:'get',
+                      		url:'/CRM/clue/updateClue.action',
+                      	    data:{
+                      	    	 s:cid
+                      	    },
+                      		contentType:"application/json;charset=utf-8",
+                      		dataType:'json',
+                      		success:function(data){
+                      			
+                      			$("#xid").val(data.xid)
+                          	    $("#xname").val(data.xname),
+                          	    $("#xcomname").val(data.xcomname),
+                          	    $("#xdeptno").val(data.xdeptno),
+                          	    $("#xjob").val(data.xjob),
+                          	    $("#xphone").val(data.xphone),
+                          	    $("#xemail").val(data.xemail),
+                          	    $("#xactual").val(data.xactual),
+                          	    $("#xarea").val(data.xarea),
+                          	    $("#xzip").val(data.xzip),
+                          	    $("#xstatus").val(data.xstatus),
+                          	    $("#xsource").val(data.xsource),
+                          	    $("#birthdate").val(data.xnext),
+                          	    $("#xremark").val(data.xremark),
+                          	    $("#xfid").val(data.xfid)
+                      			
+                      		}
+                      	});
+                    	} 
+        	)
+        	
+        	
+        	//点击保存信息
+       	 $("#save").click(function(){
+    	    	
+    		  $.ajax({
+       		   type:'get',
+       		   url:"/CRM/clue/saveClue.action",
+                  data:{
+                  	id:$("#xid").val(),
+            	    xname:$("#xname").val(),
+            	    xcomname:$("#xcomname").val(),
+            	    xdeptno:$("#xdeptno").val(),
+            	    xjob:$("#xjob").val(),
+            	    xphone:$("#xphone").val(),
+            	    xemail:$("#xemail").val(),
+            	    xactual:$("#xactual").val(), 
+            	    xarea: $('#cityChoice3').val(),
+            	    xzip:$("#xzip").val(),
+            	    xstatus:$("#xstatus").val(), 
+            	    xsource:$("#xsource").val(),
+            	    xnext:$("#birthdate").val(),
+            	    xremark:$("#xremark").val(),
+            	    xfid:$("#xfid").val(),
+
+               },      		   
+       		   datatype:'json',
+       		   contentType:"application/json;charset=utf-8",
+       		   success:function(data){
+       			    alert(data);
+                       if(data=="update succeed"||data=="insert succeed"){
+                       	 window.location.reload();
+                       }  
+       		   }
+       	   })
+    	  });
+        	
+        	//保存跟进
+        	$("#saveGenJin").click(function(){
+                $("#clue1").val(clue);
+     	    	
+       		  $.ajax({
+          		   type:'get',
+          		   url:"/CRM/genjin/save.action",
+                   data:{
+               	    way:$("#way1").val(),
+               	    time:$("#time1").val(),
+               	    content:$("#content1").val(),
+               	    clue:$("#clue1").val(),
+               	    status:$("#status1").val(),
+               	    next:$("#next1").val(),
+               	    fname:$("#fname1").val()
+                  },      		   
+          		   datatype:'json',
+          		   contentType:"application/json;charset=utf-8",
+          		   success:function(data){
+          			    alert(data);
+                          if(data=="insert succeed"){
+                          	 window.location.reload();
+                          }  
+          		   }
+          	   })
+       	  });
+        	
+        	
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -272,118 +432,123 @@
                             &times;
                         </button>
                         <h4 class="modal-title">
-                            新增线索
+                            修改线索
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
+                        <form  method="post" enctype="multipart/form-data">
+                           
+                           <input type="hidden"  class="form-control"  id="xid"  name="xid" readonly/>
+                              
+                            
+                            
+	                       <div class="input-group">
                                 <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xname"  name="xname"/>
+                              
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">公司名称：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xcomname"   name="xcomname">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xdeptno"  name="xdeptno">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xjob"  name="xjob">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xphone"  name="xphone">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="xemail"  name="xemail">
                             </div>
-                            <br>
-                            <div class="input-group">
+                            <br> 
+                             <div class="input-group">
                                 <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市" id="xarea"  name="xarea">
                                 <input type="hidden" id="province3" value="">
                                 <input type="hidden" id="city3" value="">
                             </div>
-                            <br>
-                            <div class="input-group">
+                            <br> 
+                            
+                        <div class="input-group">
                                 <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="xzip"  name="xzip"/>
                             </div>
                             <br>
-                            <div class="input-group">
+                           <div class="input-group">
                                 <span class="input-group-addon">线索状态：</span>
-                                <select class="form-control">
-                                    <option>选择线索状态</option>
-                                    <option>未处理</option>
-                                    <option>联系方式有效</option>
-                                    <option>联系方式无效</option>
-                                    <option>关闭</option>
-                                    <option>100-500人</option>
-                                    <option>500人以上</option>
+                                <select class="form-control" id="xstatus"  name="xstatus">
+                                    <option   >选择线索状态</option>
+                                    <option value="1">未处理</option>
+                                    <option value="2">联系方式有效</option>
+                                    <option value="3">联系方式无效</option>
+                                    <option value="4">关闭</option>
+                                    <option value="5">100-500人</option>
+                                    <option value="6">500人以上</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">线索来源：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="xsource"  name="xsource">
                                     <option>选择线索来源</option>
-                                    <option>广告</option>
-                                    <option>社交推广</option>
-                                    <option>研讨会</option>
-                                    <option>搜索引擎</option>
-                                    <option>客户介绍</option>
-                                    <option>代理商</option>
-                                    <option>其它</option>
+                                    <option value="1">广告</option>
+                                    <option value="2">社交推广</option>
+                                    <option value="3">研讨会</option>
+                                    <option value="4">搜索引擎</option>
+                                    <option value="5">客户介绍</option>
+                                    <option value="6">代理商</option>
+                                    <option value="7">其它</option>
                                 </select>
+                            </div>
+                            <br/>
+                            <div class="input-group">
+                                <span class="input-group-addon">下次跟进：</span>
+                                <input type="date" class="form-control" id="xactual"  name="xactual"  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" id="birthdate"  name="xnext"  />
                             </div>
                             <br>
-                            <div class="input-group">
+                           <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="xremark"  name="xremark"></textarea>
                             </div>
+                           
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择负责人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="xfid"  name="xfid">
+                                    <option >选择负责人</option>
+                                    <option value="1">张三</option>
+                                    <option value="2">李四</option>
+                                    <option value="3">其它</option>
                                 </select>
                             </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
-                                    <option>选择客户状态</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                        </form>
+                         
+	     
+         </form>
 
                     </div>
                     <div class="modal-footer">
-
-                        <button type="button" class="btn btn-primary" name="save">
+                      
+                       <button type="button" class="btn btn-primary" id="save">
                             保存
-                        </button>
+                        </button> 
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
@@ -426,7 +591,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">线索：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="宋总" disabled>
+                                <input type="text" class="form-control" id="clue1" disabled>
                             </div>
                             <br>
                             <div class="input-group">
@@ -448,7 +613,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary"  id="saveGenJin">
                             保存
                         </button>
                     </div>
@@ -742,12 +907,10 @@
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toother">
                         <i class="fa fa-share fa-fw"></i>转移给他人
                     </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue">
-                        <i class="fa fa-pencil fa-fw"></i>编辑
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" id="edit">
+                        <i class="fa fa-pencil fa-fw"  ></i>编辑
                     </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-share fa-fw"></i>删除
-                    </button>
+                   
                 </div>
             </div>
             <div>
@@ -780,10 +943,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">姓名：</td><td>宋总</td></tr>
-                                            <tr><td>公司名称：</td><td>安微暖通</td></tr>
-                                            <tr><td>部门：</td><td>销售部</td></tr>
-                                            <tr><td>职务：</td><td>经理</td></tr>
+                                            <tr><td width="20%">姓名：</td><td id="xname1"></td></tr>
+                                            <tr><td>公司名称：</td><td id="xcomname1"></td></tr>
+                                            <tr><td>部门：</td><td id="xdeptno1"></td></tr>
+                                            <tr><td>职务：</td><td id="xjob1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -793,10 +956,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">联系方式：</td><td>123456789</td></tr>
-                                            <tr><td>邮箱：</td><td>1348952@qq.com</td></tr>
-                                            <tr><td>地区：</td><td>北京市</td></tr>
-                                            <tr><td>邮编：</td><td>45625</td></tr>
+                                            <tr><td width="20%">联系方式：</td><td id="xphone1"></td></tr>
+                                            <tr><td>邮箱：</td><td id="xemail1"></td></tr>
+                                            <tr><td>地区：</td><td id="xarea1"></td></tr>
+                                            <tr><td>邮编：</td><td id="xzip1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -806,10 +969,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">线索状态：</td><td>联系方式有效</td></tr>
-                                            <tr><td>线索来源：</td><td>广告</td></tr>
-                                            <tr><td>下次跟进时间：</td><td>2018-04-22 15:00</td></tr>
-                                            <tr><td>备注：</td><td>--------</td></tr>
+                                            <tr><td width="20%">线索状态：</td><td id="xstatus1"></td></tr>
+                                            <tr><td>线索来源：</td><td id="xsource1"></td></tr>
+                                            <tr><td>下次跟进时间：</td><td id="xnext1"></td></tr>
+                                            <tr><td>备注：</td><td id="xremark1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -819,10 +982,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">负责人：</td><td>张三</td></tr>
-                                            <tr><td>创建人：</td><td>张三</td></tr>
-                                            <tr><td>前负责人：</td><td>李四</td></tr>
-                                            <tr><td>所属部门：</td><td>销售部</td></tr>
+                                            <tr><td width="20%">负责人：</td><td id="xfid1"></td></tr>
+                                            <tr><td>创建人：</td><td >张三</td></tr>
+                                            <tr><td>前负责人：</td><td >李四</td></tr>
+                                            <tr><td>所属部门：</td><td >销售部</td></tr>
                                             <tr><td>创建时间：</td><td>2018-04-22 15:00</td></tr>
                                         </table>
                                     </div>
@@ -830,56 +993,13 @@
                             </div>
                             <div class="col-md-6 column">
                                 <h4 class="page-header" style="height: 50px;padding-top: 15px">
-                                    销售动态
+                                                                                                                          销售动态
                                 </h4>
                                 <br/>
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                    </div>
-                                    <div class="panel-body" style="text-align: center">
-                                        <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                        <h4>跟进方式：电话通知</h4>
-                                        <h4>跟进内容：电话通知</h4>
-                                        <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                    </div>
+                                <div  id="xiaoshou">
+                                          
                                 </div>
-                                <br/>
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                    </div>
-                                    <div class="panel-body" style="text-align: center">
-                                        <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                        <h4>跟进方式：电话通知</h4>
-                                        <h4>跟进内容：电话通知</h4>
-                                        <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                    </div>
-                                    <div class="panel-body" style="text-align: center">
-                                        <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                        <h4>跟进方式：电话通知</h4>
-                                        <h4>跟进内容：电话通知</h4>
-                                        <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                    </div>
-                                    <div class="panel-body" style="text-align: center">
-                                        <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                        <h4>跟进方式：电话通知</h4>
-                                        <h4>跟进内容：电话通知</h4>
-                                        <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

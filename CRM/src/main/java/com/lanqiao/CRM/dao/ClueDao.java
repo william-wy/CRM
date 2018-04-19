@@ -3,7 +3,9 @@ package com.lanqiao.CRM.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.lanqiao.CRM.entity.Area;
 import com.lanqiao.CRM.entity.Clue;
+
 
 public interface ClueDao {
 	
@@ -18,5 +20,7 @@ public interface ClueDao {
 	public void update(Clue clue);
 	public List<Clue> findByXFid(Map<Object,Object> map);
 	public int getTotalByXfid(String xfid);
+
+	public Area findById2(int id);
 
 }

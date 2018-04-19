@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ProductDao">    
+     <select id="getPage" parameterType="map" resultType="product">
+         select *from product limit #{start},#{end}
+     </select>
+     
+      <select id="getTotal" resultType="int">
+		 select count(*) from product
+	</select>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from product where pid in              <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="pid" separator="," close=")">#{pid}</foreach>
+   </delete>
+   
+    <insert id="insert" parameterType="product" >
+	    insert into product values(#{pname},null,#{price},#{unit},#{cost},#{guige},#{sort},#{img},#{introdu},#{no})
+	</insert>
+	
+	<update id="update" parameterType="product">
+	    update product set pname=#{pname},
+	                    price=#{price},
+	                    unit=#{unit},
+	                    cost=#{cost},
+	                    guige=#{guige},
+	                    sort=#{sort},
+	                    img=#{img},
+	                    no=#{no}
+	                    where pid=#{pid}
+	</update>
+	
+	<select id="findByPid" parameterType="int" resultType="product">
+	     select *from product where pid=#{pid}
+	</select>
+   
+ </mapper>

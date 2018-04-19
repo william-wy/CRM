@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lanqiao.CRM.dao.ClueDao;
+import com.lanqiao.CRM.entity.Area;
 import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.service.ClueService;
 import com.lanqiao.CRM.utils.PageUtil;
+
 
 @Service
 public class ClueServiceImpl implements ClueService{
@@ -121,6 +123,12 @@ public class ClueServiceImpl implements ClueService{
 	public int getTotalByXfid(String xfid) {
 		
 		return clueDao.getTotalByXfid(xfid);
+	}
+
+	@Override
+	public Area findById2(int id) {
+		// TODO Auto-generated method stub
+		return clueDao.findById2(id);
 	}
 
 	
