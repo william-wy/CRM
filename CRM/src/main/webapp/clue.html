@@ -43,8 +43,14 @@
       		   }
       		});
       	    $('#a2').bind("click", function(){
-      	    	
-      		      getPage(++currentPageno,s);
+      	    	  var b=$("#totalpage").html();
+      	    	  if(currentPageno>=b){alert("大于页数了")
+      	    		 getPage(b,s);
+      	    	  }
+      		      
+      		      else{
+      		    	 getPage(++currentPageno,s);
+      		      }
       		   });
             
      	    $("#searchbutton").click(function(){

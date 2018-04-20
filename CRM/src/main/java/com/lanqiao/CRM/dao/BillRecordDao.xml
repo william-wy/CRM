@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.BillRecordDao">    
+
+   
+   
+     <select id="getPage" parameterType="map" resultType="billRecord">
+         select *from bill_record limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from bill_record
+	</select>
+	
+	
+	<insert id="insert" parameterType="billRecord" >
+	    insert into bill_record values(null,#{bitype},#{bino},#{fname},#{bdate},#{bcontent},#{bcost},#{client},#{contract},#{bremark})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from bill_record where bid in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="bid" separator="," close=")">#{bid}</foreach>
+    </delete>
+	
+
+	
+ </mapper>

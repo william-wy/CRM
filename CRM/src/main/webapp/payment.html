@@ -27,7 +27,97 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
+      var s="all";
+        var currentPagenopp =1 ;
+        var currentPagenopr=1;
+        var currentPagenobr=1;
         $(function() {
+      
+            
+        	payplan(currentPagenopp,s);
+   
+        	$("#payplan3").click(function(){payplan(currentPagenopp,s)});
+        	$("#payrecord3").click(function(){payrecord(currentPagenopr,s)});
+        	$("#billrecord3").click(function(){billrecord(currentPagenobr,s)});
+        	
+      	    $("#savePayPlan").click(function(){
+     	    	
+     		  $.ajax({
+        		   type:'get',
+        		   url:"/CRM/payment/savePayPlan.action",
+                   data:{
+                	customer:$("#customer1").val(),
+                	contract:$("#contract1").val(),
+                	contractcost:$("#contractcost1").val(),
+                	signdate:$("#signdate1").val()
+                },      		   
+        		   datatype:'json',
+        		   contentType:"application/json;charset=utf-8",
+        		   success:function(data){
+        			    alert(data);
+                        if(data=="update succeed"||data=="insert succeed"){
+                        	 window.location.reload();
+                        }
+        		   }
+        	   })
+     	  });
+        	
+      	  $("#savePayRecord").click(function(){
+   	    	
+     		  $.ajax({
+        		   type:'get',
+        		   url:"/CRM/payment/savePayRecord.action",
+                   data:{
+                	customer:$("#customer2").val(),
+                	contract:$("#contract2").val(),
+                	paydate:$("#paydate2").val(),
+                	paymoney:$("#paymoney2").val(),
+                	payperiod:$("#payperiod2").val(),
+                	paymethod:$("#paymethod2").val(),
+                	paytype:$("#paytype2").val(),
+                	payee:$("#payee2").val(),
+                	remark:$("#remark2").val()
+                },      		   
+        		   datatype:'json',
+        		   contentType:"application/json;charset=utf-8",
+        		   success:function(data){
+        			    alert(data);
+                        if(data=="update succeed"||data=="insert succeed"){
+                        	 window.location.reload();
+                        }
+        		   }
+        	   })
+     	  });
+      	  
+      	$("#saveBillRecord").click(function(){
+ 	    	
+   		  $.ajax({
+      		   type:'get',
+      		   url:"/CRM/payment/saveBillRecord.action",
+                 data:{
+              	bitype:$("#bitype3").val(),
+              	contract:$("#contract3").val(),
+              	bino:$("#bino3").val(),
+              	fname:$("#fname3").val(),
+              	bdate:$("#bdate3").val(),
+              	bcontent:$("#bcontent3").val(),
+              	bcost:$("#bcost3").val(),
+              	client:$("#client3").val(),
+              	bremark:$("#bremark3").val()
+              },      		   
+      		   datatype:'json',
+      		   contentType:"application/json;charset=utf-8",
+      		   success:function(data){
+      			    alert(data);
+                      if(data=="update succeed"||data=="insert succeed"){
+                      	 window.location.reload();
+                      }
+      		       
+      			   
+      		   }
+      	   })
+   	  });
+      	    
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -35,7 +125,7 @@
                 showDropdowns: true,
                 timePicker:true,
                 "locale": {
-                    "format": "MM/DD/YYYY h:mm A",
+                    "format": "YYYY/MM/DD ",
                     "daysOfWeek": [
                         "日",
                         "一",
@@ -66,7 +156,7 @@
             $('input[name="daterange"]').daterangepicker({
                 alwaysShowCalendar:true,
                 "locale": {
-                    "format": "MM/DD/YYYY",
+                    "format": "YYYY/MM/DD",
                     "daysOfWeek": [
                         "日",
                         "一",
@@ -100,7 +190,275 @@
                 location.reload();
             });
         });
+        
+        
+        
+      //根据数组删除数据
+        function deletepayplan(){ 
+        	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+        	//取到对象数组后，我们来循环检测它是不是被选中 
+        	var s=''; 
+        	for(var i=0; i<obj.length; i++){ 
+        	if(obj[i].checked) 
+        	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+        	} 
+        	//那么现在来检测s的值就知道选中的复选框的值了 
+        	alert(s==''?'你还没有选择任何内容！':s); 
+        	  
+        	  $.ajax({
+          		type:'get',
+          		url:'/CRM/payment/deletepayplan.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			
+          		}
+	
+          	});
+        	  location.reload();
+        	} 
+        function deletepayrecord(){ 
+        	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+        	//取到对象数组后，我们来循环检测它是不是被选中 
+        	var s=''; 
+        	for(var i=0; i<obj.length; i++){ 
+        	if(obj[i].checked) 
+        	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+        	} 
+        	//那么现在来检测s的值就知道选中的复选框的值了 
+        	alert(s==''?'你还没有选择任何内容！':s); 
+        	  
+        	  $.ajax({
+          		type:'get',
+          		url:'/CRM/payment/deletepayrecord.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			
+          		}
+	
+          	});
+        	  location.reload();
+        	} 
+        
+        function deletebillrecord(){ 
+        	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+        	//取到对象数组后，我们来循环检测它是不是被选中 
+        	var s=''; 
+        	for(var i=0; i<obj.length; i++){ 
+        	if(obj[i].checked) 
+        	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+        	} 
+        	//那么现在来检测s的值就知道选中的复选框的值了 
+        	alert(s==''?'你还没有选择任何内容！':s); 
+        	  
+        	  $.ajax({
+          		type:'get',
+          		url:'/CRM/payment/deletebillrecord.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			
+          		}
+	
+          	});
+        	  location.reload();
+        	} 
+      
+      function payplan(currentPagenopp,s){
+    	  var pagesize = 6 ;
+    	  $("#deletes").off("onclick");
+    	  $("#deletes").click(function(){deletepayplan()});
+    	  $("#a1").off("onclick");
+    	  $("#a2").off("onclick");
+      	  
+      	  $("#a1").click(function(){
+            if(currentPagenopp<=1){
+         	  
+            	payplan(1,s);
+            }else{
+         	   
+            	payplan(--currentPagenopp,s);
+  		   }
+  		   });
+  	       $('#a2').bind("click", function(){
+  	    	  var b=$("#totalpage").html();
+ 	    	  if(currentPagenopp>=b){
+ 	    		 payplan(b,s);
+ 	    	  }
+ 		      
+ 		      else{
+ 		    	 payplan(++currentPagenopp,s);
+ 		      }
+  	    	  
+  		   });
+    	  $.ajax({
+    		type:"get",
+    		url:"/CRM/payment/"+s+"payplan"+".action",
+    		data:{
+    			pageno:currentPagenopp,
+    			pagesize:pagesize,
+    			
+    		},
+    		contentType:"application/json;charset=utf-8",
+    		dataType:'json',
+    		success:function(data){
+    	       var pagesize = 6 ;
+    	       var str1 ='<tr><th>选择</th><th>对应客户</th><th>合同名称</th><th>合同金额</th><th>签约日期</th></tr>' ;
+    	       var str2='';
 
+    			$.each(data.data,function(index,payplan){
+    				str2 +='<tr>';
+    				str2 += '<td><label><input type="checkbox" name="test" value='+payplan.planid+'></label></td>';
+    				str2 += '<td><a href="customer-details.html">'+payplan.customer+'</td>';
+    			    str2+= '<td><a href="contract-details.html">'+payplan.contract+'</td>';
+    				str2 += '<td><a href="payment-details.html">'+payplan.contractcost+'</td>';
+    				str2 += '<td>'+payplan.signdate+'</td>';
+    			    str2 += '</tr>' ;
+    			})
+    			$('#list1').html(str1);
+    			$('#list2').html(str2);
+    			$('#pageno').html(data.currentPageno);
+  			    $('#totalpage').html(data.totalPage);
+  			    $('#totalNum').html(data.totalNum);
+    		}
+    	});
+      };
+      
+      
+      function payrecord(currentPagenopr,s){
+    	  var pagesize = 6 ;
+    	  $("#deletes").off("onclick");
+      	  $("#deletes").click(function(){deletepayrecord()});
+      	  $("#a1").off("onclick");
+  	      $("#a2").off("onclick");
+    	  
+    	  $("#a1").click(function(){
+          if(currentPagenopr<=1){
+       	  
+        	  payrecord(1,s);
+          }else{
+       	   
+        	  payrecord(--currentPagenopr,s);
+		   }
+		   });
+	       $('#a2').bind("click", function(){
+	    	  var b=$("#totalpage").html();
+	    	  if(currentPagenopr>=b){
+	    		  payrecord(b,s);
+	    	  }
+		      
+		      else{
+		    	  payrecord(++currentPagenopr,s);
+		      }
+	    	    
+		   });
+    	  $.ajax({
+    		type:"get",
+    		url:"/CRM/payment/"+s+"payrecord"+".action",
+    		data:{
+    			pageno:currentPagenopr,
+    			pagesize:pagesize,
+    			
+    		},
+    		contentType:"application/json;charset=utf-8",
+    		dataType:'json',
+    		success:function(data){
+    	       var pagesize = 6 ;
+    	       var str1 ='<tr><th>选择</th><th>对应客户</th><th>合同名称</th><th>回款金额</th><th>回款期次</th><th>回款类型</th><th>回款日期</th></tr>' ;
+    	       var str2='';
+
+    			$.each(data.data,function(index,payrecord){
+    				
+    				str2 +='<tr>';
+    				str2 += '<td><label><input type="checkbox" name="test" value='+payrecord.id+'></label></td>';
+    				str2 += '<td><a href="customer-details.html">'+payrecord.customer+'</td>';
+    			    str2+= '<td><a href="contract-details.html">'+payrecord.contract+'</td>';
+    				str2 += '<td><a href="payment-details.html">'+payrecord.paymoney+'</td>';
+    				str2 += '<td>'+payrecord.payperiod+'</td>';
+    				str2 += '<td>'+payrecord.paytype+'</td>';
+    				str2 += '<td>'+payrecord.paydate+'</td>';
+    			    str2 += '</tr>' ;
+    			})
+    			$('#list1').html(str1);
+    			$('#list2').html(str2);
+    			$('#pageno').html(data.currentPageno);
+  			    $('#totalpage').html(data.totalPage);
+  			    $('#totalNum').html(data.totalNum);
+    		}
+    	});
+      };
+      
+      function billrecord(currentPagenobr,s){
+    	  var pagesize = 6 ;
+    	  $("#deletes").off("onclick");
+      	  $("#deletes").click(function(){deletebillrecord()});
+      	  $("#a1").off("onclick");
+	      $("#a2").off("onclick");
+  	  
+  	      $("#a1").click(function(){
+          if(currentPagenobr<=1){
+     	  
+        	  billrecord(1,s);
+        }else{
+     	   
+        	billrecord(--currentPagenobr,s);
+		   }
+		   });
+	       $('#a2').bind("click", function(){
+	    	  var b=$("#totalpage").html();
+	    	  if(currentPagenobr>=b){
+	    		  billrecord(b,s);
+	    	  }
+		      
+		      else{
+		    	  billrecord(++currentPagenobr,s);
+		      }
+	    	  billrecord(++currentPagenobr,s);
+		   });
+    	  $.ajax({
+    		type:"get",
+    		url:"/CRM/payment/"+s+"billrecord"+".action",
+    		data:{
+    			pageno:currentPagenobr,
+    			pagesize:pagesize,
+    			
+    		},
+    		contentType:"application/json;charset=utf-8",
+    		dataType:'json',
+    		success:function(data){
+    	       var pagesize = 6 ;
+    	       var str1 ='<tr><th>选择</th><th>对应客户</th><th>合同名称</th><th>票据类型</th><th>开票金额</th><th>开票日期</th><th>经手人</th></tr>' ;
+    	       var str2='';
+
+    			$.each(data.data,function(index,billrecord){
+    				str2 +='<tr>';
+    				str2 += '<td><label><input type="checkbox" name="test" value='+billrecord.bid+'></label></td>';
+    				str2 += '<td><a href="customer-details.html">'+billrecord.client+'</td>';
+    				str2 += '<td><a href="contract-details.html">'+billrecord.contract+'</td>';
+    			    str2+= '<td>'+billrecord.bitype+'</td>';
+    				str2 += '<td><a href="payment-details.html">'+billrecord.bcost+'</td>';
+    				str2 += '<td>'+billrecord.bdate+'</td>';
+    				str2 += '<td>'+billrecord.fname+'</td>';
+    			    str2 += '</tr>' ;
+    			})
+    			$('#list1').html(str1);
+    			$('#list2').html(str2);
+    			$('#pageno').html(data.currentPageno);
+  			    $('#totalpage').html(data.totalPage);
+  			    $('#totalNum').html(data.totalNum);
+    		}
+    	});
+      }
     </script>
 
 </head>
@@ -280,39 +638,39 @@
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
-                                <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="customer1">
+                                    <option value="请选择客户">请选择客户</option>
+                                    <option value="张三">张三</option>
+                                    <option value="张三">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应合同：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="contract1">
+                                    <option value="请选择合同">请选择合同</option>
+                                    <option value="合同1">合同1</option>
+                                    <option value="合同2">合同2</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">合同金额：</span>
-                                <input type="text" class="form-control" placeholder="9999999" disabled="disabled">
+                                <input type="text" class="form-control" id="contractcost1">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">签约日期：</span>
-                                <input type="text" class="form-control" placeholder="04/13/2018" disabled="disabled">
+                                <input type="date" class="form-control" id="signdate1">
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="savePayPlan">
                             保存
                         </button>
                     </div>
@@ -336,87 +694,87 @@
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
                                 <span class="input-group-addon">回款日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" name="birthdate" value=""  id="paydate2"/>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款金额：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="paymoney2">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
-                                <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="customer2">
+                                    <option value="请选择客户">请选择客户</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">合同名称：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="contract2">
+                                    <option value="请选择合同">请选择合同</option>
+                                    <option value="合同1">合同1</option>
+                                    <option value="合同2">合同2</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款期次：</span>
-                                <select class="form-control">
-                                    <option>请选择期次</option>
-                                    <option>第一期</option>
-                                    <option>第二期</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="payperiod2">
+                                    <option value="请选择期次">请选择期次</option>
+                                    <option value="第一期">第一期</option>
+                                    <option value="第二期">第二期</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">付款方式：</span>
-                                <select class="form-control">
-                                    <option>请选择付款方式</option>
-                                    <option>支票</option>
-                                    <option>现金</option>
-                                    <option>银行转账</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="paymethod2">
+                                    <option value="请选择付款方式">请选择付款方式</option>
+                                    <option value="支票">支票</option>
+                                    <option value="现金">现金</option>
+                                    <option value="银行转账">银行转账</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款类型：</span>
-                                <select class="form-control">
-                                    <option>请选择回款类型</option>
-                                    <option>正常回款</option>
-                                    <option>退款</option>
-                                    <option>保证金</option>
-                                    <option>预收款</option>
-                                    <option>尾款</option>
+                                <select class="form-control" id="paytype2">
+                                    <option value="请选择回款类型">请选择回款类型</option>
+                                    <option value="正常回款">正常回款</option>
+                                    <option value="退款">退款</option>
+                                    <option value="保证金">保证金</option>
+                                    <option value="预收款">预收款</option>
+                                    <option value="尾款">尾款</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">收款人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择收款人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="payee2">
+                                    <option value="选择收款人">选择收款人</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="remark2"></textarea>
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="savePayRecord">
                             保存
                         </button>
                     </div>
@@ -440,75 +798,75 @@
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
                                 <span class="input-group-addon">开票日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" name="birthdate" value="" id="bdate3" />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">票据内容：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="bcontent3">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">开票金额：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="bcost3">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
-                                <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="client3">
+                                    <option value="请选择客户">请选择客户</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">合同名称：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="contract3">
+                                    <option value="请选择合同">请选择合同</option>
+                                    <option value="合同1">合同1</option>
+                                    <option value="合同2">合同2</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">票据类型：</span>
-                                <select class="form-control">
-                                    <option>请选择票据类型</option>
-                                    <option>增值税普通发票</option>
-                                    <option>增值税专业发票</option>
-                                    <option>国税通用机打发票</option>
-                                    <option>地税通用机打发票</option>
+                                <select class="form-control" id="bitype3">
+                                    <option value="请选择票据类型">请选择票据类型</option>
+                                    <option value="增值税普通发票">增值税普通发票</option>
+                                    <option value="增值税专业发票">增值税专业发票</option>
+                                    <option value="国税通用机打发票">国税通用机打发票</option>
+                                    <option value="地税通用机打发票">地税通用机打发票</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">发票号码：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="bino">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">经手人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择经手人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="fname3">
+                                    <option value="选择经手人">选择经手人</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="bremark3"></textarea>
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="saveBillRecord">
                             保存
                         </button>
                     </div>
@@ -637,12 +995,12 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#allClue" data-toggle="tab">
-                            回款计划
+                        <a href="#allClue" data-toggle="tab" id="payplan3" >
+                                                                                                                    回款计划
                         </a>
                     </li>
-                    <li><a href="#myClue" data-toggle="tab">回款记录</a></li>
-                    <li><a href="#customer" data-toggle="tab">开票记录</a></li>
+                    <li><a href="#myClue" data-toggle="tab"  id="payrecord3" >回款记录</a></li>
+                    <li><a href="#customer" data-toggle="tab" id="billrecord3" >开票记录</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
@@ -781,163 +1139,29 @@
                         <caption>
                             <div>
                                 <span style="float: left">已选0条线索&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <button type="button" class="btn btn-default" style="float: left" >
+                                <button type="button" class="btn btn-default" style="float: left" id="deletes">
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
 
                             </div>
                         </caption>
-                        <thead>
-                        <tr>
-                            <th>选择</th>
-                            <th>对应客户</th>
-                            <th>合同名称</th>
-                            <th>计划回款日期</th>
-                            <th>回款状态</th>
-                            <th>已回款金额</th>
-                            <th>合同负责人</th>
-                        </tr>
+                        <thead id="list1">
+                        
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td><a href="contract-details.html">Tanmay</a></td>
-                            <td><a href="payment-details.html">560001</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
+                        <tbody id="list2">
+                        
+                        
                         </tbody>
                     </table>
                 </form>
                 <ul class="pager">
-                    <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
-                    </li>
-                    <li class="previous"><a href="#">&larr; 上一页</a></li>
-                    <li class="next"><a href="#">下一页 &rarr;</a></li>
+                    <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                  当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
+                            </li>
+                            <li class="previous"><a href="#" id="a1">&larr; 上一页</a></li>
+                            <li class="next"><a href="#" id="a2">下一页 &rarr;</a></li>
                 </ul>
-
 
 
 

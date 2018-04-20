@@ -34,7 +34,7 @@ public class ClueAction {
 	public @ResponseBody  PageUtil ByXfid( int pageno, int pagesize,String fid) throws Exception{
          
          PageUtil page=clueService.findByXFid(pageno, pagesize, fid);
-                 
+              
 		 return page; 
 	}
 	
@@ -51,7 +51,7 @@ public class ClueAction {
 		}
 		   int xid=Integer.parseInt(s);
 		   Clue clue=clueService.findById(xid);
-		   
+		  
 		   return clue; 
 	}
 	
@@ -82,6 +82,7 @@ public class ClueAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
          if(id.equals("")) {
 			 clueService.insert(clue);
 			 return "insert succeed";
@@ -98,6 +99,7 @@ public class ClueAction {
 	@RequestMapping(value="/findByXname.action",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Clue test7(String s)throws UnsupportedEncodingException {
 			Clue clue=clueService.findByXName(s);
+			clue.setXarea(clueService.findById2(Integer.parseInt(clue.getXarea())).getName());
 			return clue;   
 	}
 	

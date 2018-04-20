@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.PayPlanDao">    
+
+   
+   
+     <select id="getPage" parameterType="map" resultType="payPlan">
+         select *from payment_plan limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from payment_plan
+	</select>
+	
+	
+	<insert id="insert" parameterType="payPlan" >
+	    insert into payment_plan values(null,#{customer},#{contract},#{contractcost},#{signdate})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from payment_plan where planid in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="planid" separator="," close=")">#{planid}</foreach>
+    </delete>
+	
+
+	
+ </mapper>
