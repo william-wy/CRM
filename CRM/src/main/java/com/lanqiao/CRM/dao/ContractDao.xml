@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ContractDao">
+
+	<select id="getAll" resultType="Contract">
+		select * from contract
+	</select>
+
+	<select id="get" resultType="Contract">
+		select * from contract where hid =
+		#{hid}
+	</select>
+
+	<delete id="delete" parameterType="int">
+		delete from contract where hid
+		= #{hid}
+	</delete>
+
+	<insert id="insert" parameterType="Contract">
+		<selectKey keyProperty="hid" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into contract
+		values(null,#{hname},#{hclient_name},#{hchance_name},
+		#{hproduct},#{htol_amt},#{hcontract_date},#{hstart_date},#{hend_date},#{hstate}
+		,#{hnumber},#{hstyle},#{hpay_method},#{hclient_singer},#{hcompany_singer},#{haccessory}
+		,#{hnext_date},#{hpayment_plan},#{remark},#{hfname},#{deptno})
+	</insert>
+
+	<update id="update" parameterType="Contract">
+		update contract set 
+		hname =#{hname},
+		hclient_name = #{hclient_name},
+		hchance_name = #{hchance_name},
+		hproduct = #{hproduct},
+		htol_amt = #{htol_amt},
+		hcontract_date = #{hcontract_date},
+		hstart_date = #{hstart_date},
+		hend_date = #{hend_date},
+		hstate = #{hstate},
+		hnumber = #{hnumber},
+		hstyle = #{hstyle},
+		hpay_method = #{hpay_method},
+		hclient_singer = #{hclient_singer},
+		hcompany_singer = #{hcompany_singer},
+		haccessory = #{haccessory},
+		hnext_date = #{hnext_date},
+		hpayment_plan = #{hpayment_plan},
+		remark = #{remark},
+		hfname = #{hfname},
+		deptno = #{deptno}
+		where hid = #{hid}
+	</update>
+
+	<select id="getPage" parameterType="map" resultType="Contract">
+
+		select * from contract limit #{start},#{end}
+
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(*) from contract
+	</select>
+
+	<delete id="batchDel">
+		delete from contract where hid in
+		<foreach collection="array" item="id" open="(" close=")"
+			separator=",">
+			#{hid}
+		</foreach>
+	</delete>
+</mapper>

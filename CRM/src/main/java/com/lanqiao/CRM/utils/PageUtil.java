@@ -2,20 +2,17 @@ package com.lanqiao.CRM.utils;
 
 import java.util.List;
 
-import com.lanqiao.CRM.entity.Clue;
-
-
-public class PageUtil {
-	private List<Clue> data ;
+public class PageUtil<T> {
+	private List<T> data ;
 	private int totalNum ;  //总数
 	private int totalPage ;    //总页数
 	private int currentPageno ;   //当前页数
 
-	public List<Clue> getData() {
+	public List<T> getData() {
 		return data;
 	}
 
-	public void setData(List<Clue> data) {
+	public void setData(List<T> data) {
 		this.data = data;
 	}
 
