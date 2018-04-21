@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.PIChargeDao">
+
+
+	<select id="getAll"  resultType="PICharge">
+		 select * from person_in_charge		
+	</select>
+	
+	<select id = "get" resultType="PICharge">
+		select * from person_in_charge where id = #{id}
+	</select>
+	
+	<select id="login" resultType="PICharge" parameterType="map">
+		select * from person_in_charge
+		where pc_name = #{pc_name} and pc_psd = #{pc_psd}
+	</select>
+
+	<delete id="delete" parameterType="int">
+		delete from person_in_charge where pc_id = #{pc_id}
+	</delete>
+	
+	<insert id="insert" parameterType="PICharge">
+		<selectKey keyProperty="pc_id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID() 
+		</selectKey>
+		insert into person_in_charge values(null,#{pc_name},#{pc_dept},#{pc_psd},#{role_id})
+	</insert>
+	
+	<update id="update" parameterType="PICharge">
+		update person_in_charge set pc_name = #{pc_name},
+						pc_dept = #{pc_dept},
+						pc_psd = #{pc_psd}
+	    where pc_id = #{pc_id}
+	</update>
+	
+	<select id="getPage" parameterType="map" resultType="PICharge">
+		
+		select * from person_in_charge limit #{start},#{end}
+		
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		 select count(*) from person_in_charge 
+	</select>
+	
+	<delete id="batchDel">
+		delete from person_in_charge where pc_id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{pc_id}
+		</foreach>
+		
+	</delete>
+</mapper>
