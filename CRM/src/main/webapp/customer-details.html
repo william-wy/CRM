@@ -28,6 +28,147 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
         $(function() {
+        	var url=window.location.href;
+        	var c=url.split("?")[1];
+        	var cid=c.split("=")[1];
+        	
+        	var customer;     	      	
+        	
+        	$("#cuzl").click(function(){
+        		
+            	
+            	
+            	
+            	//显示信息
+            	$.ajax({
+            	   type:"get",
+      			   url:"/CRM/customer/findByKid.action",
+      			   data:{kid:cid},
+      		       datatype:'json',
+    		       contentType:"application/json;charset=utf-8",
+    		       success:function(data){
+    		    	        //html(data.数据)表示将数据库的数据显示到页面上，用于搜索
+    		        	    $("#kid1").html(data.kid), 
+    		    	        $("#customer1").html(data.kname);   		        	              	
+                     	    $("#kname1").html(data.kname),
+                     	    $("#kdegree1").html(data.kdegree),
+                     	    $("#kphone1").html(data.kphone),
+                    	    $("#kemail1").html(data.kemail),        	   
+                    	    $("#karea1").html(data.karea),
+                    	    $("#kzip1").html(data.kzip),
+                    	    $("#kstatus1").html(data.kstatus),
+                    	    $("#ksource1").html(data.ksource),
+                    	    $("#ktrade1").html(data.ktrade),
+                    	    $("#ksize1").html(data.ksize),
+                 
+                     	    $("#kremark1").html(data.kremark),
+                     	    $("#kfid1").html(data.kfid),
+                     	    $("#kactual1").html(data.kactual),
+                     	    $("#kdept1").html(data.kdept),                   	    
+                     	    $("#krecord1").html(data.krecord)
+    		           }
+            	});
+        	})
+        	
+        	
+        	//点击编辑按钮事件
+        	$("#edit").click(
+        			function update(){                    	
+                    	$("#edit").attr("data-target","#addClue");       
+                    	$.ajax({
+                      		type:'get',
+                      		url:'/CRM/customer/updateCustomer.action',
+                      	    data:{
+                      	    	 s:cid
+                      	    },
+                      		contentType:"application/json;charset=utf-8",
+                      		dataType:'json',
+                      		success:function(data){
+                      			//value(data.数据)表示将页面上的数据传到数据库中，用于增加和修改
+                      			$("#kid").val(data.kid),           	
+                         	    $("#kname").val(data.kname),
+                         	    $("#kdegree").val(data.kdegree),
+                         	    $("#kphone").val(data.kphone),
+                        	    $("#kemail").val(data.kemail),        	   
+                        	    $('#cityChoice3').html(),
+                        	    $("#kzip").val(data.kzip),
+                        	    $("#kstatus").val(data.kstatus),
+                        	    $("#ksource").val(data.ksource),
+                        	    $("#ktrade").val(data.ktrade),
+                        	    $("#ksize").val(data.ksize),
+                         	    $("#birthdate").val(data.knext),
+                         	    $("#kremark").val(data.kremark),
+                         	    $("#kfid").val(data.kfid),
+                         	    $("#birthdate").val(data.kactual),
+                         	    $("#kdept").val(data.kdept),                        	 
+                         	    $("#krecord").val(data.krecord)                     			
+                      		}
+                      	});
+                    	} 
+        	)
+        	
+        	
+        	//点击保存信息
+       	 $("#save").click(function(){
+    	    	
+    		  $.ajax({
+       		   type:'get',
+       		   url:"/CRM/customer/saveCustomer.action",
+                  data:{
+                	  id:$("#kid").val(),           	
+               	    kname:$("#kname").val(),
+               	    kdegree:$("#kdegree").val(),
+               	    kphone:$("#kphone").val(),
+              	    kemail:$("#kemail").val(),        	   
+              	    karea: $('#cityChoice3').html(),
+              	    kzip:$("#kzip").val(),
+              	    kstatus:$("#kstatus").val(),
+              	    ksource:$("#ksource").val(),
+              	    ktrade:$("#ktrade").val(),
+              	    ksize:$("#ksize").val(),
+               	    knext:$("#birthdate").val(),
+               	    kremark:$("#kremark").val(),
+               	    kfid:$("#kfid").val(),              	    
+               	    kactual:$("#birthdate").val(),
+               	    kdept:$("#kdept").val(),
+               	    krecord:$("#krecord").val()
+               },      		   
+       		   datatype:'json',
+       		   contentType:"application/json;charset=utf-8",
+       		   success:function(data){
+                       if(data=="update succeed"||data=="insert succeed"){
+                       	 window.location.reload();
+                       }  
+       		   }
+       	   })
+    	  });
+        	
+        	//保存跟进
+        	$("#saveGenJin").click(function(){
+                $("#customer1").val(customer);
+     	    	
+       		  $.ajax({
+          		   type:'get',
+          		   url:"/CRM/cugenjin/save.action",
+                   data:{
+               	    way:$("#way1").val(),
+               	    time:$("#time1").val(),
+               	    content:$("#content1").val(),
+               	    customer:$("#customerl").val(),
+               	    status:$("#status1").val(),
+               	    next:$("#next1").val(),
+               	    fname:$("#fname1").val()
+                  },      		   
+          		   datatype:'json',
+          		   contentType:"application/json;charset=utf-8",
+          		   success:function(data){
+          			    alert(data);
+                          if(data=="insert succeed"){
+                          	 window.location.reload();
+                          }  
+          		   }
+          	   })
+       	  });
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -101,6 +242,9 @@
             });
         });
 
+        
+        
+        
     </script>
 
 </head>
@@ -278,129 +422,130 @@
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
+                         <input type="hidden"  class="form-control"  id="kid"  name="kid" readonly/>
                             <div class="input-group">
                                 <span class="input-group-addon">客户名称：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kname"  name="kname">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户级别：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kdegree"  name="kdegree">
                                     <option>选择客户级别</option>
-                                    <option>A（高价值客户）</option>
-                                    <option>B（普通客户）</option>
-                                    <option>C（低价值客户）</option>
+                                    <option value="A（高价值客户）">A（高价值客户）</option>
+                                    <option value="B（普通客户）">B（普通客户）</option>
+                                    <option value="C（低价值客户）">C（低价值客户）</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">电话：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kphone"  name="kphone">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kemail"  name="kemail">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市" id="karea"  name="karea">
                                 <input type="hidden" id="province3" value="">
                                 <input type="hidden" id="city3" value="">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="ksize"  name="ksize" >
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户状态：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kstatus"  name="kstatus">
                                     <option>选择客户状态</option>
-                                    <option>初步接触</option>
-                                    <option>意向客户</option>
-                                    <option>报价客户</option>
-                                    <option>成交客户</option>
-                                    <option>搁置客户</option>
+                                    <option value="初步接触">初步接触</option>
+                                    <option value="意向客户">意向客户</option>
+                                    <option value="报价客户">报价客户</option>
+                                    <option value="成交客户">成交客户</option>
+                                    <option value="搁置客户">搁置客户</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户来源：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="ksource"  name="ksource">
                                     <option>选择客户来源</option>
-                                    <option>广告</option>
-                                    <option>社交推广</option>
-                                    <option>研讨会</option>
-                                    <option>搜索引擎</option>
-                                    <option>客户介绍</option>
-                                    <option>代理商</option>
-                                    <option>其它</option>
+                                    <option value="广告">广告</option>
+                                    <option value="社交推广">社交推广</option>
+                                    <option value="研讨会">研讨会</option>
+                                    <option value="搜索引擎">搜索引擎</option>
+                                    <option value="客户介绍">客户介绍</option>
+                                    <option value="代理商">代理商</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">所属行业：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="ktrade"  name="ktrade">
                                     <option>选择所属行业</option>
-                                    <option>服务</option>
-                                    <option>金融</option>
-                                    <option>电信</option>
-                                    <option>教育</option>
-                                    <option>高科技</option>
-                                    <option>政府</option>
-                                    <option>能源</option>
-                                    <option>零售</option>
-                                    <option>媒体</option>
-                                    <option>娱乐</option>
-                                    <option>咨询</option>
-                                    <option>非盈利事业</option>
-                                    <option>公用事业</option>
+                                    <option value="服务">服务</option>
+                                    <option value="金融">金融</option>
+                                    <option value="电信">电信</option>
+                                    <option value="教育">教育</option>
+                                    <option value="高科技">高科技</option>
+                                    <option value="政府">政府</option>
+                                    <option value="能源">能源</option>
+                                    <option value="零售">零售</option>
+                                    <option value="媒体">媒体</option>
+                                    <option value="娱乐">娱乐</option>
+                                    <option value="咨询">咨询</option>
+                                    <option value="非盈利事业">非盈利事业</option>
+                                    <option value="公用事业">公用事业</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">人员规模：</span>
-                                <select class="form-control">
+                                <select class="form-control"  id="ksize"  name="ksize">
                                     <option>选择人员规模</option>
-                                    <option><10人</option>
-                                    <option>10-20人</option>
-                                    <option>20-50人</option>
-                                    <option>50-100人</option>
-                                    <option>100-500人</option>
-                                    <option>500人以上</option>
+                                    <option value="10人"><10人</option>
+                                    <option value="10-20人">10-20人</option>
+                                    <option value="20-50人">20-50人</option>
+                                    <option value="50-100人">50-100人</option>
+                                    <option value="100-500人">100-500人</option>
+                                    <option value="500人以上">500人以上</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" id="birthdate" name="knext"  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="kremark"  name="kremark"></textarea>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kfid"  name="kfid">
                                     <option>选择负责人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kdept"  name="kdept">
                                     <option>选择客户状态</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其它</option>
+                                    <option value="销售部">销售部</option>
+                                    <option value="营销部">营销部</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                         </form>
@@ -408,7 +553,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save">
                             保存
                         </button>
                     </div>
@@ -1230,17 +1375,14 @@
                         <option>搁置客户</option>
                     </select>
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toother">
-                        <i class="fa fa-share fa-fw"></i>转移给他人
+                        <i class="fa fa-share fa-fw"></i>转移给他人 
                     </button>
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#togonghai">
                         <i class="fa fa-share fa-fw"></i>转移到公海
                     </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addCustomer" id="edit">
                         <i class="fa fa-pencil fa-fw"></i>编辑
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-share fa-fw"></i>删除
-                    </button>
+                    </button>                  
                 </div>
             </div>
             <div>
@@ -1258,8 +1400,7 @@
                             客户全景
                         </a>
                     </li>
-                    <li><a href="#khzl" data-toggle="tab">客户资料</a></li>
-                    <li><a href="#xjkh" data-toggle="tab">下级客户</a></li>
+                    <li><a href="#khzl" data-toggle="tab" id="cuzl" >客户资料</a></li>
                     <li><a href="#contact" data-toggle="tab">联系人</a></li>
                     <li><a href="#opportunity" data-toggle="tab">机会</a></li>
                     <li><a href="#contract" data-toggle="tab">合同</a></li>
@@ -1407,8 +1548,8 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">客户名称：</td><td>祥美化工</td></tr>
-                                            <tr><td>客户级别：</td><td>B(普通客户)</td></tr>
+                                            <tr><td width="20%">客户名称：</td><td id="kname1"></td></tr>
+                                            <tr><td>客户级别：</td><td id="kdegree1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1418,10 +1559,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">联系方式：</td><td>123456789</td></tr>
-                                            <tr><td>邮箱：</td><td>1348952@qq.com</td></tr>
-                                            <tr><td>地区：</td><td>北京市</td></tr>
-                                            <tr><td>邮编：</td><td>45625</td></tr>
+                                            <tr><td width="20%">联系方式：</td><td id="kphone1"></td></tr>
+                                            <tr><td>邮箱：</td><td id="kemail1"></td></tr>
+                                            <tr><td>地区：</td><td id="karea1"></td></tr>
+                                            <tr><td>邮编：</td><td id="kzip1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1431,12 +1572,12 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">客户状态：</td><td>初步接触</td></tr>
-                                            <tr><td>客户来源：</td><td>广告</td></tr>
-                                            <tr><td>所属行业：</td><td>-----</td></tr>
-                                            <tr><td>人员规模：</td><td>-----</td></tr>
-                                            <tr><td>下次跟进时间：</td><td>2018-04-22 15:00</td></tr>
-                                            <tr><td>备注：</td><td>--------</td></tr>
+                                            <tr><td width="20%">客户状态：</td><td id="kstatusl"></td></tr>
+                                            <tr><td>客户来源：</td><td id="ksource1"></td></tr>
+                                            <tr><td>所属行业：</td><td id="ktrade1"></td></tr>
+                                            <tr><td>人员规模：</td><td id="ksize1"></td></tr>
+                                            <tr><td>下次跟进时间：</td><td id="knext1"></td></tr>
+                                            <tr><td>备注：</td><td id="kremark1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1446,7 +1587,7 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">负责人：</td><td>张三</td></tr>
+                                            <tr><td width="20%">负责人：</td><td id="kfid1"></td></tr>
                                             <tr><td>创建人：</td><td>张三</td></tr>
                                             <tr><td>前负责人：</td><td>李四</td></tr>
                                             <tr><td>所属部门：</td><td>销售部</td></tr>
@@ -1457,87 +1598,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 下级客户  -->
-                    <div class="tab-pane fade" id="xjkh">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>客户名称</th>
-                                <th>客户级别</th>
-                                <th>电话</th>
-                                <th>地区</th>
-                                <th>所属行业</th>
-                                <th>负责人</th>
-                                <th>备注</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Tanmay</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Mumbai</td>
-                                <td>400003</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                   
                     <!-- 联系人  -->
                     <div class="tab-pane fade" id="contact">
                         <table class="table table-striped">

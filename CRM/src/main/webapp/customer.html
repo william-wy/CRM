@@ -27,79 +27,341 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
-            <!-- 日期选择器配置-->
-            $('#birthdate').daterangepicker({
-                autoUpdateInput:true,
-                singleDatePicker: true,
-                showDropdowns: true,
-                timePicker:true,
-                "locale": {
-                    "format": "MM/DD/YYYY h:mm A",
-                    "daysOfWeek": [
-                        "日",
-                        "一",
-                        "二",
-                        "三",
-                        "四",
-                        "五",
-                        "六"
-                    ],
-                    "monthNames": [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ],
-                    "applyLabel": "确定",
-                    "cancelLabel": "取消"
-                }
-            });
-            $('input[name="daterange"]').daterangepicker({
-                alwaysShowCalendar:true,
-                "locale": {
-                    "format": "MM/DD/YYYY",
-                    "daysOfWeek": [
-                        "日",
-                        "一",
-                        "二",
-                        "三",
-                        "四",
-                        "五",
-                        "六"
-                    ],
-                    "monthNames": [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ],
-                    "applyLabel": "确定",
-                    "cancelLabel": "取消"
-                }
-            });
-            <!-- 保存按钮点击事件-->
-            $("button[name='save']").click(function(){
-                alert("保存成功");
-                location.reload();
-            });
+    var s="all";
+    $(function() {
+    	var kid;
+        var currentPageno =1 ;    
+        getPage(currentPageno,s);
+     
+        $("#a1").click(function(){
+            if(currentPageno<=1){
+         	   getPage(1,s);
+            }else{
+  		     getPage(--currentPageno,s);
+  		   }
+  		});
+  	    $('#a2').bind("click", function(){
+  		      getPage(++currentPageno,s);
+  		   });
+        
+ 	    $("#searchbutton").click(function(){
+ 	    	$('#a1').unbind('click').click(function(){
+ 	    		 if(currentPageno<=1){
+ 	             	   getPage(1,s);
+ 	                }else{
+ 	      		     getPage(--currentPageno,s);
+ 	      		   }
+      		   });
+      	    $('#a2').unbind('click').click(function(){
+      		      getPage(++currentPageno,s);
+      		   });
+ 	    	
+ 	    	if($("#searchway").val()=='1'){
+ 	    	   
+ 	    	   var s=$("#searchtext").val();
+ 	    	   if(s==""){	    		  
+ 	    		   getPage(currentPageno,s);
+ 	    	   }
+ 	    	   else {
+ 	    		   $.ajax({
+ 	    			   type:"get",
+ 	    			   url:"/CRM/customer/findByKname.action",
+ 	    			   data:{s:s},
+ 	    		       datatype:'json',
+       		           contentType:"application/json;charset=utf-8",
+       		           success:function(data){
+       		        	var str = '' ;  
+       		        	str += '<tr>' ;
+          				str += '<td><label><input type="checkbox" name="test" value='+data.kid+'></label></td>';         				    
+          				str += '<td>'+data.kstatus+'</td>';
+          				str += '<td><a href="customer-details.html?kid='+data.kid+'">'+data.kname+'</td>';
+          				str += '<td>'+data.ksource+'</td>';
+          				str += '<td>'+data.karea+'</td>';
+          				str += '<td>'+data.kphone+'</td>';
+          				str += '<td>'+data.kdegree+'</td>';
+          			    str += '</tr>' ;
+          			    
+          			    $('#customerlist').html(str);
+          			    $('#pageno').html("");
+          			    $('#totalpage').html("");
+          			    $('#totalNum').html("");
+            		 
+       		           }
+ 	    		   })
+ 	    	   }
+ 	    	}else if($("#searchway").val()=='2'){
+ 	    		var s=$("#searchtext").val();
+ 	    		if(s==""){
+ 	    			s="all";
+ 	    			 getPage(currentPageno,s);
+ 	    		}else {
+ 	    			 s="ByKfid";
+ 	    			 getPage(currentPageno,s);
+ 	    		}
+ 	    	}else if($("#searchway").val()=='3'){
+ 	    		
+ 	    	}
+
+ 	    }) ;
+    
+ 	    $("#save").click(function(){	    	
+ 		  $.ajax({
+    		   type:'get',
+    		   url:"/CRM/customer/saveCustomer.action",
+               data:{
+            	id:$("#kid").val(),           	
+         	    kname:$("#kname").val(),
+         	    kdegree:$("#kdegree").val(),
+         	    kphone:$("#kphone").val(),
+        	    kemail:$("#kemail").val(),        	   
+        	    karea: $('#cityChoice3').html(),
+        	    kzip:$("#kzip").val(),
+        	    kstatus:$("#kstatus").val(),
+        	    ksource:$("#ksource").val(),
+        	    ktrade:$("#ktrade").val(),
+        	    ksize:$("#ksize").val(),
+         	    knext:$("#birthdate1").val(),
+         	    kremark:$("#kremark").val(),
+         	    kfid:$("#kfid").val(),
+         	    kdept:$("#kdept").val(),
+         	    kactual:$("#birthdate2").val(),
+         	    krecord:$("#krecord").val()
+            },      		   
+    		   datatype:'json',
+    		   contentType:"application/json;charset=utf-8",
+    		   success:function(data){
+                    if(data=="update succeed"||data=="insert succeed"){
+                    	 window.location.reload();
+                    }	   
+    		   }
+    	   })
+ 	  });
+ 	    
+ 	    
+        <!-- 日期选择器配置-->
+        $('#birthdate1').daterangepicker({
+            autoUpdateInput:true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker:true,
+            "locale": {
+                "format": "YYYY/MM/DD",
+                "daysOfWeek": [
+                    "日",
+                    "一",
+                    "二",
+                    "三",
+                    "四",
+                    "五",
+                    "六"
+                ],
+                "monthNames": [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月"
+                ],
+                "applyLabel": "确定",
+                "cancelLabel": "取消"
+            }
         });
+        $('#birthdate2').daterangepicker({
+            autoUpdateInput:true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker:true,
+            "locale": {
+                "format": "YYYY/MM/DD",
+                "daysOfWeek": [
+                    "日",
+                    "一",
+                    "二",
+                    "三",
+                    "四",
+                    "五",
+                    "六"
+                ],
+                "monthNames": [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月"
+                ],
+                "applyLabel": "确定",
+                "cancelLabel": "取消"
+            }
+        });
+        $('input[name="daterange"]').daterangepicker({
+            alwaysShowCalendar:true,
+            "locale": {
+                "format": "YYYY/MM/DD",
+                "daysOfWeek": [
+                    "日",
+                    "一",
+                    "二",
+                    "三",
+                    "四",
+                    "五",
+                    "六"
+                ],
+                "monthNames": [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月"
+                ],
+                "applyLabel": "确定",
+                "cancelLabel": "取消"
+            }
+        });
+        <!-- 保存按钮点击事件-->
+        $("button[name='save']").click(function(){
+            alert("保存成功");
+            location.reload();
+        });
+    });
+
+    function getPage(currentPageno,s){    	
+      var pagesize = 6 ;     
+      var fid=$("#searchtext").val();
+      if(fid==""){
+    	  fid=0;
+      }
+      
+  	  $.ajax({
+  		type:"get",
+  		url:"/CRM/customer/"+s+".action",
+  		data:{
+  			pageno:currentPageno,
+  			pagesize:pagesize,
+  			fid:$("#searchtext").val()
+  		},
+  		contentType:"application/json;charset=utf-8",
+  		dataType:'json',
+  		success:function(data){
+  	       var pagesize = 6 ;
+  	       var str = '' ;
+  			$.each(data.data,function(index,customer){
+  			    str += '<tr>' ;
+  				str += '<td><label><input type="checkbox" name="test" value='+customer.kid+'></label></td>'; 				
+  				str += '<td>'+customer.kstatus+'</td>';
+  				str += '<td><a href="customer-details.html?kid='+customer.kid+'">'+customer.kname+'</td>';
+  				str += '<td>'+customer.ksource+'</td>';
+  				str += '<td>'+customer.karea+'</td>';
+  				str += '<td>'+customer.kphone+'</td>';
+  				str += '<td>'+customer.kdegree+'</td>';
+  			    str += '</tr>' ;
+  			})
+  			
+  			$('#customerlist').html(str);
+  			$('#pageno').html(data.currentPageno);
+			$('#totalpage').html(data.totalPage);
+			$('#totalNum').html(data.totalNum);
+  		}
+  	});
+  }
+    
+    
+    function deletes(){ 
+    	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+    	//取到对象数组后，我们来循环检测它是不是被选中 
+    	var s=''; 
+    	for(var i=0; i<obj.length; i++){ 
+    	if(obj[i].checked) 
+    	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+    	} 
+    	//那么现在来检测s的值就知道选中的复选框的值了 
+    	alert(s==''?'你还没有选择任何内容！':s);  	  
+    	  $.ajax({
+      		type:'get',
+      		url:'/CRM/customer/delete.action',
+      	    data:{
+      	    	 s:s,
+      	    },
+      		contentType:"application/json;charset=utf-8",
+      		dataType:'json',
+      		error:function(data){     
+      			location.reload();
+      		}    				
+      	});
+    	} 
+    
+    
+    function update(){ 
+    	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+    	//取到对象数组后，我们来循环检测它是不是被选中 
+    	
+    	var s=''; 
+    	var a=0;
+    	for(var i=0; i<obj.length; i++){ 
+    	if(obj[i].checked) {
+    	 s+=obj[i].value;
+    	//如果选中，将value添加到变量s中 
+    	a++;
+    	} 
+    	}
+        if(a<=0){
+            alert('请选择一条记录进行修改');
+        }
+        else if(a>=2){
+        	alert('请选择一条记录进行修改');
+        }else {
+        	$("#xiugai").attr("data-target","#addClue");
+
+        	$.ajax({
+          		type:'get',
+          		url:'/CRM/customer/updateCustomer.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			$("#kid").val(data.kid),           	
+             	    $("#kname").val(data.kname),
+             	    $("#kdegree").val(data.kdegree),
+             	    $("#kphone").val(data.kphone),
+            	    $("#kemail").val(data.kemail),        	   
+            	    $('#cityChoice3').html(),
+            	    $("#kzip").val(data.kzip),
+            	    $("#kstatus").val(data.kstatus),
+            	    $("#ksource").val(data.ksource),
+            	    $("#ktrade").val(data.ktrade),
+            	    $("#ksize").val(data.ksize),
+             	    $("#birthdate1").val(data.knext),
+             	    $("#kremark").val(data.kremark),
+             	    $("#kfid").val(data.kfid),
+             	    $("#kdept").val(data.kdept),
+             	    $("#birthdate2").val(data.kactual),
+             	    $("#krecord").val(data.krecord)
+          		}
+          	});
+        	} 
+    }
 
     </script>
 
@@ -263,7 +525,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增线索-->
+        <!--新增客户-->
         <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -277,130 +539,145 @@
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
+                        <form class="bs-example bs-example-form" method="post">
+                            <div class="input-group">
+                                <span class="input-group-addon">ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="kid"  name="kid" readonly/>
+                              
+                            </div>
                             <div class="input-group">
                                 <span class="input-group-addon">客户名称：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kname"  name="kname">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户级别：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kdegree"  name="kdegree">
                                     <option>选择客户级别</option>
-                                    <option>A（高价值客户）</option>
-                                    <option>B（普通客户）</option>
-                                    <option>C（低价值客户）</option>
+                                    <option value="A（高价值客户">A（高价值客户）</option>
+                                    <option value="B（普通客户）">B（普通客户）</option>
+                                    <option value="C（低价值客户）">C（低价值客户）</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">电话：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kphone"  name="kphone">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="kemail"  name="kemail">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市" id="karea"  name="karea">
                                 <input type="hidden" id="province3" value="">
                                 <input type="hidden" id="city3" value="">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="kzip"  name="kzip">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户状态：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kstatus"  name="kstatus">
                                     <option>选择客户状态</option>
-                                    <option>初步接触</option>
-                                    <option>意向客户</option>
-                                    <option>报价客户</option>
-                                    <option>成交客户</option>
-                                    <option>搁置客户</option>
+                                    <option value="初步接触">初步接触</option>
+                                    <option value="意向客户">意向客户</option>
+                                    <option value="报价客户">报价客户</option>
+                                    <option value="成交客户">成交客户</option>
+                                    <option value="搁置客户">搁置客户</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">客户来源：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="ksource"  name="ksource">
                                     <option>选择客户来源</option>
-                                    <option>广告</option>
-                                    <option>社交推广</option>
-                                    <option>研讨会</option>
-                                    <option>搜索引擎</option>
-                                    <option>客户介绍</option>
-                                    <option>代理商</option>
-                                    <option>其它</option>
+                                    <option value="广告">广告</option>
+                                    <option value="社交推广">社交推广</option>
+                                    <option value="研讨会">研讨会</option>
+                                    <option value="搜索引擎">搜索引擎</option>
+                                    <option value="客户介绍">客户介绍</option>
+                                    <option value="代理商">代理商</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">所属行业：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="ktrade"  name="ktrade">
                                     <option>选择所属行业</option>
-                                    <option>服务</option>
-                                    <option>金融</option>
-                                    <option>电信</option>
-                                    <option>教育</option>
-                                    <option>高科技</option>
-                                    <option>政府</option>
-                                    <option>能源</option>
-                                    <option>零售</option>
-                                    <option>媒体</option>
-                                    <option>娱乐</option>
-                                    <option>咨询</option>
-                                    <option>非盈利事业</option>
-                                    <option>公用事业</option>
+                                    <option value="服务">服务</option>
+                                    <option value="金融">金融</option>
+                                    <option value="电信">电信</option>
+                                    <option value="教育">教育</option>
+                                    <option value="高科技">高科技</option>
+                                    <option value="政府">政府</option>
+                                    <option value="能源">能源</option>
+                                    <option value="零售">零售</option>
+                                    <option value="媒体">媒体</option>
+                                    <option value="娱乐">娱乐</option>
+                                    <option value="咨询">咨询</option>
+                                    <option value="非盈利事业">非盈利事业</option>
+                                    <option value="公用事业">公用事业</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">人员规模：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="ksize"  name="ksize">
                                     <option>选择人员规模</option>
-                                    <option><10人</option>
-                                    <option>10-20人</option>
-                                    <option>20-50人</option>
-                                    <option>50-100人</option>
-                                    <option>100-500人</option>
-                                    <option>500人以上</option>
+                                    <option value="10人"><10人</option>
+                                    <option value="10-20人">10-20人</option>
+                                    <option value="20-50人">20-50人</option>
+                                    <option value="50-100人">50-100人</option>
+                                    <option value="100-500人">100-500人</option>
+                                    <option value="500人以上">500人以上</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
+                                <span class="input-group-addon">本次跟进：</span>
+                                <input type="text" class="form-control" id="birthdate2" name="kactual"  />
+                            </div>
+                            <br>
+                            <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" id="birthdate" value=""  />
+                                <input type="text" class="form-control" id="birthdate1" name="knext"  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="kremark"  name="kremark"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进记录：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <textarea class="form-control" rows="4" id="krecord"  name="krecord"></textarea>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kfid"  name="kfid">
                                     <option>选择负责人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="kdept"  name="kdept">
                                     <option>选择客户状态</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其它</option>
+                                    <option value="销售部">销售部</option>
+                                    <option value="营销部">营销部</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                         </form>
@@ -408,7 +685,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save">
                             保存
                         </button>
                     </div>
@@ -689,30 +966,30 @@
                         <caption>
                             <div>
                                 <span style="float: left">已选0位客户&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <button type="button" class="btn btn-default" style="float: left" >
+                                <button type="button" class="btn btn-default" style="float: left" onclick="deletes()">
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
 
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: left" >
+                                <button type="button" class="btn btn-default" data-toggle="modal" onclick="update()" style="float: left" id="xiugai">
                                     <i class="fa fa-pencil fa-fw"></i>
                                     &nbsp;&nbsp;修改&nbsp;&nbsp;
                                 </button>
 
-                                <button type="button" class="btn btn-default" style="float: left" >
+                        <!--         <button type="button" class="btn btn-default" style="float: left"  >
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;转移到公海&nbsp;&nbsp;
-                                </button>
+                                </button> -->
 
-                                <button type="button" class="btn btn-default" style="float: right" >
+                                <button type="button" class="btn btn-default" style="float: right" id="searchbutton">
                                     搜索
                                 </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
+                                <input type="text" style="height: 35px;float: right" id="searchtext"/>
+                                <select class="btn btn-default" style="float: right" id="searchway">
                                     <option>请选择搜索方式</option>
-                                    <option>按姓名查找</option>
-                                    <option>按部门查找</option>
-                                    <option>其他</option>
+                                    <option value="1">按姓名查找</option>
+                                    <option value="2">按部门查找</option>
+                                    <option value="3">其他</option>
                                 </select>
                             </div>
                         </caption>
@@ -727,141 +1004,21 @@
                             <th>客户级别</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Tanmay</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Sachin</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>400003</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
+                        <tbody id="customerlist">
+                        
                         </tbody>
                     </table>
                 </form>
                 <ul class="pager">
                     <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
+                    <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                  当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
                     </li>
-                    <li class="previous"><a href="#">&larr; 上一页</a></li>
-                    <li class="next"><a href="#">下一页 &rarr;</a></li>
+                    <li class="previous"><a id="a1">&larr;上一页</a></li>
+                    <li class="next"><a id="a2">下一页 &rarr;</a></li>
                 </ul>
-
-
-
-
+                
 				<footer>
-
                     <br/><br/><br/>
 
                     <p style="text-align: center">Copyright &copy; 2018.蓝桥中北二班第四组 All rights reserved.</p>

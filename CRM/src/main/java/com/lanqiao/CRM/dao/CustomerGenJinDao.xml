@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.CustomerGenJinDao">    
+     <select id="findByCustomer" parameterType="String" resultType="CustomerGenJin">
+         select * from customergenjin  where customer=#{customer}
+     </select>
+     
+     <select id="insert" parameterType="CustomerGenJin">
+         insert  into  customergenjin values (null,#{way},#{time},#{content},#{customer},#{status},#{next},#{fname} )
+     </select>
+     
+     <select id="findByWay" parameterType="String" resultType="CustomerGenJin">
+        select * from customergenjin  where way=#{way}
+     </select>
+     
+ </mapper>

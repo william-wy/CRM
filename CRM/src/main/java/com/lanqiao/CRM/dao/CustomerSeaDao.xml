@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.CustomerSeaDao">    
+
+    <select  id="findAll" resultType="customersea">
+           select * from customersea
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="customersea" >
+             select * from customersea where kid=#{kid}
+    </select>
+  
+   <select id="findByKName" parameterType="String" resultType="customersea">
+           select * from customersea where kname=#{kname}
+   </select>
+  
+    <select id="findByKFid" parameterType="map" resultType="customersea">
+         select *from (select * from customersea where kfid=#{kfid}) aa limit #{start},#{end}
+     </select>
+   
+   
+     <select id="getPage" parameterType="map" resultType="customersea">
+         select *from customersea limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from customersea
+	</select>
+	
+	 <select id="getTotalByKfid"  parameterType="String" resultType="int">
+		 select count(*) from customersea  where kfid=#{kfid}
+	</select>
+	
+	<insert id="insert" parameterType="customersea" >
+	    insert into customersea values(null,#{kname},#{kdegree},#{kphone},#{kemail},#{karea},#{kzip},#{kstatus},#{ksource},#{ktrade},#{ksize},#{knext},#{kremark},#{kfid},#{kdept})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from customersea where kid in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="kid" separator="," close=")">#{kid}</foreach>
+   </delete>
+	
+	<update id="update" parameterType="customer">
+	    update customersea set kname=#{kname},
+	                    kdegree=#{kdegree},    
+	                    kphone=#{kphone},
+	                    kemail=#{kemail},
+	                    karea=#{karea},
+	                    kzip=#{kzip},
+	                    kstatus=#{kstatus},
+	                    ksource=#{ksource},
+	                    ktrade=#{ktrade},
+	                    ksize=#{ksize},
+	                    knext=#{knext},
+	                    kremark=#{kremark},
+	                    kfid=#{kfid},
+	                    kdept=#{kdept}
+	                    where kid=#{kid}
+	</update>
+
+   <select id="findBy"></select>
+ </mapper>

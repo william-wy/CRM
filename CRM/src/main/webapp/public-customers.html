@@ -24,7 +24,115 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
 
     <script type="text/javascript">
+    var s="all";
         $(function() {
+        	var kid;
+            var currentPageno =1 ;    
+            getPage(currentPageno,s);
+         
+            $("#a1").click(function(){
+                if(currentPageno<=1){
+             	   getPage(1,s);
+                }else{
+      		     getPage(--currentPageno,s);
+      		   }
+      		});
+      	    $('#a2').bind("click", function(){
+      		      getPage(++currentPageno,s);
+      		   });
+            
+     	    $("#searchbutton").click(function(){
+     	    	$('#a1').unbind('click').click(function(){
+     	    		 if(currentPageno<=1){
+     	             	   getPage(1,s);
+     	                }else{
+     	      		     getPage(--currentPageno,s);
+     	      		   }
+          		   });
+          	    $('#a2').unbind('click').click(function(){
+          		      getPage(++currentPageno,s);
+          		   });
+     	    	
+     	    	if($("#searchway").val()=='1'){
+     	    	   
+     	    	   var s=$("#searchtext").val();
+     	    	   if(s==""){	    		  
+     	    		   getPage(currentPageno,s);
+     	    	   }
+     	    	   else {
+     	    		   $.ajax({
+     	    			   type:"get",
+     	    			   url:"/CRM/customersea/findByKname.action",
+     	    			   data:{s:s},
+     	    		       datatype:'json',
+           		           contentType:"application/json;charset=utf-8",
+           		           success:function(data){
+           		        	var str = '' ;  
+           		        	str += '<tr>' ;
+              				str += '<td><label><input type="checkbox" name="test" value='+data.kid+'></label></td>';         				    
+              				str += '<td><a href="customer-details.html">'+data.kname+'</td>';
+              				str += '<td>'+data.karea+'</td>';
+              				str += '<td>'+data.kphone+'</td>';
+              				str += '<td>'+data.kremaek+'</td>';
+              				str += '<td>'+data.knext+'</td>';
+              				str += '<td>'+data.kfid+'</td>';
+              			    str += '</tr>' ;
+              			    
+              			    $('#customerlist').html(str);
+              			    $('#pageno').html("");
+              			    $('#totalpage').html("");
+              			    $('#totalNum').html("");
+                		 
+           		           }
+     	    		   })
+     	    	   }
+     	    	}else if($("#searchway").val()=='2'){
+     	    		var s=$("#searchtext").val();
+     	    		if(s==""){
+     	    			s="all";
+     	    			 getPage(currentPageno,s);
+     	    		}else {
+     	    			 s="ByKfid";
+     	    			 getPage(currentPageno,s);
+     	    		}
+     	    	}else if($("#searchway").val()=='3'){
+     	    		
+     	    	}
+
+     	    }) ;
+        
+     	    $("#save").click(function(){	    	
+     		  $.ajax({
+        		   type:'get',
+        		   url:"/CRM/customersea/saveCustomer.action",
+                   data:{
+                	id:$("#kid").val(),           	
+             	    kname:$("#kname").val(),
+             	    kdegree:$("#kdegree").val(),
+             	    kphone:$("#kphone").val(),
+            	    kemail:$("#kemail").val(),        	   
+            	    karea: $('#cityChoice3').html(),
+            	    kzip:$("#kzip").val(),
+            	    kstatus:$("#kstatus").val(),
+            	    ksource:$("#ksource").val(),
+            	    ktrade:$("#ktrade").val(),
+            	    ksize:$("#ksize").val(),
+             	    knext:$("#birthdate").val(),
+             	    kremark:$("#kremark").val(),
+             	    kfid:$("#kfid").val(),
+             	    kdept:$("#kdept").val(),
+                },      		   
+        		   datatype:'json',
+        		   contentType:"application/json;charset=utf-8",
+        		   success:function(data){
+        			    alert(data);
+                        if(data=="update succeed"||data=="insert succeed"){
+                        	 window.location.reload();
+                        }	   
+        		   }
+        	   })
+     	  });
+        	
             <!-- 日期选择器配置-->
             $('input[name="daterange"]').daterangepicker({
                 alwaysShowCalendar:true,
@@ -64,8 +172,124 @@
             });
         });
 
-    </script>
 
+        function getPage(currentPageno,s){    	
+            var pagesize = 6 ;     
+            var fid=$("#searchtext").val();
+            if(fid==""){
+          	  fid=0;
+            }
+            
+        	  $.ajax({
+        		type:"get",
+        		url:"/CRM/customersea/"+s+".action",
+        		data:{
+        			pageno:currentPageno,
+        			pagesize:pagesize,
+        			fid:$("#searchtext").val()
+        		},
+        		contentType:"application/json;charset=utf-8",
+        		dataType:'json',
+        		success:function(data){
+        	       var pagesize = 6 ;
+        	       var str = '' ;
+        			$.each(data.data,function(index,customer){
+        			    str += '<tr>' ;
+        				str += '<td><label><input type="checkbox" name="test" value='+customer.kid+'></label></td>'; 				
+        				str += '<td><a href="customer-details.html">'+customer.kname+'</td>';
+        				str += '<td>'+customer.karea+'</td>';
+        				str += '<td>'+customer.kphone+'</td>';
+        				str += '<td>'+customer.kremark+'</td>';       				
+        				str += '<td>'+customer.knext+'</td>';
+        				str += '<td>'+customer.kfid+'</td>';
+        			    str += '</tr>' ;
+        			})
+        			
+        			$('#customerlist').html(str);
+        			$('#pageno').html(data.currentPageno);
+      			$('#totalpage').html(data.totalPage);
+      			$('#totalNum').html(data.totalNum);
+        		}
+        	});
+        }
+          
+          
+          function deletes(){ 
+          	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+          	//取到对象数组后，我们来循环检测它是不是被选中 
+          	var s=''; 
+          	for(var i=0; i<obj.length; i++){ 
+          	if(obj[i].checked) 
+          	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+          	} 
+          	//那么现在来检测s的值就知道选中的复选框的值了 
+          	alert(s==''?'你还没有选择任何内容！':s);  	  
+          	  $.ajax({
+            		type:'get',
+            		url:'/CRM/customersea/delete.action',
+            	    data:{
+            	    	 s:s,
+            	    },
+            		contentType:"application/json;charset=utf-8",
+            		dataType:'json',
+            		success:function(data){     
+            			location.reload();
+            		}    				
+            	});
+          	} 
+          
+          
+          function update(){ 
+          	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+          	//取到对象数组后，我们来循环检测它是不是被选中 
+          	
+          	var s=''; 
+          	var a=0;
+          	for(var i=0; i<obj.length; i++){ 
+          	if(obj[i].checked) {
+          	 s+=obj[i].value;
+          	//如果选中，将value添加到变量s中 
+          	a++;
+          	} 
+          	}
+              if(a<=0){
+                  alert('请选择一条记录进行修改');
+              }
+              else if(a>=2){
+              	alert('请选择一条记录进行修改');
+              }else {
+              	$("#xiugai").attr("data-target","#addClue");
+
+              	$.ajax({
+                		type:'get',
+                		url:'/CRM/customersea/updateCustomer.action',
+                	    data:{
+                	    	 s:s,
+                	    },
+                		contentType:"application/json;charset=utf-8",
+                		dataType:'json',
+                		success:function(data){
+                			$("#kid").val(data.kid),           	
+                   	    $("#kname").val(data.kname),
+                   	    $("#kdegree").val(data.kdegree),
+                   	    $("#kphone").val(data.kphone),
+                  	    $("#kemail").val(data.kemail),        	   
+                  	    $('#cityChoice3').html(),
+                  	    $("#kzip").val(data.kzip),
+                  	    $("#kstatus").val(data.kstatus),
+                  	    $("#ksource").val(data.ksource),
+                  	    $("#ktrade").val(data.ktrade),
+                  	    $("#ksize").val(data.ksize),
+                   	    $("#birthdate").val(data.knext),
+                   	    $("#kremark").val(data.kremark),
+                   	    $("#kfid").val(data.kfid),
+                   	    $("#kdept").val(data.kdept)     			
+                		}
+                	});
+              	} 
+          }
+
+          </script>
 </head>
 
 <body>
@@ -395,11 +619,11 @@
                                     &nbsp;&nbsp;抢&nbsp;&nbsp;
                                 </button>
 
-                                <button type="button" class="btn btn-default" style="float: right" >
+                                <button type="button" class="btn btn-default" style="float: right" id="searchbutton" >
                                     搜索
                                 </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
+                                <input type="text" style="height: 35px;float: right" id="searchtext"/>
+                                <select class="btn btn-default" style="float: right" id="searchway">
                                     <option>请选择搜索方式</option>
                                     <option>按姓名查找</option>
                                     <option>按部门查找</option>
@@ -418,133 +642,8 @@
                             <th>前负责人</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Tanmay</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Sachin</td>
-                            <td>Mumbai</td>
-                            <td>400003</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td>Uma</td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
+                        <tbody id="customerlist">
+                      
                         </tbody>
                     </table>
                 </form>
