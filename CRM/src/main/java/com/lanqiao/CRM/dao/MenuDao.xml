@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.MenuDao">
+
+	<select id="getMenuByRole" parameterType="int" resultType="menu">
+		
+		select m.*  from role_menu r LEFT JOIN menu m
+		on r.menu_id = m.id
+		where role_id = #{id}
+		
+	</select>
+	
+	<select id="getAll" resultType="menu">
+		select * from menu
+	</select>
+	
+	<select id="getAllRole" resultType="role">
+		select * from role
+	</select>
+	
+	<insert id="saveFengpei" parameterType="map">
+		insert into role_user values(null,#{roleid},#{userid});
+	</insert>
+	
+</mapper>

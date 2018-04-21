@@ -1,19 +1,20 @@
 package com.lanqiao.CRM.entity;
 
 public class PICharge {
-	int pc_id;
-	String pc_name;
-	String pc_dept;
-	int role_id;
-	String pc_psd;
-	public int getRole_id() {
-		return role_id;
-	}
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
-	}
+	
+	private int pc_id;
+	private String pc_name;
+	private String pc_dept;
+	private int pc_role_id;
+	private String pc_psd;
 	
 	
+	public int getPc_role_id() {
+		return pc_role_id;
+	}
+	public void setPc_role_id(int pc_role_id) {
+		this.pc_role_id = pc_role_id;
+	}
 	public int getPc_id() {
 		return pc_id;
 	}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.RoleDao">
+
+
+	<select id="getAll"  resultType="role">
+		 select * from role		
+	</select>
+	
+	<select id = "get" resultType="role">
+		select * from role where id = #{id}
+	</select>
+	
+	
+
+	<delete id="delete" parameterType="int">
+		delete from role where id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="PICharge">
+		insert into person_in_charge values(null,#{pc_name},#{pc_dept},#{pc_psd},#{pc_role_id})
+	</insert>
+	
+	<update id="update" parameterType="PICharge">
+		update person_in_charge set pc_name = #{pc_name},
+						pc_dept = #{pc_dept},
+						pc_psd = #{pc_psd},
+						pc_role_id = #{pc_role_id},
+	    where pc_id = #{pc_id}
+	</update>
+	
+	<select id="getPage" parameterType="map" resultType="role">
+		
+		select * from role limit #{start},#{end}
+		
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		 select count(*) from role 
+	</select>
+	
+	<insert id="savePerm" parameterType="map">
+		insert into role_menu values(null,#{roleid},#{menuid})
+	</insert>
+
+</mapper>

@@ -123,7 +123,7 @@
 
      	    }) ;
      	   
-     	   
+     	   getMenu();
      	    
      	    $("#save").click(function(){
      	    	
@@ -239,7 +239,47 @@
             });
         });
 
-        
+        function getMenu(){
+        	
+        	  $.ajax({
+        		type:"get",
+        		url:"/CRM/menu/getMenuTreeByRole.action",
+        		data:{
+        			user:3
+        		},
+        		async: false,
+        		contentType:"application/json;charset=utf-8",
+        		dataType:'json',
+        		
+        		
+        		success:function(data){
+        	       var str = '' ;
+        	       
+        	       str += '<nav class="navbar-default navbar-side" role="navigation"><div class="sidebar-collapse">';
+        	       str += '<ul class="nav" id="main-menu"><li id="addMenu">';
+        	       str += '<a href="index.html"><i class="fa fa-home"></i> 首页</a></li>';
+        	       
+        			$.each(data,function(index,menuTree){
+        				str += '<li><a href="#"><i class="fa fa-sitemap"></i>'+menuTree.text+'<span class="fa arrow"></span></a>' ;
+        				str += '<ul class="nav nav-second-level">';
+        				$.each(menuTree.children,function(index,menu){
+            				str += '<li><a href="'+menu.url+'">'+menu.text+'</a></li>' ;
+            			})
+            			str += '</ul></li>';
+        			})
+        			alert(str);
+        	
+        			
+        			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+        			str += '</li></ul></div></nav>';
+        			
+        			$('#addMenu').html(str);
+
+        		
+        			
+        		}
+        	});
+        }
         
         function getPage(currentPageno,c){
         	
@@ -676,70 +716,7 @@
             </div><!-- /.modal -->
         </div>
         <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <li>
-                        <a href="index.html"><i class="fa fa-home"></i> 首页</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> 销售管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="active-menu" href="clue.html">线索</a>
-                            </li>
-                            <li>
-                                <a href="customer.html">客户</a>
-                            </li>
-                            <li>
-                                <a href="public-customers.html">客户公海</a>
-                            </li>
-                            <li>
-                                <a href="contacts.html">联系人</a>
-                            </li>
-                            <li>
-                                <a href="opportunity.html">机会</a>
-                            </li>
-                            <li>
-                                <a href="contract.html">合同</a>
-                            </li>
-                            <li>
-                                <a href="payment.html">回款</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-file"></i> 销售支持<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="product.html">产品</a>
-                            </li>
-                            <li>
-                                <a href="report.html">工作报告</a>
-                            </li>
-                            <li>
-                                <a href="knowledge.html">知识库</a>
-                            </li>
-                            <li>
-                                <a href="message.html">短信群发</a>
-                            </li>
-                            <li>
-                                <a href="reimbursement.html">费用报销</a>
-                            </li>
-                            <li>
-                                <a href="follow.html">跟进记录</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
+        <div id="addMenu"></div>
         <!-- /. NAV SIDE  -->
 
 		<div id="page-wrapper">
