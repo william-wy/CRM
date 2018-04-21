@@ -22,5 +22,8 @@ public interface ClueDao {
 	public int getTotalByXfid(String xfid);
 
 	public Area findById2(int id);
+	
+	public int getTotalBySome(Clue clue);
+	public List<Clue> findBySome(Map<String,Object> map);
 
 }

@@ -8,6 +8,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            select * from clue
     </select>
     
+    <select  id="getTotalBySome" parameterType="clue" resultType="int">
+           select count(*) from clue
+           <where>
+           <if test="xstatus!=null and xstatus!=''">
+               and xstatus=#{xstatus} 
+           </if>
+           <if test="xarea!=null and xarea!=''">
+               and xarea=#{xarea} 
+           </if>
+           <if test="xactual!=null and xactual!=''">
+               and ${xactual} 
+           </if>
+           <if test="xnext!=null and xnext!=''">
+               and ${xnext} 
+           </if>
+           <if test="xfid!=null and xfid!=''">
+               and xfid=#{xfid} 
+           </if>
+           <if test="xdeptno!=null and xdeptno!=''">
+               and xdeptno=#{xdeptno} 
+           </if>
+           <if test="xsource!=null and xsource!=''">
+               and xsource=#{xsource} 
+           </if>
+           </where>
+    </select>
+    
+    <select  id="findBySome" parameterType="map" resultType="clue">
+           select * from clue
+           <where>
+           <if test="clue.xstatus!=null and clue.xstatus!=''">
+               and xstatus=#{clue.xstatus} 
+           </if>
+           <if test="clue.xarea!=null and clue.xarea!=''">
+               and xarea=#{clue.xarea} 
+           </if>
+           <if test="clue.xactual!=null and clue.xactual!=''">
+               and ${clue.xactual} 
+           </if>
+           <if test="clue.xnext!=null and clue.xnext!=''">
+               and ${clue.xnext} 
+           </if>
+           <if test="clue.xfid!=null and clue.xfid!=''">
+               and xfid=#{clue.xfid} 
+           </if>
+           <if test="clue.xdeptno!=null and clue.xdeptno!=''">
+               and xdeptno=#{clue.xdeptno} 
+           </if>
+           <if test="clue.xsource!=null and clue.xsource!=''">
+               and xsource=#{clue.xsource} 
+           </if>
+           </where>
+           limit #{start},#{end}
+    </select>
+    
     <select id="findById" parameterType="int" resultType="clue" >
              select * from clue where xid=#{xid}
     </select>

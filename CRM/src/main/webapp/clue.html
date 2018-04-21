@@ -27,29 +27,34 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-    var s="all";
+    
         $(function() {
         	var xid;
             var currentPageno =1 ;
+            
+            var url=window.location.href;
+        	
+        	var c=url.split("?")[1];
+
            
-            getPage(currentPageno,s);
+            getPage(currentPageno,c);
             $("#a1").click(function(){
                 if(currentPageno<=1){
              	   
-             	   getPage(1,s);
+             	   getPage(1,c);
                 }else{
              	   
-      		     getPage(--currentPageno,s);
+      		     getPage(--currentPageno,c);
       		   }
       		});
       	    $('#a2').bind("click", function(){
       	    	  var b=$("#totalpage").html();
       	    	  if(currentPageno>=b){alert("大于页数了")
-      	    		 getPage(b,s);
+      	    		 getPage(b,c);
       	    	  }
       		      
       		      else{
-      		    	 getPage(++currentPageno,s);
+      		    	 getPage(++currentPageno,c);
       		      }
       		   });
             
@@ -105,11 +110,11 @@
      	    	}else if($("#searchway").val()=='2'){
      	    		var s=$("#searchtext").val();
      	    		if(s==""){
-     	    			 s="all";
-     	    			 getPage(currentPageno,s);
+     	    			
+     	    			window.location.href="http://localhost:8080/CRM/clue.html?ssly=all";
      	    		}else {
-     	    			 s="ByXfid";
-     	    			 getPage(currentPageno,s);
+     	    			 
+     	    			window.location.href="http://localhost:8080/CRM/clue.html?ssly="+s;
      	    			
      	    		}
      	    	}else if($("#searchway").val()=='3'){
@@ -223,6 +228,10 @@
                     "cancelLabel": "取消"
                 }
             });
+            $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+            	  alert(picker.startDate.format('YYYY-MM-DD'));
+            	  alert(picker.endDate.format('YYYY-MM-DD'));
+            	});
             <!-- 保存按钮点击事件-->
             $("button[name='save']").click(function(){
                 alert("保存成功");
@@ -232,7 +241,7 @@
 
         
         
-        function getPage(currentPageno,s){
+        function getPage(currentPageno,c){
         	
           var pagesize = 6 ;
           
@@ -243,7 +252,7 @@
           
       	  $.ajax({
       		type:"get",
-      		url:"/CRM/clue/"+s+".action",
+      		url:"/CRM/clue/findBySome.action?"+c,
       		data:{
       			pageno:currentPageno,
       			pagesize:pagesize,
@@ -585,8 +594,6 @@
                                     <option value="2">联系方式有效</option>
                                     <option value="3">联系方式无效</option>
                                     <option value="4">关闭</option>
-                                    <option value="5">100-500人</option>
-                                    <option value="6">500人以上</option>
                                 </select>
                             </div>
                             <br>
@@ -771,17 +778,18 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>线索状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="未处理">
-                                <input type="button" class="btn btn-default" value="联系方式有效">
-                                <input type="button" class="btn btn-default" value="联系方式无效">
-                                <input type="button" class="btn btn-default" value="关闭">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xszt=all")' value="全部">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xszt=未处理")' value="未处理">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xszt=联系方式有效")' value="联系方式有效">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xszt=联系方式无效")' value="联系方式无效">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xszt=关闭")' value="关闭">
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?dq=all")' value="全部">
                                 <input type="text" id="cityChoice" class="btn btn-default" value="请选择城市" style="text-align: left">
                                 <input type="hidden" id="province" value="">
                                 <input type="hidden" id="city" value="">
@@ -790,40 +798,40 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>实际跟进时间：&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="今天">
-                                <input type="button" class="btn btn-default" value="昨天">
-                                <input type="button" class="btn btn-default" value="本周">
-                                <input type="button" class="btn btn-default" value="上周">
-                                <input type="button" class="btn btn-default" value="本月">
-                                <input type="button" class="btn btn-default" value="上月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=all")' value="全部">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(xactual=curdate())")' value="今天">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(to_days( now( ) ) - to_days( xactual) = 1)")' value="昨天">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(week(xactual)=week(curdate())")' value="本周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(week(xactual)=week(curdate())-1")' value="上周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(month(xactual)=month(curdate())")' value="本月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(month(xactual)=month(curdate())-1")' value="上月">
                                 <input type="text" class="btn btn-default" name="daterange" value="" />
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>下次跟进时间：&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="无">
-                                <input type="button" class="btn btn-default" value="今天">
-                                <input type="button" class="btn btn-default" value="明天">
-                                <input type="button" class="btn btn-default" value="本周">
-                                <input type="button" class="btn btn-default" value="下周">
-                                <input type="button" class="btn btn-default" value="本月">
-                                <input type="button" class="btn btn-default" value="下月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=all")' value="全部">
+                                
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(xnext=curdate())")' value="今天">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=()")' value="明天">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(week(xnext)=week(curdate())")' value="本周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(week(xnext)=week(curdate())+1")' value="下周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(month(xnext)=month(curdate())")' value="本月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(month(xnext)=month(curdate())+1)")' value="下月">
                                 <input type="text" class="btn btn-default" name="daterange" value="" />
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                <span>创建人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择用户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其他</option>
+                                <select class="btn btn-default" style="float: left" onchange="window.location=this.value;">
+                                    <option value="http://localhost:8080/CRM/clue.html?fzr=all">请选择用户</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?fzr=张三">张三</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?fzr=李四">李四</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?fzr=其他">其他</option>
                                 </select>
                             </div>
                         </div>
@@ -831,26 +839,15 @@
                             <div class="panel-body">
                                 <div style="float: left">
                                 <span>所属部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择部门</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其他</option>
+                                <select class="btn btn-default" style="float: left" onchange="window.location=this.value;">
+                                    <option value="http://localhost:8080/CRM/clue.html?ssbm=all">请选择部门</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?ssbm=销售部">销售部</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?ssbm=营销部">营销部</option>
+                                    <option value="http://localhost:8080/CRM/clue.html?ssbm=其他">其他</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <div style="float: left">
-                             <span>前负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
-                                    <option>请选择用户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其他</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <!-- 我的线索-->
                     <div class="tab-pane fade" id="myClue">
@@ -999,7 +996,7 @@
 
                 <!--数据（从数据库中读取）-->
                 <form action="">
-                    <table class="table table-striped">
+                    <table class="table table-striped" style="text-align:center">
                         <caption>
                             <div>
                                 <span style="float: left">已选0条线索&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -1019,20 +1016,20 @@
                                 <select class="btn btn-default" style="float: right"  id="searchway">
                                     <option>请选择搜索方式</option>
                                     <option value="1">按姓名查找</option>
-                                    <option value="2">按部门查找</option>
+                                    <option value="2">按线索来源查找</option>
                                     <option value="3">其他</option>
                                 </select>
                             </div>
                         </caption>
                         <thead>
                         <tr>
-                            <th>选择</th>
-                            <th>姓名</th>
-                            <th>公司名称</th>
-                            <th>线索来源</th>
-                            <th>实际跟进时间</th>
-                            <th>下次跟进时间</th>
-                            <th>负责人</th>
+                            <th style="text-align:center">选择</th>
+                            <th style="text-align:center">姓名</th>
+                            <th style="text-align:center">公司名称</th>
+                            <th style="text-align:center">线索来源</th>
+                            <th style="text-align:center">实际跟进时间</th>
+                            <th style="text-align:center">下次跟进时间</th>
+                            <th style="text-align:center">负责人</th>
                            
                         </tr>
                         </thead>
@@ -1096,6 +1093,7 @@
             hideProvinceInput: '#province',
             callback: function(city_id){
                 $('#cityChoice').val(city_id);
+                window.location.href="http://localhost:8080/CRM/clue.html?dq="+city_id;
               
             }
         

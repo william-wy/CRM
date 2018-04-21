@@ -19,7 +19,9 @@ import com.lanqiao.CRM.utils.PageUtil;
 @RequestMapping("/clue")
 public class ClueAction {
      @Autowired
-	private ClueService clueService;
+	 private ClueService clueService;
+     
+     String[] some=new String[7];
 
 
 	@RequestMapping(value="/all.action",method= {RequestMethod.POST,RequestMethod.GET})
@@ -110,6 +112,77 @@ public class ClueAction {
 			Clue clue=clueService.findById(xid);
 			clue.setXarea(clueService.findById2(Integer.parseInt(clue.getXarea())).getName());
 			return clue;   
+	}
+	
+	@RequestMapping(value="/findBySome.action",method= {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody  PageUtil findBySome(int pageno,int pagesize,String xszt,String dq,String sjgj,String xcgj,String fzr,String ssbm,String ssly) throws Exception{
+         
+		if(xszt!=null&&!xszt.equals("")) {
+			if(xszt.equals("all")) {
+				some[0]=null;
+			}else {
+				some[0]=xszt;
+			}
+		}
+		if(dq!=null&&!dq.equals("")) {
+			if(dq.equals("all")) {
+				some[1]=null;
+			}else {
+				some[1]=dq;
+			}
+		}
+		if(sjgj!=null&&!sjgj.equals("")) {
+			if(sjgj.equals("all")) {
+				some[2]=null;
+			}else {
+				some[2]=sjgj;
+			}
+		}
+		if(xcgj!=null&&!xcgj.equals("")) {
+			if(xcgj.equals("all")) {
+				some[3]=null;
+			}else {
+				some[3]=xcgj;
+			}
+		}
+		if(fzr!=null&&!fzr.equals("")) {
+			if(fzr.equals("all")) {
+				some[4]=null;
+			}else {
+				some[4]=fzr;
+			}
+		}
+		if(ssbm!=null&&!ssbm.equals("")) {
+			if(ssbm.equals("all")) {
+				some[5]=null;
+			}else {
+				some[5]=ssbm;
+			}
+		}
+		if(ssly!=null&&!ssly.equals("")) {
+			if(ssly.equals("all")) {
+				some[6]=null;
+			}else {
+				some[6]=ssly;
+			}
+		}
+		
+		Clue clue=new Clue();
+		clue.setXstatus(some[0]);
+		clue.setXarea(some[1]);
+		clue.setXactual(some[2]);
+		clue.setXnext(some[3]);
+		clue.setXfid(some[4]);
+		clue.setXdeptno(some[5]);
+		clue.setXsource(some[6]);
+		
+		for(String s:some) {
+			System.out.println(s);
+		}
+		
+         PageUtil page=clueService.findBySome(pageno, pagesize, clue);
+                 
+		 return page; 
 	}
 	
 }

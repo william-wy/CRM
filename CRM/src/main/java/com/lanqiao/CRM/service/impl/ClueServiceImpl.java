@@ -131,6 +131,36 @@ public class ClueServiceImpl implements ClueService{
 		return clueDao.findById2(id);
 	}
 
+	@Override
+	public PageUtil findBySome(int pageno, int pagesize, Clue clue) {
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+        PageUtil  page=new PageUtil();
+        
+		int total=clueDao.getTotalBySome(clue);
+		int pageTotal=(total%pagesize==0)?total/pagesize:total/pagesize+1;
+		if(pageno>pageTotal) {
+			pageno=pageTotal;
+		}
+		if(pageno<=0) {
+			pageno=1;
+		}
+		
+		map.put("start",(pageno-1)*pagesize);
+		map.put("end", pagesize);
+		map.put("clue", clue);
+
+		List list=clueDao.findBySome(map);
+	    
+		page.setData(list);
+		page.setTotalNum(total);
+		page.setTotalPage(pageTotal);
+		page.setCurrentPageno(pageno);
+
+		return page;
+		
+	}
+
 	
 
 }

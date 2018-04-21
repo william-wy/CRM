@@ -24,5 +24,7 @@ public interface ClueService {
 
 
 	public Area findById2(int id);
+	
+	public PageUtil findBySome(int pageno, int pagesize,Clue clue);
 
 }

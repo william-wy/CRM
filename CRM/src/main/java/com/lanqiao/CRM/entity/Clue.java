@@ -1,23 +1,23 @@
 package com.lanqiao.CRM.entity;
 
-import java.util.Date;
-
 public class Clue {
-private int xid;
-private String xname;
-private String xcomname;
-private String xdeptno;
-String xjob;
-String xphone;
-String xemail;
-String xarea;
-int xzip;
-String xstatus;
-String xsource;
-String xnext;
-String xactual;
-String xremark;
-String xfid;
+	
+	private int xid;
+	private String xname;
+	private String xcomname;
+	private String xdeptno;
+	private String xjob;
+	private String xphone;
+	private String xemail;
+	private String xarea;
+	private int xzip;
+	private String xstatus;
+	private String xsource;
+	private String xnext;
+	private String xactual;
+	private String xremark;
+	private String xfid;
+
 public int getXid() {
 	return xid;
 }
