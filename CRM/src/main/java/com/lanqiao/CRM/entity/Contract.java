@@ -24,6 +24,15 @@ public class Contract {
 	String remark;
 	String hfname;
 	int deptno;
+	
+	private String taskID;
+	
+	public String getTaskID() {
+		return taskID;
+	}
+	public void setTaskID(String taskID) {
+		this.taskID = taskID;
+	}
 	public int getHid() {
 		return hid;
 	}

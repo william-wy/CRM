@@ -7,15 +7,23 @@
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="exclusivegateway1"></sequenceFlow>
     <userTask id="usertask2" name="调整合同信息"></userTask>
-    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="usertask2" skipExpression="#{flag=&quot;no&quot;}"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="usertask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{flag="no"}]]></conditionExpression>
+    </sequenceFlow>
     <userTask id="usertask3" name="合同签订执行"></userTask>
-    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="usertask3" skipExpression="#{flag=&quot;yes&quot;}"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="usertask3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{flag="yes"}]]></conditionExpression>
+    </sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow5" sourceRef="usertask3" targetRef="endevent1"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow6" sourceRef="usertask2" targetRef="exclusivegateway2"></sequenceFlow>
-    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="usertask1" skipExpression="#{back=&quot;yes&quot;}"></sequenceFlow>
-    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="endevent1" skipExpression="#{back=&quot;no&quot;}"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{back="yes"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{back="no"}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
     <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">

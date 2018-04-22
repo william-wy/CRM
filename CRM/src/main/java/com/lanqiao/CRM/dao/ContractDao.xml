@@ -12,6 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from contract where hid =
 		#{hid}
 	</select>
+	
+	<select id="getBusiness" resultType="Contract">
+		select * from contract where hstate =
+		#{hstatus} and pc_id=#{pc_id}
+	</select>
 
 	<delete id="delete" parameterType="int">
 		delete from contract where hid
@@ -52,6 +57,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		remark = #{remark},
 		hfname = #{hfname},
 		deptno = #{deptno}
+		where hid = #{hid}
+	</update>
+	
+	<update id="updateStatus" parameterType="Contract">
+		update contract set 
+		
+		hstate = #{hstate},
+		
 		where hid = #{hid}
 	</update>
 

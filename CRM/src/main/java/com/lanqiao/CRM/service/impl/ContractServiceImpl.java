@@ -89,4 +89,25 @@ public class ContractServiceImpl implements ContractService{
 		return null;
 	}
 
+	@Override
+	public void updateStatus(String hstatus) {
+		
+		dao.updateStatus(hstatus);
+		
+	}
+
+	@Override
+	public Contract getContract(String hstatus) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Contract getBusiness(int pc_id, String hstatus) {
+		
+		
+		return dao.getBusiness(pc_id, hstatus);
+		
+	}
+
 }
