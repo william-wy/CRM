@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ContactsDao">    
+
+    <select  id="findAll" resultType="contacts">
+           select * from contacts
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="contacts" >
+             select * from contacts where l_id=#{l_id}
+    </select>
+  
+   <select id="findByL_Name" parameterType="String" resultType="contacts">
+           select * from contacts where l_name=#{l_name}
+   </select>
+  
+    <select id="findByL_fdeptno" parameterType="map" resultType="contacts">
+         select * from (select * from contacts where l_fdeptno=#{l_fdeptno}) aa limit #{start},#{end}
+     </select>
+   
+   
+     <select id="getPage" parameterType="map" resultType="contacts">
+         select *from contacts limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from contacts
+	</select>
+	
+	 <select id="getTotalByL_fdeptno"  parameterType="String" resultType="int">
+		 select count(*) from contacts where l_fdeptno=#{l_fdeptno}
+	</select>
+	
+	<insert id="insert" parameterType="contacts" >
+	    insert into contacts values(null,#{l_name},#{l_com_name},#{l_deptno},#{l_job},#{l_phone},#{l_email},#{l_area},#{l_address},#{l_zip},#{l_remark},#{l_fname},#{l_fdeptno})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from contacts where l_id in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="l_id" separator="," close=")">#{l_id}</foreach>
+   </delete>
+	
+	
+	<update id="update" parameterType="contacts">
+	    update contacts set l_name=#{l_name},
+	                    l_com_name=#{l_com_name},
+	                    l_deptno=#{l_deptno},
+	                    l_job=#{l_job},
+	                    l_phone=#{l_phone},
+	                    l_email=#{l_email},
+	                    l_area=#{l_area},
+	                    l_address=#{l_address},
+	                    l_zip=#{l_zip},
+	                    l_remark=#{l_remark},
+	                    l_fname=#{l_fname},
+	                    l_fdeptno=#{l_fdeptno}
+	                    where l_id=#{l_id}
+	</update>
+	<select id="findById2"  parameterType="int" resultType="area">
+	         select * from area where id=#{id}
+	</select>
+	
+	
+ </mapper>

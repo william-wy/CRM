@@ -27,7 +27,161 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
+    $(function() {
+    	var url=window.location.href;
+    	var c=url.split("?")[1];
+    	var cid=c.split("=")[1];
+    	var contacts;
+    	
+    	//显示信息
+    	$.ajax({
+    	   type:"get",
+			   url:"/CRM/contacts/findByL_id.action",
+			   data:{l_id:cid},
+		       datatype:'json',
+	           contentType:"application/json;charset=utf-8",
+	           success:function(data){
+	        	   
+	        	   contacts=data.l_name;
+	        	    
+	        	    $("#contacts1").val(data.l_name);
+	        	    $("#l_name1").html(data.l_name),
+            	    $("#l_com_name1").html(data.l_com_name),
+            	    $("#l_deptno1").html(data.l_deptno),
+            	    $("#l_job1").html(data.l_job),
+            	    $("#l_phone1").html(data.l_phone),
+            	    $("#l_email1").html(data.l_email),
+            	    $("#l_area1").html(data.l_area),
+            	    $("#l_address1").html(data.l_address),
+            	    $("#l_zip1").html(data.l_zip),
+            	    $("#l_remark1").html(data.l_remark),
+            	    $("#l_fname1").html(data.l_fname),
+            	    $("#l_fdeptno1").html(data.l_fdeptno)
+	           }
+    	});
+    	
+    	//显示销售动态
+    	$.ajax({
+     	   type:"get",
+			   url:"/CRM/contactsgenjin/findByContacts.action",
+			   data:{contacts:contacts},
+		       datatype:'json',
+		           contentType:"application/json;charset=utf-8",
+		           success:function(data){
+		        	   
+		        	   var str="";
+		        	  $.each(data,function(index,contacts){
+		        		  str+="<br/><div class='panel panel-success' ><div class='panel-heading'>";
+		        		  str+=" <h3 class='panel-title' style='text-align:left'>04/13/2018 12:00 AM</h3>";
+		        		  str+="</div>";
+		        		  str+="<div class='panel-body' style='text-align: center' >";
+		        		  str+="<h4><i class='fa fa-user fa-fw'></i >"+contacts.fname+"</h4>";
+		        		  str+="<h4 >跟进方式："+contacts.way+"</h4>";
+		        		  str+="<h4 >跟进内容："+contacts.content+"</h4>";
+		        		  str+="<h4 style='text-align: right'>来自线索 <a>"+contacts.contacts+"</a></h4>";
+		        		  str+="</div></div><br/>";
+        			}); 
+        			$("#xiaoshou").html(str);
+		           }
+     	});
+    	
+    	//点击编辑按钮事件
+    	$("#edit").click(
+    			function update(){ 
+                	
+                	$("#edit").attr("data-target","#addContacts");
+     
+                	$.ajax({
+                  		type:'get',
+                  		url:'/CRM/contacts/updateContacts.action',
+                  	    data:{
+                  	    	 s:cid
+                  	    },
+                  		contentType:"application/json;charset=utf-8",
+                  		dataType:'json',
+                  		success:function(data){
+                  			
+                  			$("#l_id").val(data.l_id),
+                      	    $("#l_name").val(data.l_name),
+                      	    $("#l_com_name").val(data.l_com_name),
+                      	    $("#l_deptno").val(data.l_deptno),
+                      	    $("#l_job").val(data.l_job),
+                      	    $("#l_phone").val(data.l_phone),
+                      	    $("#l_email").val(data.l_email),
+                      	   
+                      	    $("#l_area").val(data.l_area),
+                      	    $("#l_address").val(data.l_address),
+                      	    $("#l_zip").val(data.l_zip),
+                      	    $("#l_remark").val(data.l_remark),
+                      	    $("#l_fname").val(data.l_fname),
+                      	    $("#l_fdeptno").val(data.l_fdeptno)
+ 
+                  		}
+                  	});
+                	} 
+    	)
+    	
+    	
+    	//点击保存信息
+   	 $("#save").click(function(){
+	    	
+		  $.ajax({
+   		   type:'get',
+   		   url:"/CRM/contacts/saveContacts.action",
+              data:{
+            	  id:$("#l_id").val(),
+              	l_name:$("#l_name").val(),
+              	l_com_name:$("#l_com_name").val(),
+              	l_deptno:$("#l_deptno").val(),
+              	l_job:$("#l_job").val(),
+              	l_phone:$("#l_phone").val(),
+              	l_email:$("#l_email").val(),
+              	
+              	l_area:$('#cityChoice3').html(),
+              	l_address:$("#l_address").val(),
+              	l_zip:$("#l_zip").val(),
+              	l_remark:$("#l_remark").val(),
+              	l_fname:$("#l_fname").val(),
+              	l_fdeptno:$("#l_fdeptno").val(),
+           },      		   
+   		   datatype:'json',
+   		   contentType:"application/json;charset=utf-8",
+   		   success:function(data){
+   			    alert(data);
+                   if(data=="update succeed"||data=="insert succeed"){
+                   	 window.location.reload();
+                   }  
+   		   }
+   	   })
+	  });
+    	
+    	//保存跟进
+    	$("#saveGenJin").click(function(){
+            $("#contacts1").val(contacts);
+ 	    	
+   		  $.ajax({
+      		   type:'get',
+      		   url:"/CRM/contactsgenjin/save.action",
+               data:{
+           	    way:$("#way1").val(),
+           	    time:$("#time1").val(),
+           	    content:$("#content1").val(),
+           	    contacts:$("#contacts1").val(),
+           	    status:$("#status1").val(),
+           	    next:$("#next1").val(),
+           	    fname:$("#fname1").val()
+              },      		   
+      		   datatype:'json',
+      		   contentType:"application/json;charset=utf-8",
+      		   success:function(data){
+      			    alert(data);
+                      if(data=="insert succeed"){
+                      	 window.location.reload();
+                      }  
+      		   }
+      	   })
+   	  });
+        
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -376,78 +530,95 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--新增跟进-->
-        <div class="modal fade" id="addgenjin" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+         <!--新增联系人-->
+        <div class="modal fade" id="addContacts" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title" id="addClueLabel">
-                            新增跟进
+                        <h4 class="modal-title" id="addContactsLabel">
+                            新增联系人
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
-                                <span class="input-group-addon">跟进方式：</span>
-                                <select class="form-control">
-                                    <option>电话</option>
-                                    <option>QQ</option>
-                                    <option>微信</option>
-                                    <option>当面拜访</option>
-                                    <option>其它</option>
-                                </select>
+                                  
+        <form  method="post" enctype="multipart/form-data">
+                           <div class="input-group">
+                                <span class="input-group-addon">联系人ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_id"  name="l_id" readonly/>
+                              
+                            </div>
+	                       <div class="input-group">
+                                <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_name"  name="l_name"/>
+                              
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">跟进时间：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <span class="input-group-addon">公司名称：</span>
+                                <input type="text" class="form-control"  id="l_com_name"   name="l_com_name">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">跟进内容：</span>
-                                <textarea class="form-control" rows="5"></textarea>
+                                <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_deptno"  name="l_deptno">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="祥美化工" disabled>
+                                <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_job"  name="l_job">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">跟进状态：</span>
-                                <select class="form-control">
-                                    <option>初步接触</option>
-                                    <option selected>意向客户</option>
-                                    <option>报价客户</option>
-                                    <option>成交客户</option>
-                                    <option>搁置客户</option>
-                                </select>
+                                <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_phone"  name="l_phone">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择联系人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
-                                </select>
+                                <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" placeholder="" id="l_email"  name="l_email">
+                            </div>
+                            <br> 
+                             <div class="input-group">
+                                <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市" id="l_area"  name="l_area">
+                                <input type="hidden" id="province3" value="">
+                                <input type="hidden" id="city3" value="">
+                            </div>
+                            <br> 
+                             <div class="input-group">
+                                <span class="input-group-addon">地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_address"  name="l_address"/>
+                            </div>
+                            <br>
+                        <div class="input-group">
+                                <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_zip"  name="l_zip"/>
+                            </div>
+                            <br>
+                           <div class="input-group">
+                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_remark"  name="l_remark"/>
+                            </div>
+                            <br>
+                           <div class="input-group">
+                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_fname"  name="l_fname"/>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <span class="input-group-addon">负责人部门：</span>
+                                <input type="text" class="form-control" id="l_fdeptno"  name="l_fdeptno"  />
                             </div>
-                        </form>
-
+                
+         </form>	
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save">
                             保存
                         </button>
                     </div>
@@ -455,7 +626,7 @@
             </div><!-- /.modal -->
         </div>
         <!--新增联系人-->
-        <div class="modal fade" id="addcontact" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <div class="modal fade" id="addcontacts" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -535,6 +706,73 @@
                     <div class="modal-footer">
 
                         <button type="button" class="btn btn-primary" name="save">
+                            保存
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!--新增跟进-->
+        <div class="modal fade" id="addgenjin" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="addContactsLabel">
+                            新增跟进
+                        </h4>
+                    </div>
+                    <div class="modal-body text-center pre-scrollable">
+
+                        <form class="bs-example bs-example-form" role="form">
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进方式：</span>
+                                <select class="form-control">
+                                    <option>电话</option>
+                                    <option>QQ</option>
+                                    <option>微信</option>
+                                    <option>当面拜访</option>
+                                    <option>其它</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进时间：</span>
+                                <input type="text" class="form-control" name="birthdate" value=""  />
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进内容：</span>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">线索：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" id="contacts1" disabled>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">跟进状态：</span>
+                                <select class="form-control">
+                                    <option>未处理</option>
+                                    <option selected>联系方式有效</option>
+                                    <option>联系方式无效</option>
+                                    <option>关闭</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">下次跟进：</span>
+                                <input type="text" class="form-control" name="birthdate" value=""  />
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-primary"  id="saveGenJin">
                             保存
                         </button>
                     </div>
@@ -652,7 +890,7 @@
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addopp">
                         <i class="fa fa-folder fa-fw"></i>添加机会
                     </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addcontact">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addcontacts">
                         <i class="fa fa-pencil fa-fw"></i>编辑
                     </button>
                     <button type="button" class="btn btn-default">
@@ -671,18 +909,18 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#allClue" data-toggle="tab">
+                        <a href="#allContacts" data-toggle="tab">
                             基本信息
                         </a>
                     </li>
-                    <li><a href="#contact" data-toggle="tab">相关联系人</a></li>
+                    <li><a href="#contacts" data-toggle="tab">相关联系人</a></li>
                     <li><a href="#opportunity" data-toggle="tab">机会</a></li>
                     <li><a href="#journal" data-toggle="tab">操作日志</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
                     <!-- 基本信息  -->
-                    <div class="tab-pane fade in active text-left" id="allClue">
+                    <div class="tab-pane fade in active text-left" id="allContacts">
                         <div class="row clearfix">
                             <div class="col-md-6 column" >
                                 <div class="panel panel-info">
@@ -691,10 +929,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">姓名：</td><td>周桂莲</td></tr>
-                                            <tr><td>对应客户：</td><td>青云超市</td></tr>
-                                            <tr><td>对应客户：</td><td>------</td></tr>
-                                            <tr><td>对应客户：</td><td>------</td></tr>
+                                             <tr><td width="20%">姓名：</td><td id="l_name1"></td></tr>
+                                            <tr><td>公司名称：</td><td id="l_com_name1"></td></tr>
+                                            <tr><td>部门：</td><td id="l_deptno1"></td></tr>
+                                            <tr><td>职务：</td><td id="l_job1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -704,10 +942,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">电话：</td><td>485645</td></tr>
-                                            <tr><td>邮箱：</td><td>46415685@qq.com</td></tr>
-                                            <tr><td>地区：</td><td>地方</td></tr>
-                                            <tr><td>邮编：</td><td>15645</td></tr>
+                                             <tr><td width="20%">电话：</td><td id="l_phone1"></td></tr>
+                                            <tr><td>邮箱：</td><td id="l_email1"></td></tr>
+                                            <tr><td>地区：</td><td id="l_area1"></td></tr>
+                                            <tr><td>邮编：</td><td id="l_zip1"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -717,9 +955,8 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">性别：</td><td>男</td></tr>
-                                            <tr><td>生日：</td><td>2018-04-22</td></tr>
-                                            <tr><td>备注：</td><td>-------</td></tr>
+                                             <tr><td width="20%">备注：</td><td id="l_remark1"></td></tr>
+                                        
                                         </table>
                                     </div>
                                 </div>
@@ -729,9 +966,8 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">创建人：</td><td>张三</td></tr>
-                                            <tr><td>创建时间：</td><td>2018-04-22</td></tr>
-                                            <tr><td>更新于：</td><td>2018-04-22</td></tr>
+                                           <tr><td width="20%">负责人：</td><td id="l_fname1"></td></tr>
+                                           <tr><td>负责人部门：</td><td id="l_fdeptno1"></td></tr>
                                         </table>
                                     </div>
                                 </div>

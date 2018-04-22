@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ContactsGenJinDao">    
+     <select id="findByContacts" parameterType="String" resultType="ContactsGenJin">
+         select * from contactsgenjin  where contacts=#{contacts}
+     </select>
+     
+     <select id="insert" parameterType="ContactsGenJin">
+         insert  into  contactsgenjin values (null,#{way},#{time},#{content},#{contacts},#{status},#{next},#{fname} )
+     </select>
+     
+     
+ </mapper>

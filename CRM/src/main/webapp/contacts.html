@@ -27,7 +27,121 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
+    var s="all";
+    $(function() {
+    	var l_id;
+        var currentPageno =1 ;
+        
+    	
+        getPage(currentPageno,s);
+
+        $("#a1").click(function(){
+            if(currentPageno<=1){
+ 
+         	   getPage(1,s);
+            }else{
+  
+  		     getPage(--currentPageno,s);
+  		   }
+  		});
+  	    $('#a2').bind("click", function(){
+
+  		      getPage(++currentPageno,s);
+  		   });
+        
+ 	    $("#searchbutton").click(function(){
+ 	    	$('#a1').unbind('click').click(function(){
+ 	    		 if(currentPageno<=1){
+ 	             	   getPage(1,s);
+ 	                }else{
+ 	      		     getPage(--currentPageno,s);
+ 	      		   }
+      		   });
+      	    $('#a2').unbind('click').click(function(){
+      		      getPage(++currentPageno,s);
+      		   });
+ 	    	
+ 	    	if($("#searchway").val()=='1'){	    	   
+ 	    	   var s=$("#searchtext").val();
+ 	    	   if(s==""){	    		  
+ 	    		   getPage(currentPageno,s);
+ 	    	   }
+ 	    	   else {
+ 	    		   $.ajax({
+ 	    			   type:"get",
+ 	    			   url:"/CRM/contacts/findByL_name.action",
+ 	    			   data:{s:s},
+ 	    		       datatype:'json',
+       		           contentType:"application/json;charset=utf-8",
+       		           success:function(data){
+       		        	var str = '' ;  
+       		        	str += '<tr>' ;
+          				str += '<td><label><input type="checkbox" name="test" value='+data.l_id+'></label></td>';
+          				str += '<td><a href="contacts-details.html">'+data.l_name+'</td>';
+          				str += '<td>'+data.l_phone+'</td>';
+          				str += '<td>'+data.l_email+'</td>';
+          				str += '<td>'+data.l_address+'</td>';
+          				str += '<td>'+data.l_zip+'</td>';
+          				str += '<td>'+data.l_fname+'</td>';
+          			    str += '</tr>' ;
+          			    
+          			    $('#contactslist').html(str);
+          			    $('#pageno').html("");
+          			    $('#totalpage').html("");
+          			    $('#totalNum').html("");
+            		 
+       		           }
+ 	    		   })
+ 	    	   }
+ 	    	}else if($("#searchway").val()=='2'){
+ 	    		var s=$("#searchtext").val();
+ 	    		if(s==""){
+ 	    			s="all";
+ 	    			 getPage(currentPageno,s);
+ 	    		}else {
+ 	    			 s="ByL_fdeptno";
+ 	    			 getPage(currentPageno,s);
+ 	    			alert(s);
+ 	    		}
+ 	    	}else if($("#searchway").val()=='3'){	    		
+ 	    	}
+ 	    }) ;
+ 
+ 	    $("#save").click(function(){
+ 	    	
+ 		  $.ajax({
+    		   type:'get',
+    		   url:"/CRM/contacts/saveContacts.action",   		   
+               data:{
+            	id:$("#l_id").val(),
+            	l_name:$("#l_name").val(),
+            	l_com_name:$("#l_com_name").val(),
+            	l_deptno:$("#l_deptno").val(),
+            	l_job:$("#l_job").val(),
+            	l_phone:$("#l_phone").val(),
+            	l_email:$("#l_email").val(),
+            	
+            	l_area:$('#cityChoice3').html(),
+            	l_address:$("#l_address").val(),
+            	l_zip:$("#l_zip").val(),
+            	l_remark:$("#l_remark").val(),
+            	l_fname:$("#l_fname").val(),
+            	l_fdeptno:$("#l_fdeptno").val(),
+            },      		
+    		   datatype:'json',
+    		   contentType:"application/json;charset=utf-8",
+    		   success:function(data){
+    			    alert(data);
+                    if(data=="update succeed"||data=="insert succeed"){
+                    	 window.location.reload();
+                    }
+    		       
+    			   
+    		   }
+    	   })
+ 	  });
+ 	    
+        
             <!-- 日期选择器配置-->
             $('#birthdate').daterangepicker({
                 autoUpdateInput:true,
@@ -100,7 +214,124 @@
                 location.reload();
             });
         });
-
+    
+   
+        function getPage(currentPageno,s){
+        	
+            var pagesize = 6 ;
+            
+            var fid=$("#searchtext").val();
+            if(fid==""){
+          	  fid=0;
+            }
+            
+        	  $.ajax({
+        		type:"get",
+        		url:"/CRM/contacts/"+s+".action",
+        		data:{
+        			pageno:currentPageno,
+        			pagesize:pagesize,
+        			fid:$("#searchtext").val()
+        		},
+        		contentType:"application/json;charset=utf-8",
+        		dataType:'json',
+        		success:function(data){
+        	       var pagesize = 6 ;
+        	       var str = '' ;
+        			$.each(data.data,function(index,contacts){
+        				str += '<tr>' ;
+          				str += '<td><label><input type="checkbox" name="test" value='+contacts.l_id+'></label></td>';
+          				str += '<td><a href="contacts-details.html?l_id='+contacts.l_id+'">'+contacts.l_name+'</td>';
+          				str += '<td>'+contacts.l_phone+'</td>';
+          				str += '<td>'+contacts.l_email+'</td>';
+          				str += '<td>'+contacts.l_address+'</td>';
+          				str += '<td>'+contacts.l_zip+'</td>';
+          				str += '<td>'+contacts.l_fname+'</td>';
+          			    str += '</tr>' ;
+        			
+        			})
+        			
+        			$('#contactslist').html(str);
+        			$('#pageno').html(data.currentPageno);
+      			$('#totalpage').html(data.totalPage);
+      			$('#totalNum').html(data.totalNum);
+        		}
+        	});
+        }
+        function deletes(){ 
+        	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+        	//取到对象数组后，我们来循环检测它是不是被选中 
+        	var s=''; 
+        	for(var i=0; i<obj.length; i++){ 
+        	if(obj[i].checked) 
+        	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+        	} 
+        	//那么现在来检测s的值就知道选中的复选框的值了 
+        	alert(s==''?'你还没有选择任何内容！':s); 
+        	  
+        	  $.ajax({
+          		type:'get',
+          		url:'/CRM/contacts/delete.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		error:function(data){
+          			alert("succeed");
+          			location.reload();
+          		}
+          			
+          	});
+        	} 
+        function update(){ 
+        	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+        	//取到对象数组后，我们来循环检测它是不是被选中 
+        	
+        	var s=''; 
+        	var a=0;
+        	for(var i=0; i<obj.length; i++){ 
+        	if(obj[i].checked) {
+        	 s+=obj[i].value;
+        	//如果选中，将value添加到变量s中 
+        	a++;
+        	} 
+        	}
+            if(a<=0){
+                alert('请选择一条记录进行修改');
+            }
+            else if(a>=2){
+            	alert('请选择一条记录进行修改');
+            }else {
+            	$("#xiugai").attr("data-target","#addContacts");
+            	$.ajax({
+              		type:'get',
+              		url:'/CRM/contacts/updateContacts.action',
+              	    data:{
+              	    	 s:s,
+              	    },
+              		contentType:"application/json;charset=utf-8",
+              		dataType:'json',
+              		success:function(data){
+              			$("#l_id").val(data.l_id),
+                  	    $("#l_name").val(data.l_name),
+                  	    $("#l_com_name").val(data.l_com_name),
+                  	    $("#l_deptno").val(data.l_deptno),
+                  	    $("#l_job").val(data.l_job),
+                  	    $("#l_phone").val(data.l_phone),
+                  	    $("#l_email").val(data.l_email),
+                  	   
+                  	    $("#l_area").val(data.l_area),
+                  	    $("#l_address").val(data.l_address),
+                  	    $("#l_zip").val(data.l_zip),
+                  	    $("#l_remark").val(data.l_remark),
+                  	    $("#l_fname").val(data.l_fname),
+                  	    $("#l_fdeptno").val(data.l_fdeptno)
+              		}
+              	});
+            	} 
+        }
+   
     </script>
 
 </head>
@@ -264,86 +495,94 @@
             </div><!-- /.modal -->
         </div>
         <!--新增联系人-->
-        <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <div class="modal fade" id="addContacts" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title" id="addClueLabel">
+                        <h4 class="modal-title" id="addContactsLabel">
                             新增联系人
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
+                                  
+        <form  method="post" enctype="multipart/form-data">
+                           <div class="input-group">
+                                <span class="input-group-addon">联系人ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_id"  name="l_id" readonly/>
+                              
+                            </div>
+	                       <div class="input-group">
                                 <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_name"  name="l_name"/>
+                              
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">公司名称：</span>
+                                <input type="text" class="form-control"  id="l_com_name"   name="l_com_name">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_deptno"  name="l_deptno">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_job"  name="l_job">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_phone"  name="l_phone">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="l_email"  name="l_email">
                             </div>
-                            <br>
-                            <div class="input-group">
+                            <br> 
+                             <div class="input-group">
                                 <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
+                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市" id="l_area"  name="l_area">
                                 <input type="hidden" id="province3" value="">
                                 <input type="hidden" id="city3" value="">
                             </div>
+                            <br> 
+                             <div class="input-group">
+                                <span class="input-group-addon">地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_address"  name="l_address"/>
+                            </div>
                             <br>
-                            <div class="input-group">
+                        <div class="input-group">
                                 <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_zip"  name="l_zip"/>
                             </div>
                             <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择性别</option>
-                                    <option>男</option>
-                                    <option>女</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">生日：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" id="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
+                           <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <input type="text" class="form-control"  id="l_remark"  name="l_remark"/>
                             </div>
-                        </form>
-
+                            <br>
+                           <div class="input-group">
+                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_fname"  name="l_fname"/>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">负责人部门：</span>
+                                <input type="text" class="form-control" id="l_fdeptno"  name="l_fdeptno"  />
+                            </div>
+                
+         </form>	
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save">
                             保存
                         </button>
                     </div>
@@ -455,7 +694,7 @@
 
 		</div>
             <div>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addContacts" style="float: right;margin-right: 40px">
                     <i class="fa fa-folder fa-fw"></i>新建联系人
                 </button>
             </div>
@@ -465,17 +704,17 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#allClue" data-toggle="tab">
+                        <a href="#allContacts" data-toggle="tab">
                             全部联系人
                         </a>
                     </li>
-                    <li><a href="#myClue" data-toggle="tab">我的联系人</a></li>
-                    <li><a href="#customer" data-toggle="tab">我协作的联系人</a></li>
+                    <li><a href="#myContacts" data-toggle="tab">我的联系人</a></li>
+                    <li><a href="#cooperation" data-toggle="tab">我协作的联系人</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
                     <!--全部联系人-->
-                    <div class="tab-pane fade in active text-left" id="allClue">
+                    <div class="tab-pane fade in active text-left" id="allContacts">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -503,7 +742,7 @@
                         </div>
                     </div>
                     <!--我的联系人-->
-                    <div class="tab-pane fade" id="myClue">
+                    <div class="tab-pane fade" id="myContacts">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -519,7 +758,7 @@
                         </div>
                     </div>
                     <!--我协作的联系人-->
-                    <div class="tab-pane fade" id="customer">
+                    <div class="tab-pane fade" id="cooperation">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -553,27 +792,27 @@
                 <!--数据（从数据库中读取）-->
                 <form action="">
                     <table class="table table-striped">
-                        <caption>
+                         <caption>
                             <div>
-                                <span style="float: left">已选0位联系人&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <button type="button" class="btn btn-default" style="float: left" >
+                                <span style="float: left">已选0个联系人&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <button type="button" class="btn btn-default" style="float: left" onclick="deletes()">
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
 
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: left" >
+                                <button type="button" class="btn btn-default" data-toggle="modal"  onclick="update()" style="float: left" id="xiugai">
                                     <i class="fa fa-pencil fa-fw"></i>
                                     &nbsp;&nbsp;修改&nbsp;&nbsp;
                                 </button>
-                                <button type="button" class="btn btn-default" style="float: right" >
-                                    搜索
+                                <button type="button" class="btn btn-default" style="float: right" id="searchbutton">
+                                                                                                                                                  搜索
                                 </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
+                                <input type="text" style="height: 35px;float: right"   id="searchtext"/>
+                                <select class="btn btn-default" style="float: right"  id="searchway">
                                     <option>请选择搜索方式</option>
-                                    <option>按姓名查找</option>
-                                    <option>按部门查找</option>
-                                    <option>其他</option>
+                                    <option value="1">按姓名查找</option>
+                                    <option value="2">按部门查找</option>
+                                    <option value="3">其他</option>
                                 </select>
                             </div>
                         </caption>
@@ -581,152 +820,27 @@
                         <tr>
                             <th>选择</th>
                             <th>姓名</th>
+                            <th>手机</th>
                             <th>邮箱</th>
-                            <th>性别</th>
                             <th>地址</th>
                             <th>邮编</th>
-                            <th>创建人</th>
+                            <th>负责人</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Mumbai</td>
-                            <td>400003</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="contacts-details.html">Tanmay</a></td>
-                            <td>Pune</td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        </tbody>
+                       <tbody id="contactslist">
+                              
+                       </tbody>
                     </table>
                 </form>
                 <ul class="pager">
                     <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
+                    <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
                     </li>
-                    <li class="previous"><a href="#">&larr; 上一页</a></li>
-                    <li class="next"><a href="#">下一页 &rarr;</a></li>
+                    <li class="previous"><a id="a1">&larr;上一页</a></li>
+                    <li class="next"><a id="a2">下一页 &rarr;</a></li>
                 </ul>
-
+                      
 
 
 
