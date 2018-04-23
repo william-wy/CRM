@@ -21,15 +21,126 @@
 
 
     <script type="text/javascript">
-        $(function() {
+ 
+    $(function() {
+    	var xid;
+        var currentPageno =1 ;      
+        getPage(currentPageno);  
+        
+        
+        $("#a1").click(function(){
+            if(currentPageno<=1){           
+         	   getPage(1);
+            }else{
+         
+  		     getPage(--currentPageno);
+  		   }
+  		});
+  	    $('#a2').bind("click", function(){
+  		      getPage(++currentPageno);
+  		   }); 
+  	    
+  	   $("#save2").click(function(){
+	    	
+ 		  $.ajax({
+    		   type:'get',
+    		   url:"/CRM/jur/saverole.action",
+               data:{
+            	user_id:$("#user_id").val(),               	
+         	    role_id:$("#role_id").val(),
 
+            },      		   
+    		   datatype:'json',
+    		   contentType:"application/json;charset=utf-8",
+    		   success:function(data){
+   
+                    if(data=="update succeed"||data=="insert succeed"){
+                    	alert(user_id+role_id);
+                    	 window.location.reload();
+                    }
+
+    		   }
+    	   }) 
+  	   })
+ 	  }); 
+ 	   function getPage(currentPageno){     	
+           var pagesize = 6 ;         
+           var currentPageno =1 ;      
+       	  $.ajax({
+       		type:"get",
+       		url:"/CRM/jur/all.action",
+       		data:{
+       			pageno:currentPageno,
+       			pagesize:pagesize,
+       			
+       		},
+       		contentType:"application/json;charset=utf-8",
+       		dataType:'json',
+       		success:function(data){
+       	       var pagesize = 6 ;
+       	       var str = '' ;
+       			$.each(data.data,function(index,jur){
+       			    str += '<tr>' ;
+       				str += '<td><label><input type="checkbox" name="test" value='+jur.id+'></label></td>';
+       				str += '<td>'+jur.name+'</td>';
+       				str += '<td>'+jur.dept+'</td>';
+       				str += '<td>'+jur.rolename+'</td>';
+       			    str += '</tr>' ;
+       			})
+       			
+       			$('#jurlist').html(str);    			
+       			$('#pageno').html(data.currentPageno);
+     			$('#totalpage').html(data.totalPage);
+     			$('#totalNum').html(data.totalNum);
+     			
+       		}
+       	});
+       }
+ 	   
+ 	   function updaterole(){ 
+      	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+      	//取到对象数组后，我们来循环检测它是不是被选中 
+      	
+      	var s=''; 
+      	var a=0;
+      	for(var i=0; i<obj.length; i++){ 
+      	if(obj[i].checked) {
+      	 s+=obj[i].value;
+      	//如果选中，将value添加到变量s中 
+      	a++;
+      	} 
+      	}
+          if(a<=0){
+              alert('请选择一条记录进行修改');
+              location.reload();
+          }
+          else if(a>=2){
+          	  alert('请选择一条记录进行修改');        	
+          	  location.reload();
+          }else {
+          	$("#xiugai1").attr("data-target","#xgjs");
+          	
+          	$.ajax({
+            		type:'get',
+            		url:'/CRM/jur/updaterole.action',
+            	    data:{
+            	    	user_id:s,
+            	    	role_id:$("#role_id").val()
+            	    },                 	    
+            		contentType:"application/json;charset=utf-8",
+            		dataType:'json',
+            		error:function(data){
+            			location.reload();			       
+            		}
+            	});
+          	} 
+      }      
             <!-- 保存按钮点击事件-->
             $("button[name='save']").click(function(){
                 alert("保存成功");
                 location.reload();
             });
-        });
-
+   
     </script>
 
 </head>
@@ -193,7 +304,7 @@
             </div><!-- /.modal -->
         </div>
         <!--修改角色-->
-        <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <div class="modal fade" id="xgjs" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -207,13 +318,14 @@
                     <div class="modal-body text-center">
 
                         <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
-                                <span class="input-group-addon">修改用户角色：</span>
-                                <select class="form-control">
+                        
+                           <input type="hidden" class="form-control"  id="user_id"  name="user_id" readonly />
+                            <div class="input-group">                              
+                                <select class="form-control" id="role_id"  name="role_id">
                                     <option>请选择角色</option>
-                                    <option>客户经理</option>
-                                    <option>产品经理</option>
-                                    <option>总经理</option>
+                                    <option value="1">客户经理</option>
+                                    <option value="2">产品经理</option>
+                                    <option value="3">总经理</option>
                                 </select>
                             </div>
                         </form>
@@ -222,11 +334,11 @@
 
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-default" name="save">
+                        <button type="button" class="btn btn-default" name="no">
                             取消
                         </button>
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save2" onclick="updaterole()">
                             修改
                         </button>
                     </div>
@@ -261,25 +373,25 @@
                             <br/>
 
                             <div class="checkbox" style="text-align: left">
-                                <label><input type="checkbox" value="">销售管理</label><br/><br/>
-                                <label><input type="checkbox" value="">线索</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">客户</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">客户公海</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">联系人</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">机会</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">合同</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">回款</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="销售管理">销售管理</label><br/><br/>
+                                <label><input type="checkbox" value="线索">线索</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="客户">客户</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="客户公海">客户公海</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="联系人">联系人</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="机会">机会</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="合同">合同</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="回款">回款</label>&nbsp;&nbsp;&nbsp;&nbsp;
 
                             </div><br/>
 
                             <div class="checkbox" style="text-align: left">
-                                <label><input type="checkbox" value="">销售支持</label><br/><br/>
-                                <label><input type="checkbox" value="">产品</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">工作报告</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">知识库</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">短信群发</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">费用报销</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" value="">跟进记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="销售支持">销售支持</label><br/><br/>
+                                <label><input type="checkbox" value="产品">产品</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="工作报告">工作报告</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="知识库">知识库</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="短信群发">短信群发</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="费用报销">费用报销</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" value="跟进记录">跟进记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
                             </div>
                             <br/>
                         </form>
@@ -288,11 +400,11 @@
 
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-default" name="save">
+                        <button type="button" class="btn btn-default">
                             取消
                         </button>
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save1" >
                             修改
                         </button>
                     </div>
@@ -421,10 +533,10 @@
                             <caption>
                                 <div>
                                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 20px">
+                                    <button type="button" class="btn btn-default" data-toggle="modal"   id="xiugai1" data-target="#xgjs" style="float: right;margin-right: 20px">
                                         <i class="fa fa-pencil fa-fw"></i>修改角色
                                     </button>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgqx" style="float: right;margin-right: 20px">
+                                    <button type="button" class="btn btn-default" data-toggle="modal"  onclick="updatemenu()" id="xiugai2" data-target="#xgqx" style="float: right;margin-right: 20px">
                                         <i class="fa fa-pencil fa-fw"></i>修改权限
                                     </button>
 
@@ -438,116 +550,24 @@
                                 <th style="width: 20%;text-align: center">所属部门</th>
                                 <th style="width: 50%;text-align: center">用户角色</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Tanmay</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Sachin</td>
-                                <td>Mumbai</td>
-                                <td>400003</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
-                            <tr>
-                                <td><label><input type="checkbox" value=""></label></td>
-                                <td>Uma</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                            </tr>
+                            </thead >
+                            <tbody id="jurlist">
                             </tbody>
                         </table>
                     </form>
-                    <ul class="pager">
-                        <br/>
-                        <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                            当前第1页，共10页
-                        </li>
-                        <li class="previous"><a href="#">&larr; 上一页</a></li>
-                        <li class="next"><a href="#">下一页 &rarr;</a></li>
-                    </ul>
+                   <ul class="pager">
+                    <br/>
+                    <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                  当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
+                    </li>
+                    <li class="previous"><a id="a1">&larr;上一页</a></li>
+                    <li class="next"><a id="a2">下一页 &rarr;</a></li>
+                  </ul>
                     </div>
 
                 </div>
-
                 <!-- /. ROW  -->
-
-
-
-
-
-
 				<footer>
-
                     <br/><br/><br/>
 
                     <p style="text-align: center">Copyright &copy; 2018.蓝桥中北二班第四组 All rights reserved.</p>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanqiao.CRM.dao.JurUtilDao">
+
+     <select id="getTotal"  resultType="int">
+	    select count(*) from( select p.pc_id ,p.pc_name,p.pc_dept,r.roleName from person_in_charge p,role_user ru,role r 
+	    where p.pc_id=ru.user_id 
+	    and ru.role_id=r.id ) rr	     
+	 </select>
+	
+	 <select id="getPage" parameterType="map" resultType="jur">
+     select * from (select p.pc_id id,p.pc_name name,p.pc_dept dept,r.roleName rolename from person_in_charge p,role_user ru,role r 
+	      where p.pc_id=ru.user_id 
+	      and ru.role_id=r.id ) ss limit #{start},#{end}	    
+     </select>
+     <select id="findById" parameterType="int" resultType="jur" >
+        select p.pc_id ,p.pc_name,p.pc_dept,r.roleName from person_in_charge p,role_user ru,role r 
+	    where p.pc_id=ru.user_id 
+	    and ru.role_id=r.id and p.pc_id=#{pc_id}
+     </select>
+     <update id="update" parameterType="int">
+	    update role_user set role_id=#{role_id},	                   
+	                    where user_id=#{user_id}
+	 </update>
+	 
+	 <update id="update2" parameterType="int">
+	    update role_user set role_id=#{role_id}	                   
+	                    where user_id=#{user_id}
+	 </update>
+	 
+	<update id="updatemenu" parameterType="jur">
+	    update role_user set role_id=#{pc_role_id},	                   
+	                    where user_id=#{pc_id}
+	</update>
+	
+</mapper>
