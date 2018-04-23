@@ -33,6 +33,28 @@
         	var cid=c.split("=")[1];
         	var clue;
         	
+        	<!--客户转移-->
+        	$("#savekh").click(function(){
+        		$.ajax({
+              	   type:"get",
+        			   url:"/CRM/clue/zhuanyi.action",
+        			   data:{
+        				     kid:cid,
+        				     jibie:$("#jibie").val(),
+        				     hangye:$("#hangye").val(),
+        				     guimo:$("#guimo").val(),
+        				     genjinrecord:$("#genjinrecord").val()
+        				     },
+        		       datatype:'json',
+      		           contentType:"application/json;charset=utf-8",
+      		           success:function(data){
+      		        	 alert(data);
+      		        	window.location.href="http://localhost:8080/CRM/clue.html" 
+      		           }
+              	});
+       		  
+       	  });
+        	
         	
         	//显示信息
         	$.ajax({
@@ -716,32 +738,32 @@
                             <span class="input-group-addon"><h3 style="text-align: left;margin-bottom: 3px">客户信息</h3></span>
                             <br/>
                             <div class="input-group">
-                                <span class="input-group-addon">客户姓名：</span>
-                                <input type="text" class="form-control">
+                                <span class="input-group-addon">客户级别：</span>
+                                <input type="text" class="form-control" id="jibie">
                             </div>
                             <br/>
                             <div class="input-group">
-                                <span class="input-group-addon">客户电话：</span>
-                                <input type="text" class="form-control">
+                                <span class="input-group-addon">客户行业：</span>
+                                <input type="text" class="form-control" id="hangye">
                             </div>
                             <br>
-                            <span class="input-group-addon"><h3 style="text-align: left;margin-bottom: 3px">联系人信息</h3></span>
+                            <span class="input-group-addon"><h3 style="text-align: left;margin-bottom: 3px">其它信息</h3></span>
                             <br/>
                             <div class="input-group">
-                                <span class="input-group-addon">姓名：</span>
-                                <input type="text" class="form-control">
+                                <span class="input-group-addon">规模：</span>
+                                <input type="text" class="form-control" id="guimo">
                             </div>
                             <br/>
                             <div class="input-group">
-                                <span class="input-group-addon">电话：</span>
-                                <input type="text" class="form-control">
+                                <span class="input-group-addon">跟进记录：</span>
+                                <input type="text" class="form-control" id="genjinrecord">
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="savekh">
                             保存
                         </button>
                     </div>

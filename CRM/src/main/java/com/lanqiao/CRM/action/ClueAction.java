@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lanqiao.CRM.entity.Clue;
+import com.lanqiao.CRM.entity.Customer;
+import com.lanqiao.CRM.entity.CustomerSea;
 import com.lanqiao.CRM.service.ClueService;
+import com.lanqiao.CRM.service.CustomerService;
 import com.lanqiao.CRM.utils.PageUtil;
 
 
@@ -20,6 +23,9 @@ import com.lanqiao.CRM.utils.PageUtil;
 public class ClueAction {
      @Autowired
 	 private ClueService clueService;
+     
+     @Autowired
+	 private CustomerService customerService;
      
      String[] some=new String[7];
 
@@ -183,6 +189,44 @@ public class ClueAction {
          PageUtil page=clueService.findBySome(pageno, pagesize, clue);
                  
 		 return page; 
+	}
+	
+	
+	
+	@RequestMapping(value="/zhuanyi.action",method={RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody String zhuanyi(int kid,String jibie,String hangye,String guimo,String genjinrecord) throws UnsupportedEncodingException {	
+		System.out.println(jibie+"jibie"+hangye+" hangye "+guimo+"guimo  "+genjinrecord+" genjinrecord ");
+		Clue  clue=clueService.findById(kid);
+		
+		Customer customer=new Customer();
+		
+		try {
+			int [] a= {kid};
+			customer.setKactual(clue.getXactual());
+			customer.setKarea(clue.getXarea());
+			customer.setKdegree(jibie);
+			customer.setKdept(clue.getXdeptno());
+			customer.setKemail(clue.getXemail());
+			customer.setKfid(clue.getXfid());
+			customer.setKname(clue.getXname());
+			customer.setKnext(clue.getXnext());
+			customer.setKphone(clue.getXphone());
+			customer.setKrecord(genjinrecord);
+			customer.setKremark(clue.getXremark());
+			customer.setKsize(guimo);
+			customer.setKsource(clue.getXsource());
+			customer.setKstatus(clue.getXstatus());
+			customer.setKtrade(hangye);
+			customer.setKzip(clue.getXzip());
+			clueService.deleteByArray(a);
+			customerService.insert(customer);
+			return "succeed";   
+		}catch(Exception e) {
+			
+			System.out.println("false");
+			return "false";   
+		}
+			
 	}
 	
 }

@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insert" parameterType="customersea" >
-	    insert into customersea values(null,#{kname},#{kdegree},#{kphone},#{kemail},#{karea},#{kzip},#{kstatus},#{ksource},#{ktrade},#{ksize},#{knext},#{kremark},#{kfid},#{kdept})
+	    insert into customersea values(null,#{kname},#{kdegree},#{kphone},#{kemail},#{karea},#{kzip},#{kstatus},#{ksource},#{ktrade},#{ksize},#{knext},#{kremark},#{kfid},#{kdept},#{kactual},#{krecord})
 	</insert>
 	
 	<delete id="deleteByArray"  parameterType="int[]">
@@ -56,7 +56,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                    knext=#{knext},
 	                    kremark=#{kremark},
 	                    kfid=#{kfid},
-	                    kdept=#{kdept}
+	                    kdept=#{kdept},
+	                    kactual=#{kactual},
+	                    krecord=#{krecord}
 	                    where kid=#{kid}
 	</update>
 

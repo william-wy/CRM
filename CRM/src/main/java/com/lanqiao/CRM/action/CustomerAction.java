@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.entity.Customer;
+import com.lanqiao.CRM.entity.CustomerSea;
+import com.lanqiao.CRM.service.CustomerSeaService;
 import com.lanqiao.CRM.service.CustomerService;
 import com.lanqiao.CRM.utils.CustomerPage;
 
@@ -25,6 +27,8 @@ import com.lanqiao.CRM.utils.CustomerPage;
 		
 	    @Autowired
 		private CustomerService customerService;
+	    @Autowired
+	    private CustomerSeaService sea;
 
 		@RequestMapping(value="/getCustomerList.action")
 		public @ResponseBody List<Customer> getClueList() throws Exception {
@@ -133,6 +137,40 @@ import com.lanqiao.CRM.utils.CustomerPage;
 			Customer customer=customerService.findById(kid);
 			//customer.setKarea(customerService.findById2(Integer.parseInt(customer.getKarea())).getName());
 				return customer;   
+		}
+		
+		
+		@RequestMapping(value="/zhuanyi.action",method={RequestMethod.GET,RequestMethod.POST})
+		public @ResponseBody String zhuanyi(int kid) throws UnsupportedEncodingException {	     
+			Customer customer=customerService.findById(kid);
+			CustomerSea cusSea=new CustomerSea();
+			cusSea.setKarea(customer.getKarea());
+			cusSea.setKdegree(customer.getKdegree());
+			cusSea.setKdept(customer.getKdept());
+			cusSea.setKemail(customer.getKemail());
+			cusSea.setKfid(customer.getKfid());
+			cusSea.setKname(customer.getKname());
+			cusSea.setKnext(customer.getKnext());
+			cusSea.setKphone(customer.getKphone());
+			cusSea.setKremark(customer.getKremark());
+			cusSea.setKsize(customer.getKsize());
+			cusSea.setKsource(customer.getKsource());
+			cusSea.setKstatus(customer.getKstatus());
+			cusSea.setKtrade(customer.getKtrade());
+			cusSea.setKzip(customer.getKzip());
+			cusSea.setKrecord(customer.getKrecord());
+			cusSea.setKactual(customer.getKactual());
+			try {
+				int [] a= {kid};
+				customerService.deleteByArray(a);
+				sea.insert(cusSea);
+				
+				return "succeed";   
+			}catch(Exception e) {
+				System.out.println("false");
+				return "false";   
+			}
+				
 		}
 }
 

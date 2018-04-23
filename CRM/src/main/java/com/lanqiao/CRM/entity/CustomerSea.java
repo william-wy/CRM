@@ -7,7 +7,7 @@ public class CustomerSea {
      private String kphone;
      private String kemail;
      private String karea;
-     private String kzip;
+     private int kzip;
      private String kstatus;
      private String ksource;
      private String ktrade;
@@ -16,6 +16,21 @@ public class CustomerSea {
      private String kremark;
      private String kfid;
      private String kdept;
+     private String krecord;
+     private String kactual;
+     
+	public String getKrecord() {
+		return krecord;
+	}
+	public void setKrecord(String krecord) {
+		this.krecord = krecord;
+	}
+	public String getKactual() {
+		return kactual;
+	}
+	public void setKactual(String kactual) {
+		this.kactual = kactual;
+	}
 	public int getKid() {
 		return kid;
 	}
@@ -52,10 +67,10 @@ public class CustomerSea {
 	public void setKarea(String karea) {
 		this.karea = karea;
 	}
-	public String getKzip() {
+	public int getKzip() {
 		return kzip;
 	}
-	public void setKzip(String kzip) {
+	public void setKzip(int kzip) {
 		this.kzip = kzip;
 	}
 	public String getKstatus() {

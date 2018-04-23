@@ -35,10 +35,6 @@
         	var customer;     	      	
         	
         	$("#cuzl").click(function(){
-        		
-            	
-            	
-            	
             	//显示信息
             	$.ajax({
             	   type:"get",
@@ -70,6 +66,19 @@
             	});
         	})
         	
+        	$("#zhuanyi").click(function(){
+            	//显示信息
+            	$.ajax({
+            	   type:"get",
+      			   url:"/CRM/customer/zhuanyi.action",
+      			   data:{kid:cid},
+      		       datatype:'json',
+    		       contentType:"application/json;charset=utf-8",
+    		       success:function(data){
+    		    	     alert("转移"+data);
+    		           }
+            	});
+        	})
         	
         	//点击编辑按钮事件
         	$("#edit").click(
@@ -1151,13 +1160,13 @@
                     <div class="modal-body text-center">
                         <br/>
                         <span>是否确定把所选的1位客户转移至客户公海？<br/>
-                      转移成功后，此客户数据将属于公共资源，原负责人不能再维护跟进和更新此客户数据。</span>
+                                                                                           转移成功后，此客户数据将属于公共资源，原负责人不能再维护跟进和更新此客户数据。</span>
 
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" name="save" id="zhuanyi">
                             确定
                         </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">
