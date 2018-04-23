@@ -876,6 +876,114 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+    <!--新增合同-->
+		<div class="modal fade" id="toht" tabindex="-1" role="dialog"
+			aria-labelledby="informationLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="addClueLabel">机会转移</h4>
+					</div>
+					<div class="modal-body text-center pre-scrollable">
+
+						<form class="bs-example bs-example-form" role="form">
+							<div class="input-group">
+								<span class="input-group-addon">合同名称：</span> <input type="text"
+									class="form-control" placeholder="" id="contractname">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">对应客户：</span> <input type="text"
+									class="form-control" placeholder="" id="contractcon">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">对应机会：</span> <input type="text"
+									class="form-control" placeholder="" id="contractcha">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">合同金额：</span> <input type="text"
+									class="form-control" placeholder="" id="contractmoy">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">签约日期：</span> <input type="text"
+									class="form-control" name="birthdate" value="" id="contractday"/>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">开始日期：</span> <input type="text"
+									class="form-control" name="birthdate" value="" id="contractsday"/>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">结束日期：</span> <input type="text"
+									class="form-control" name="birthdate" value="" id="contracteday"/>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">合同状态：</span> <select
+									class="form-control" id="contractstate">
+									<option>选择合同状态</option>
+									<option>签约</option>
+									<option>执行中</option>
+									<option>成功结束</option>
+									<option>意外终止</option>
+								</select>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">合同编号：</span> <input type="text"
+									class="form-control" placeholder="" id="contractnum">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">合同类型：</span> <select
+									class="form-control" id="contractleixing">
+									<option>选择合同类型</option>
+									<option>直销合同</option>
+									<option>代理合同</option>
+									<option>采购合同</option>
+									<option>服务合同</option>
+									<option>其它</option>
+								</select>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">客户方签约人：</span> <input
+									type="text" class="form-control" placeholder="" id="contractnamekehu">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">我方签约人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								<input type="text" class="form-control" placeholder="" id="contractwo">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">合同附件：</span> <input type="file"
+									class="form-control" placeholder="" id="contractfujian">
+							</div>
+
+						</form>
+
+					</div>
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-default" name="savecaogao">
+							保存草稿</button>
+
+						<button type="button" class="btn btn-primary" name="save">
+							保存</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
     <!--安全退出-->
     <div class="modal fade" id="out" tabindex="-1" role="dialog" aria-labelledby="outLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -997,6 +1105,9 @@
                     <option selected>赢单</option>
                     <option>输单</option>
                 </select>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toht">
+                    <i class="fa fa-share fa-fw"></i>转为合同
+                </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toother">
                     <i class="fa fa-share fa-fw"></i>转移给他人
                 </button>
