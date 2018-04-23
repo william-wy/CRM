@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
-<!-- 乱码 -->
-    <filter>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-		<param-name>encoding</param-name>
-		<param-value>utf-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-<!-- springMVC 中央控制器 -->
-<servlet>
-
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+ 
+  <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <!-- 初始化参数 -->
     <init-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-*.xml</param-value>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring/spring-*.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-    
-</servlet>
-
-<servlet-mapping>
+  </servlet>
+  <servlet-mapping>
     <servlet-name>springmvc</servlet-name>
     <url-pattern>*.action</url-pattern>
-</servlet-mapping>
-
+  </servlet-mapping>
+  
+   <!-- session过滤 -->
+	<filter>
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>com.lanqiao.CRM.utils.SessionFilter</filter-class>
+     <init-param>
+        <param-name>logonStrings</param-name><!-- 对登录、注册页面不进行过滤 -->
+        <param-value>/CRM/login.html;/CRM/register.html</param-value>
+    </init-param>
+    <init-param>
+        <param-name>includeStrings</param-name><!-- 只对指定过滤参数后缀进行过滤 -->
+        <param-value>.do;.jsp;.html</param-value>
+    </init-param>
+    <init-param>
+        <param-name>redirectPath</param-name><!-- 未通过跳转到登录界面 -->
+        <param-value>/login.html</param-value>
+    </init-param>
+    <init-param>
+        <param-name>disabletestfilter</param-name><!-- Y:过滤无效 -->
+        <param-value>N</param-value>
+    </init-param>
+</filter>
+  <!--映射过滤器-->  
+  <filter-mapping>  
+      <filter-name>SessionFilter</filter-name>  
+      <!--“/*”表示拦截所有的请求 -->  
+      <url-pattern>/*</url-pattern>  
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

@@ -17,5 +17,7 @@ public interface MenuDao{
 	public List<Role> getAllRole() ;
 	
 	public void saveFengpei(Map<String,Integer> map);
+	
+	public int getRole(int pc_id);
 
 }

@@ -31,6 +31,7 @@
         $(function() {
         	var xid;
             var currentPageno =1 ;
+            getName();
             
             var url=window.location.href;
         	
@@ -239,13 +240,29 @@
             });
         });
 
+        function getName(){
+        	
+        	$.ajax({
+        		url:'getname.action',
+        		type: "post",
+        		async: false,
+        		dataType: 'json',
+                success: function (data) {
+                	
+                	$("#PICname").val(data.pc_id);
+                	
+                	
+                }
+        		
+        	})
+        }
         function getMenu(){
         	
         	  $.ajax({
         		type:"get",
         		url:"/CRM/menu/getMenuTreeByRole.action",
         		data:{
-        			user:3
+        			user:$("#PICname").val()
         		},
         		async: false,
         		contentType:"application/json;charset=utf-8",
@@ -258,6 +275,7 @@
         	       str += '<nav class="navbar-default navbar-side" role="navigation"><div class="sidebar-collapse">';
         	       str += '<ul class="nav" id="main-menu"><li id="addMenu">';
         	       str += '<a href="index.html"><i class="fa fa-home"></i> 首页</a></li>';
+        	       
         	       
         			$.each(data,function(index,menuTree){
         				str += '<li><a href="#"><i class="fa fa-sitemap"></i>'+menuTree.text+'<span class="fa arrow"></span></a>' ;
@@ -489,6 +507,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i>
+                        <input type="hidden" id="PICname"  readonly/>
                         张三
                         <i class="fa fa-caret-down"></i>
                     </a>

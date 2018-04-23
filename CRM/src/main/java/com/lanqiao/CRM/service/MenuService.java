@@ -28,4 +28,6 @@ public interface MenuService{
 	
 	public void saveFengpei(int roleid,int userid);
 	
+	public int getRole(int pc_id);
+	
 }

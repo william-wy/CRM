@@ -25,8 +25,8 @@ public class MenuAction {
 	public @ResponseBody List<MenuTree> getMenuTreeByRole(String user){
 		
 		int user1=Integer.parseInt(user);
-		
-		List<MenuTree> tree = menuService.getMenuTreeByRole(user1) ;
+		int user2=menuService.getRole(user1);
+		List<MenuTree> tree = menuService.getMenuTreeByRole(user2) ;
 		System.out.println(tree.get(0).getChildren());
 		return tree ;
 	}

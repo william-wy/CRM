@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,12 +26,19 @@ public class PIChargeAction {
 	public String goindex(){
 		return "index";
 	}
-	
+	@RequestMapping("/getname.action")
+	public @ResponseBody PICharge  getname(HttpSession session){
+		 PICharge  pic=(PICharge) session.getAttribute("PICharge");
+		 System.out.println(pic);
+		return pic;
+		
+	}
 	@RequestMapping("/PIClogin.action")
-	public @ResponseBody String PIClogin(String username,String password){
+	public @ResponseBody String PIClogin(String username,String password,HttpSession session){
 	
 		try {
 			PICharge pc= service.login(username, password);
+			session.setAttribute("PICharge", pc);
 			System.out.println(pc);
 			if (pc!=null) {
 				return "index";

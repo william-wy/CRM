@@ -95,6 +95,12 @@ public class MenuServiceImpl implements MenuService{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getRole(int pc_id) {
+		// TODO Auto-generated method stub
+		return menuDao.getRole(pc_id);
+	}
 	
 	
 

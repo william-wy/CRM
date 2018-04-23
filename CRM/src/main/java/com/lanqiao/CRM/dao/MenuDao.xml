@@ -20,6 +20,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from role
 	</select>
 	
+	<select id="getRole" parameterType="int" resultType="int">
+		select role_id from role_user where user_id=#{pc_id}
+	</select>
+	
 	<insert id="saveFengpei" parameterType="map">
 		insert into role_user values(null,#{roleid},#{userid});
 	</insert>
