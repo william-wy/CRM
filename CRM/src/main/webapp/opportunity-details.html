@@ -28,6 +28,46 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
         $(function() {
+        	var url=window.location.href;
+        	var c=url.split("?")[1];
+        	var cid=c.split("=")[1];
+        	var clue;
+        	
+        	<!--机会转移-->
+        	$("#chancezhuanyi").click(function(){
+        		$.ajax({
+              	   type:"get",
+        			   url:"/CRM/chance/zhuanyi.action",
+        			   data:{
+        				    kid:cid,
+        				    hname:$("#contractname").val(),
+        				 	hclient_name:$("#contractcon").val(),
+        				 	hchance_name:$("#contractcha").val(),
+        				 	hproduct:$("#contractproduct").val(),
+        				 	htol_amt:$("#contractmoy").val(),
+        				 	hcontract_date:$("#contractday").val(),
+        				 	hstart_date:$("#contractsday").val(),
+        				 	hend_date:$("#contracteday").val(),
+        				 	hstate:$("#contractstate").val(),
+        				 	hnumber:$("#contractnum").val(),
+        				 	hstyle:$("#contractleixing").val(),
+        				 	hpay_method:$("#contractfukuan").val(),
+        				 	hclient_singer:$("#contractnamekehu").val(),
+        				 	hcompany_singer:$("#contractnamewo").val()
+        				     },
+        		       datatype:'json',
+      		           contentType:"application/json;charset=utf-8",
+      		           success:function(data){
+      		        	 alert(data);
+      		        	window.location.href="" 
+      		           }
+              	});
+       		  
+       	  });
+        	
+        	
+        	
+        	
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -779,7 +819,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary" name="save">
+                    <button type="button" class="btn btn-primary" name="save" >
                         保存
                     </button>
                     <button type="button" class="btn btn-default">
@@ -789,7 +829,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-    <!--新增联系人-->
+    <!--机会转移-->
     <div class="modal fade" id="addcontact" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -876,7 +916,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-    <!--新增合同-->
+    <!--机会转移-->
 		<div class="modal fade" id="toht" tabindex="-1" role="dialog"
 			aria-labelledby="informationLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -897,6 +937,11 @@
 							<div class="input-group">
 								<span class="input-group-addon">对应客户：</span> <input type="text"
 									class="form-control" placeholder="" id="contractcon">
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">关联产品：</span> <input type="text"
+									class="form-control" placeholder="" id="contractproduct">
 							</div>
 							<br>
 							<div class="input-group">
@@ -953,6 +998,11 @@
 							</div>
 							<br>
 							<div class="input-group">
+								<span class="input-group-addon">付款方式：</span> <input type="text"
+									class="form-control" placeholder="" id="contractfukuan">
+							</div>
+							<br>
+							<div class="input-group">
 								<span class="input-group-addon">客户方签约人：</span> <input
 									type="text" class="form-control" placeholder="" id="contractnamekehu">
 							</div>
@@ -975,7 +1025,7 @@
 						<button type="button" class="btn btn-default" name="savecaogao">
 							保存草稿</button>
 
-						<button type="button" class="btn btn-primary" name="save">
+						<button type="button" class="btn btn-primary" name="save" id="chancezhuanyi">
 							保存</button>
 					</div>
 				</div>
