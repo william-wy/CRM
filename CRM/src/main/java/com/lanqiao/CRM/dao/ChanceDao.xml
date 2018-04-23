@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ChanceDao">    
+
+    <select  id="findAll" resultType="chance">
+           select * from chance
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="chance" >
+             select * from chance where jid=#{jid}
+    </select>
+  
+   <select id="findByJname" parameterType="String" resultType="chance">
+           select * from chance where jname=#{jname}
+   </select>
+  
+    <select id="findByJdept" parameterType="map" resultType="chance">
+          select * from (select * from chance where jdept=#{jdept}) aa limit #{start},#{end}
+     </select>
+   
+   
+     <select id="getPage" parameterType="map" resultType="chance">
+         select *from chance limit #{start},#{end}
+     </select>
+     
+     <select id="getTotal" resultType="int">
+		 select count(*) from chance
+	</select>
+	
+	 <select id="getTotalByJdept"  parameterType="String" resultType="int">
+		 select count(*) from chance  where jdept=#{jdept}
+	</select>
+	
+	<insert id="insert" parameterType="chance" >
+	    insert into chance values(null,#{jname},#{jclient},#{jlinkman},#{jproduct},#{jexpectsal},#{jdonetime},#{jstage},#{jtype},#{jgetdate},#{jsource},#{jdotime},#{jincharge},#{jdept})
+	</insert>
+	
+	<delete id="deleteByArray"  parameterType="int[]">
+           delete from chance where jid in            <!-- collection 后面跟array --> 
+     <foreach collection="array" open="(" item="jid" separator="," close=")">#{jid}</foreach>
+   </delete>
+	
+	
+	<update id="update" parameterType="chance">
+	    update chance set jname=#{jname},
+	                    jclient=#{jclient},
+	                    jlinkman=#{jlinkman},
+	                    jproduct=#{jproduct},
+	                    jexpectsal=#{jexpectsal},
+	                    jdonetime=#{jdonetime},
+	                    jstage=#{jstage},
+	                    jtype=#{jtype},
+	                    jgetdate=#{jgetdate},
+	                    jsource=#{jsource},
+	                    jdotime=#{jdotime},
+	                    jincharge=#{jincharge},
+	                    jdept=#{jdept}
+	                   
+	                    where jid=#{jid}
+	</update>
+	<select id="findById2"  parameterType="int" resultType="area">
+	         select * from area where id=#{id}
+	</select>
+	
+	
+ </mapper>

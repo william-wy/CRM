@@ -27,9 +27,123 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
+    var s="all";
+    $(function() {
+    	var jid;
+        var currentPageno =1 ;
+        
+    	
+        getPage(currentPageno,s);
+
+        $("#a1").click(function(){
+            if(currentPageno<=1){
+ 
+         	   getPage(1,s);
+            }else{
+  
+  		     getPage(--currentPageno,s);
+  		   }
+  		});
+  	    $('#a2').bind("click", function(){
+
+  		      getPage(++currentPageno,s);
+  		   });
+        
+ 	    $("#searchbutton").click(function(){
+ 	    	$('#a1').unbind('click').click(function(){
+ 	    		 if(currentPageno<=1){
+ 	             	   getPage(1,s);
+ 	                }else{
+ 	      		     getPage(--currentPageno,s);
+ 	      		   }
+      		   });
+      	    $('#a2').unbind('click').click(function(){
+      		      getPage(++currentPageno,s);
+      		   });
+ 	    	
+ 	    	if($("#searchway").val()=='1'){	    	   
+ 	    	   var s=$("#searchtext").val();
+ 	    	   if(s==""){	    		  
+ 	    		   getPage(currentPageno,s);
+ 	    	   }
+ 	    	   else {
+ 	    		   $.ajax({
+ 	    			   type:"get",
+ 	    			   url:"/CRM/chance/findByJname.action",
+ 	    			   data:{s:s},
+ 	    		       datatype:'json',
+       		           contentType:"application/json;charset=utf-8",
+       		           success:function(data){
+       		        	var str = '' ;  
+       		        	str += '<tr>' ;
+       		            str += '<td><label><input type="checkbox" name="test" value='+data.jid+'></label></td>';
+     				    str += '<td><a href="opportunity-details.html">'+data.jname+'</td>';
+     				    str += '<td>'+data.jclient+'</td>';
+     				    str += '<td>'+data.jexpectsal+'</td>';
+     				    str += '<td>'+data.jstage+'</td>';
+     				    str += '<td>'+data.jtype+'</td>';
+     				    str += '<td>'+data.jincharge+'</td>';
+          			    str += '</tr>' ;
+          			    
+          			    $('#chancelist').html(str);
+          			    $('#pageno').html("");
+          			    $('#totalpage').html("");
+          			    $('#totalNum').html("");
+            		 
+       		           }
+ 	    		   })
+ 	    	   }
+ 	    	}else if($("#searchway").val()=='2'){
+ 	    		var s=$("#searchtext").val();
+ 	    		if(s==""){
+ 	    			s="all";
+ 	    			 getPage(currentPageno,s);
+ 	    		}else {
+ 	    			 s="ByJdept";
+ 	    			 getPage(currentPageno,s);
+ 	    			alert(s);
+ 	    		}
+ 	    	}else if($("#searchway").val()=='3'){	    		
+ 	    	}
+ 	    }) ;
+ 
+ 	    $("#save").click(function(){
+ 	    	
+ 		  $.ajax({
+    		   type:'get',
+    		   url:"/CRM/chance/saveChance.action",   		   
+               data:{
+            	   id:$("#jid").val(),
+               	
+            	   jname:$("#jname").val(),
+            	   jclient:$("#jclient").val(),
+            	   jlinkman:$("#jlinkman").val(),
+            	   jproduct:$("#jproduct").val(),
+            	   jexpectsal:$("#jexpectsal").val(),
+            	   jdonetime:$("jdonetime").val(),
+         	   
+            	   jstage:$("#jstage").val(),
+            	   jtype:$("#jtype").val(),
+            	   jgetdate:$("#jgetdate").val(),
+            	   jsource:$("#jsource").val(),
+            	   jdotime:$("#birthdate").val(),
+            	   jincharge:$("#jincharge").val(),
+            	   jdept:$("#jdept").val(),
+            },      		
+    		   datatype:'json',
+    		   contentType:"application/json;charset=utf-8",
+    		   success:function(data){
+    			    alert(data);
+                    if(data=="update succeed"||data=="insert succeed"){
+                    	 window.location.reload();
+                    }
+    		       
+    			   
+    		   }
+    	   })
+ 	  });
             <!-- 日期选择器配置-->
-            $('input[name="birthdate"]').daterangepicker({
+            $('#birthdate').daterangepicker({
                 autoUpdateInput:true,
                 singleDatePicker: true,
                 showDropdowns: true,
@@ -100,6 +214,122 @@
                 location.reload();
             });
         });
+
+    function getPage(currentPageno,s){
+    	
+        var pagesize = 6 ;
+        
+        var fid=$("#searchtext").val();
+        if(fid==""){
+      	  fid=0;
+        }
+        
+    	  $.ajax({
+    		type:"get",
+    		url:"/CRM/chance/"+s+".action",
+    		data:{
+    			pageno:currentPageno,
+    			pagesize:pagesize,
+    			fid:$("#searchtext").val()
+    		},
+    		contentType:"application/json;charset=utf-8",
+    		dataType:'json',
+    		success:function(data){
+    	       var pagesize = 6 ;
+    	       var str = '' ;
+    			$.each(data.data,function(index,chance){
+    				 str += '<tr>' ;
+    	  			  str += '<td><label><input type="checkbox" name="test" value='+chance.jid+'></label></td>';
+    					str += '<td><a href="opportunity-details.html?jid='+chance.jid+'">'+chance.jname+'</td>';
+    					str += '<td>'+chance.jclient+'</td>';
+    					str += '<td>'+chance.jexpectsal+'</td>';
+    					str += '<td>'+chance.jstage+'</td>';
+    					str += '<td>'+chance.jdotime+'</td>';
+    					str += '<td>'+chance.jincharge+'</td>';
+    	  			    str += '</tr>' ;
+    			})
+    			
+    			$('#chancelist').html(str);
+    			$('#pageno').html(data.currentPageno);
+  			$('#totalpage').html(data.totalPage);
+  			$('#totalNum').html(data.totalNum);
+    		}
+    	});
+    }
+    function deletes(){ 
+    	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+    	//取到对象数组后，我们来循环检测它是不是被选中 
+    	var s=''; 
+    	for(var i=0; i<obj.length; i++){ 
+    	if(obj[i].checked) 
+    	s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+    	} 
+    	//那么现在来检测s的值就知道选中的复选框的值了 
+    	alert(s==''?'你还没有选择任何内容！':s); 
+    	  
+    	  $.ajax({
+      		type:'get',
+      		url:'/CRM/chance/delete.action',
+      	    data:{
+      	    	 s:s,
+      	    },
+      		contentType:"application/json;charset=utf-8",
+      		dataType:'json',
+      		error:function(data){
+      			alert("succeed");
+      			location.reload();
+      		}
+      			
+      	});
+    	} 
+    function update(){ 
+    	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+    	//取到对象数组后，我们来循环检测它是不是被选中 
+    	
+    	var s=''; 
+    	var a=0;
+    	for(var i=0; i<obj.length; i++){ 
+    	if(obj[i].checked) {
+    	 s+=obj[i].value;
+    	//如果选中，将value添加到变量s中 
+    	a++;
+    	} 
+    	}
+        if(a<=0){
+            alert('请选择一条记录进行修改');
+        }
+        else if(a>=2){
+        	alert('请选择一条记录进行修改');
+        }else {
+        	$("#xiugai").attr("data-target","#addChance");
+        	$.ajax({
+          		type:'get',
+          		url:'/CRM/chance/updateChance.action',
+          	    data:{
+          	    	 s:s,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			$("#jid").val(data.jid),
+              	    $("#jname").val(data.jname),
+              	    $("#jclient").val(data.jclient),
+              	    $("#jlinkman").val(data.jlinkman),
+              	    $("#jproduct").val(data.jproduct),
+              	    $("#jexpectsal").val(data.jexpectsal),
+              	    $("#jdonetime").val(data.jdonetime),
+              	   
+              	    $("#jstage").val(data.jstage),
+              	    $("#jtype").val(data.jtype),
+              	    $("#jgetdate").val(data.jgetdate),
+              	    $("#jsource").val(data.jsource),
+              	    $("#birthdate").val(data.jdotime),
+              	    $("#jincharge").val(data.jincharge),
+              	    $("#jdept").val(data.jdept)
+          		}
+          	});
+        	} 
+    }
 
     </script>
 
@@ -264,48 +494,54 @@
             </div><!-- /.modal -->
         </div>
         <!--新增机会-->
-        <div class="modal fade" id="addClue" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+        <div class="modal fade" id="addChance" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title" id="addClueLabel">
+                        <h4 class="modal-title" id="addChanceLabel">
                             新增机会
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
+                     <form  method="post" enctype="multipart/form-data">
+                        <input type="hidden"  class="form-control"  id="jid"  name="jid" readonly/>
                             <div class="input-group">
                                 <span class="input-group-addon">机会名称：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="jname"  name="jname" >
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="jclient"  name="jclient">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="jlinkman"  name="jlinkman">
+                            </div>
+                            <br>
+                             <div class="input-group">
+                                <span class="input-group-addon">关联产品：</span>
+                                <input type="text" class="form-control" id="jproduct"  name="jproduct">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">预计销售：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" id="jexpectsal"  name="jexpectsal">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">预计签单：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="date" class="form-control" id="jdonetime" name="jdonetime"/>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">销售阶段：</span>
-                                <select class="form-control">
+                                <select class="form-control"  id="jstage"  name="jstage">
                                     <option>选择销售阶段</option>
                                     <option>初步接洽</option>
                                     <option>确认需求</option>
@@ -316,14 +552,19 @@
                                 </select>
                             </div>
                             <br>
+                             <div class="input-group">
+                                <span class="input-group-addon">机会类型：</span>
+                                <input type="text" class="form-control" id="jtype" name="jtype"/>
+                            </div>
+                            <br>
                             <div class="input-group">
                                 <span class="input-group-addon">获取日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="date" class="form-control" id="jgetdate" name="jgetdate"/>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">机会来源：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="jsource"  name="jsource">
                                     <option>选择机会来源</option>
                                     <option>广告</option>
                                     <option>社交推广</option>
@@ -337,17 +578,13 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" id="birthdate" name="jdotime" />
                             </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
-                            </div>
-                            <br>
+                            <br>  
+         
                             <div class="input-group">
                                 <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
+                                <select class="form-control" id="jincharge"  name="jincharge">
                                     <option>选择负责人</option>
                                     <option>张三</option>
                                     <option>李四</option>
@@ -357,7 +594,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="jdept"  name="jdept">
                                     <option>选择客户状态</option>
                                     <option>销售部</option>
                                     <option>营销部</option>
@@ -369,7 +606,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="save">
                             保存
                         </button>
                     </div>
@@ -481,7 +718,7 @@
 
 		</div>
             <div>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addChance" style="float: right;margin-right: 40px">
                     <i class="fa fa-folder fa-fw"></i>新建机会
                 </button>
             </div>
@@ -491,7 +728,7 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#allClue" data-toggle="tab">
+                        <a href="#allChance" data-toggle="tab">
                             全部机会
                         </a>
                     </li>
@@ -501,7 +738,7 @@
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
                     <!--全部机会-->
-                    <div class="tab-pane fade in active text-left" id="allClue">
+                    <div class="tab-pane fade in active text-left" id="allChance">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <span>销售阶段：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -639,27 +876,27 @@
                 <!--数据（从数据库中读取）-->
                 <form action="">
                     <table class="table table-striped">
-                        <caption>
+                       <caption>
                             <div>
-                                <span style="float: left">已选0个机会&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <button type="button" class="btn btn-default" style="float: left" >
+                                <span style="float: left">已选0个联系人&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <button type="button" class="btn btn-default" style="float: left" onclick="deletes()">
                                     <i class="fa fa-share fa-fw"></i>
                                     &nbsp;&nbsp;删除&nbsp;&nbsp;
                                 </button>
 
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: left" >
+                                <button type="button" class="btn btn-default" data-toggle="modal"  onclick="update()" style="float: left" id="xiugai">
                                     <i class="fa fa-pencil fa-fw"></i>
                                     &nbsp;&nbsp;修改&nbsp;&nbsp;
                                 </button>
-                                <button type="button" class="btn btn-default" style="float: right" >
-                                    搜索
+                                <button type="button" class="btn btn-default" style="float: right" id="searchbutton">
+                                                                                                                                                  搜索
                                 </button>
-                                <input type="text" style="height: 35px;float: right"/>
-                                <select class="btn btn-default" style="float: right">
+                                <input type="text" style="height: 35px;float: right"   id="searchtext"/>
+                                <select class="btn btn-default" style="float: right"  id="searchway">
                                     <option>请选择搜索方式</option>
-                                    <option>按姓名查找</option>
-                                    <option>按部门查找</option>
-                                    <option>其他</option>
+                                    <option value="1">按姓名查找</option>
+                                    <option value="2">按部门查找</option>
+                                    <option value="3">其他</option>
                                 </select>
                             </div>
                         </caption>
@@ -670,147 +907,22 @@
                             <th>对应客户</th>
                             <th>预计销售额</th>
                             <th>销售阶段</th>
-                            <th>跟进记录</th>
+                            <th>下次跟进</th>
                             <th>负责人</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>400003</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        <tr>
-                            <td><label><input type="checkbox" value=""></label></td>
-                            <td><a href="opportunity-details.html">Tanmay</a></td>
-                            <td><a href="customer-details.html">Bangalore</a></td>
-                            <td>411027</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
-                            <td>Bangalore</td>
-                        </tr>
-                        </tbody>
+                        <tbody id="chancelist">
+                              
+                       </tbody>
                     </table>
                 </form>
-                <ul class="pager">
+               <ul class="pager">
                     <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
+                    <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
                     </li>
-                    <li class="previous"><a href="#">&larr; 上一页</a></li>
-                    <li class="next"><a href="#">下一页 &rarr;</a></li>
+                    <li class="previous"><a id="a1">&larr;上一页</a></li>
+                    <li class="next"><a id="a2">下一页 &rarr;</a></li>
                 </ul>
 
 
