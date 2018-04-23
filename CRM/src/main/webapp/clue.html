@@ -420,6 +420,15 @@
               	});
             	} 
         }
+        function byebye(){
+    		$.ajax({
+    			url:'byebye.action',
+    			type:'post',
+    			success:function(data){
+    				location.reload();
+    			}
+    		})
+    	}
 
            	
     </script>
@@ -672,7 +681,7 @@
                             </div>
                             <br/>
                             <div class="input-group">
-                                <span class="input-group-addon">下次跟进：</span>
+                                <span class="input-group-addon">当前跟进：</span>
                                 <input type="date" class="form-control" id="xactual"  name="xactual"  />
                             </div>
                             <br>
@@ -727,7 +736,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" onclick="byebye()">
                             安全退出
                         </button>
                     </div>

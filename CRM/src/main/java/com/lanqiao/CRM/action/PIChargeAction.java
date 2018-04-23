@@ -33,6 +33,14 @@ public class PIChargeAction {
 		return pic;
 		
 	}
+	@RequestMapping("/byebye.action")
+	public @ResponseBody PICharge  bye(HttpSession session){
+		 PICharge  pic=null;
+				  session.setAttribute("PICharge",pic);
+		 System.out.println(pic);
+		return pic;
+		
+	}
 	@RequestMapping("/PIClogin.action")
 	public @ResponseBody String PIClogin(String username,String password,HttpSession session){
 	
