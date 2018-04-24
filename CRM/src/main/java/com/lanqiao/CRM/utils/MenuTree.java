@@ -13,7 +13,16 @@ public class MenuTree {
 	
 	private int id ;
 	private String text ;
+	private String url ;
 	private List<Menu> children ;
+	
+	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	public int getId() {
 		return id;
 	}

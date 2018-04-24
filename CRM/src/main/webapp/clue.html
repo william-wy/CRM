@@ -807,10 +807,10 @@
                                 <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=all")' value="全部">
                                 <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(xactual=curdate())")' value="今天">
                                 <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(to_days( now( ) ) - to_days( xactual) = 1)")' value="昨天">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(week(xactual)=week(curdate())")' value="本周">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(week(xactual)=week(curdate())-1")' value="上周">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(month(xactual)=month(curdate())")' value="本月">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(month(xactual)=month(curdate())-1")' value="上月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(xactual between (select date_sub(curdate(),interval weekday(curdate())+1 DAY))and (select date_sub(curdate(),interval weekday(curdate())-5 DAY)))")' value="本周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=()")' value="上周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=(xactual between(select date_sub(curdate(),interval dayofmonth(curdate())-1 day)) and (select last_day(curdate())))")' value="本月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?sjgj=()")' value="上月">
                                 <input type="text" class="btn btn-default" name="daterange" value="" />
                             </div>
                         </div>
@@ -820,11 +820,11 @@
                                 <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=all")' value="全部">
                                 
                                 <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(xnext=curdate())")' value="今天">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=()")' value="明天">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(week(xnext)=week(curdate())")' value="本周">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(week(xnext)=week(curdate())+1")' value="下周">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(month(xnext)=month(curdate())")' value="本月">
-                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(month(xnext)=month(curdate())+1)")' value="下月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(to_days(xnext) - to_days(now( )) = 1)")' value="明天">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(xnext between (select date_sub(curdate(),interval weekday(curdate())+1 DAY))and (select date_sub(curdate(),interval weekday(curdate())-5 DAY)))")' value="本周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=()")' value="下周">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=(xnext between(select date_sub(curdate(),interval dayofmonth(curdate())-1 day)) and (select last_day(curdate())))")' value="本月">
+                                <input type="button" class="btn btn-default" onclick='location.href=("http://localhost:8080/CRM/clue.html?xcgj=()")' value="下月">
                                 <input type="text" class="btn btn-default" name="daterange" value="" />
                             </div>
                         </div>
