@@ -1,0 +1,87 @@
+package com.lanqiao.CRM.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.lanqiao.CRM.dao.LogDao;
+import com.lanqiao.CRM.entity.Log;
+
+/**
+ * 日志类
+ * @author wangyi
+ *
+ */
+@Aspect
+@Component
+public class AOPLogService {
+	
+	@Autowired
+	private LogDao logDao;
+	
+	public AOPLogService(){
+		
+		System.out.println("========日志信息========");
+		
+	}
+
+	@After(value="execution(* com.lanqiao.CRM.dao.ClueDao.insert(..))")
+	public void afterinsert() {
+		
+		Log log = new Log();
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String log_createtime=df.format(new Date());
+		
+		log.setLog_createtime(log_createtime);
+		log.setLog_operation("插入一条线索");
+		log.setLog_type("clue");
+		
+		logDao.insert(log);
+		
+		System.out.println("====数据插入完毕====");
+		
+	}
+	
+	@After(value="execution(* com.lanqiao.CRM.dao.ClueDao.deleteByArray(..))")
+	public void afterdeleteByArray() {
+		
+		Log log = new Log();
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String log_createtime=df.format(new Date());
+		
+		log.setLog_createtime(log_createtime);
+		log.setLog_operation("删除一条线索");
+		log.setLog_type("clue");
+		
+		logDao.insert(log);
+		
+		System.out.println("====数据插入完毕====");
+		
+	}
+	
+	@After(value="execution(* com.lanqiao.CRM.dao.ClueDao.update(..))")
+	public void afterupdate() {
+		
+		Log log = new Log();
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String log_createtime=df.format(new Date());
+		
+		log.setLog_createtime(log_createtime);
+		log.setLog_operation("修改一条线索");
+		log.setLog_type("clue");
+		
+		logDao.insert(log);
+		
+		System.out.println("====数据插入完毕====");
+		
+	}
+
+}
