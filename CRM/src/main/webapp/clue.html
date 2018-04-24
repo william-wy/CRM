@@ -164,7 +164,7 @@
      	    
      	    
             <!-- 日期选择器配置-->
-            $('#birthdate').daterangepicker({
+            $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
                 singleDatePicker: true,
                 showDropdowns: true,
@@ -659,10 +659,10 @@
                                 <span class="input-group-addon">线索状态：</span>
                                 <select class="form-control" id="xstatus"  name="xstatus">
                                     <option   >选择线索状态</option>
-                                    <option value="1">未处理</option>
-                                    <option value="2">联系方式有效</option>
-                                    <option value="3">联系方式无效</option>
-                                    <option value="4">关闭</option>
+                                    <option value="处理">未处理</option>
+                                    <option value="联系方式有效">联系方式有效</option>
+                                    <option value="联系方式无效">联系方式无效</option>
+                                    <option value="关闭">关闭</option>
                                 </select>
                             </div>
                             <br>
@@ -670,24 +670,24 @@
                                 <span class="input-group-addon">线索来源：</span>
                                 <select class="form-control" id="xsource"  name="xsource">
                                     <option>选择线索来源</option>
-                                    <option value="1">广告</option>
-                                    <option value="2">社交推广</option>
-                                    <option value="3">研讨会</option>
-                                    <option value="4">搜索引擎</option>
-                                    <option value="5">客户介绍</option>
-                                    <option value="6">代理商</option>
-                                    <option value="7">其它</option>
+                                    <option value="广告">广告</option>
+                                    <option value="社交推广">社交推广</option>
+                                    <option value="研讨会">研讨会</option>
+                                    <option value="搜索引擎">搜索引擎</option>
+                                    <option value="客户介绍">客户介绍</option>
+                                    <option value="代理商">代理商</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br/>
                             <div class="input-group">
                                 <span class="input-group-addon">当前跟进：</span>
-                                <input type="date" class="form-control" id="xactual"  name="xactual"  />
+                                <input type="text" class="form-control" name="birthdate" id="xactual"  name="xactual"  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" id="birthdate"  name="xnext"  />
+                                <input type="text" class="form-control" name="birthdate" id="birthdate"  name="xnext"  />
                             </div>
                             <br>
                            <div class="input-group">
@@ -700,9 +700,9 @@
                                 <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <select class="form-control" id="xfid"  name="xfid">
                                     <option >选择负责人</option>
-                                    <option value="1">张三</option>
-                                    <option value="2">李四</option>
-                                    <option value="3">其它</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                          
