@@ -16,8 +16,13 @@
 		<!-- 启用注解 -->
 		<context:annotation-config />
 		
+		
 		<!-- 扫描controller注解,多个包中间使用半角逗号分隔 -->
 	    <context:component-scan base-package="com.lanqiao"/>
+	    
+	   
+	    
+	    <aop:aspectj-autoproxy expose-proxy="true"></aop:aspectj-autoproxy>
 		
 		<!--注解映射器 
 	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>

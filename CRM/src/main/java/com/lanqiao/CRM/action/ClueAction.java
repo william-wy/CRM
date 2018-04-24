@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.entity.Customer;
-import com.lanqiao.CRM.entity.CustomerSea;
 import com.lanqiao.CRM.service.ClueService;
 import com.lanqiao.CRM.service.CustomerService;
 import com.lanqiao.CRM.utils.PageUtil;

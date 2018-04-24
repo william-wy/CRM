@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.lanqiao.CRM.dao.ClueDao;
@@ -18,6 +20,7 @@ import com.lanqiao.CRM.utils.PageUtil;
 public class ClueServiceImpl implements ClueService{
 	@Autowired
     private ClueDao  clueDao;
+
 	
 	public void setClueDao(ClueDao clueDao) {
 		this.clueDao = clueDao;
@@ -69,6 +72,7 @@ public class ClueServiceImpl implements ClueService{
 
 	@Override
 	public void insert(Clue clue) {
+		
 		clueDao.insert(clue);
 		
 	}
