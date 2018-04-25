@@ -21,24 +21,33 @@
 
     <script type="text/javascript">
        var s="all";
+       var currentPageno =1 ;
         $(function() {
-        	
-            var currentPageno =1 ;
-            
+        
             getPage(currentPageno,s);
-            $("#a1").click(function(){
-                if(currentPageno<=1){
-             	  
-             	   getPage(1,s);
-                }else{
-             	   
-      		     getPage(--currentPageno,s);
-      		   }
-      		});
-      	    $('#a2').bind("click", function(){
+          
+      	    $("#leibie1").click(function(){
+      	    	  
+      	    	  s="leibie1";
+      	    	  getPage(currentPageno,s);
+      	    });
+      	    $("#leibie2").click(function(){
       	    	
-      		      getPage(++currentPageno,s);
-      		   });
+      	    	 s="leibie12";
+     	    	 getPage(currentPageno,s);
+    	    });
+      	    $("#leibie3").click(function(){
+      	    	 
+      	    	 s="leibie3";
+     	    	 getPage(currentPageno,s);
+   	        });
+      	    $("#leibie4").click(function(){
+      	    	 
+      	    	 s="leibie4";
+     	    	 getPage(currentPageno,s);
+   	        });
+
+      	    
       	    $("#save").click(function(){
    	    	
      		  $.ajax({
@@ -77,16 +86,27 @@
             });
         });
         
-        
         function getPage(currentPageno,s){
             var pagesize = 6 ;
+        	  $("#a1").off("click");
+    	      $("#a2").off("click");
+              $("#a1").click(function(){
+                if(currentPageno<=1){
+             	   getPage(1,s);
+                }else{
+      		     getPage(--currentPageno,s);
+      		   }
+      		});
+      	    $('#a2').bind("click", function(){
+      		      getPage(++currentPageno,s);
+      		   });
         	  $.ajax({
         		type:"get",
-        		url:"/CRM/product/"+s+".action",
+        		url:"/CRM/product/all.action",
         		data:{
         			pageno:currentPageno,
         			pagesize:pagesize,
-        			
+        			s:s
         		},
         		contentType:"application/json;charset=utf-8",
         		dataType:'json',
@@ -96,7 +116,7 @@
         			$.each(data.data,function(index,product){
         			    str += '<tr>' ;
         				str += '<td><label><input type="checkbox" name="test" value='+product.pid+'></label></td>';
-        				str += '<td><a href="product-details.html">'+product.pname+'</td>';
+        				str += '<td><a href="product-details.html?id='+product.pid+'">'+product.pname+'</td>';
         				str += '<td>'+product.no+'</td>';
         				str += '<td>'+product.price+'</td>';
         				str += '<td>'+product.unit+'</td>';
@@ -370,7 +390,7 @@
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">产品编号：</span>
+                                <span class="input-group-addon">产品销量：</span>
                                 <input type="text" class="form-control" id="no1">
                             </div>
                             <br>
@@ -547,69 +567,29 @@
                         <div class="panel-group" id="panel-1">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-11">大类1</a>
-                                </div>
-                                <div id="panel-element-11" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        小类1
-                                    </div>
-                                    <div class="panel-body">
-                                        小类2
-                                    </div>
-                                    <div class="panel-body">
-                                        小类3
-                                    </div>
-                                    <div class="panel-body">
-                                        小类4
-                                    </div>
-                                    <div class="panel-body">
-                                        小类5
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-22">大类2</a>
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-11" id="leibie1">类别1</a>
                                 </div>
                                 <div id="panel-element-22" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        小类1
-                                    </div>
-                                    <div class="panel-body">
-                                        小类2
-                                    </div>
-                                    <div class="panel-body">
-                                        小类3
-                                    </div>
-                                    <div class="panel-body">
-                                        小类4
-                                    </div>
-                                    <div class="panel-body">
-                                        小类5
-                                    </div>
+                                    
                                 </div>
-                            </div>
-                            <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-33">大类3</a>
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-22" id="leibie2">类别2</a>
+                                </div>
+                                <div id="panel-element-22" class="panel-collapse collapse">
+                                    
+                                </div>
+                   
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-33" id="leibie3">类别3</a>
                                 </div>
                                 <div id="panel-element-33" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        小类1
-                                    </div>
-                                    <div class="panel-body">
-                                        小类2
-                                    </div>
-                                    <div class="panel-body">
-                                        小类3
-                                    </div>
-                                    <div class="panel-body">
-                                        小类4
-                                    </div>
-                                    <div class="panel-body">
-                                        小类5
-                                    </div>
+                                    
+                                </div>
+                                 <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-33" id="leibie4">类别4</a>
+                                </div>
+                                <div id="panel-element-33" class="panel-collapse collapse">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -633,17 +613,16 @@
                                             <i class="fa fa-pencil fa-fw"></i>
                                             &nbsp;&nbsp;修改&nbsp;&nbsp;
                                         </button>
-                                        <button type="button" class="btn btn-default" style="float: right" >
-                                            搜索
+                                        <button type="button" class="btn btn-default" style="float: right" id="searchbutton">
+                                                                                                                                                                    搜索
                                         </button>
-                                        <input type="text" style="height: 35px;float: right"/>
-                                        <select class="btn btn-default" style="float: right">
-                                            <option>请选择搜索方式</option>
-                                            <option>产品名称</option>
-                                            <option>产品编号</option>
-                                            <option>销售单位</option>
-                                            <option>规格</option>
-                                            <option>产品介绍</option>
+                                        <input type="text" style="height: 35px;float: right"  id="searchtext"/>
+                                        <select class="btn btn-default" style="float: right" id="searchway">
+                                            <option value="0">请选择搜索方式</option>
+                                            <option value="1">产品名称</option>
+                                            
+                                            
+                                            
                                         </select>
                                     </div>
                                 </caption>

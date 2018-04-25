@@ -2,10 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lanqiao.CRM.dao.PayPlanDao">    
+<mapper   namespace="com.lanqiao.CRM.dao.PayPlanDao">    
 
-   
-   
      <select id="getPage" parameterType="map" resultType="payPlan">
          select *from payment_plan limit #{start},#{end}
      </select>
@@ -16,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="insert" parameterType="payPlan" >
-	    insert into payment_plan values(null,#{customer},#{contract},#{contractcost},#{signdate})
+	    insert into payment_plan values(#{fid},null,#{customer},#{contract},#{contractcost},#{signdate})
 	</insert>
 	
 	<delete id="deleteByArray"  parameterType="int[]">
@@ -24,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <foreach collection="array" open="(" item="planid" separator="," close=")">#{planid}</foreach>
     </delete>
 	
-
-	
+    
+	<select id="findByCusAndHeTong" parameterType="String" resultType="payPlan"> 
+	    select * from  payment_plan where customer=#{param1} and contract=#{param2}
+	</select>
  </mapper>

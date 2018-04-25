@@ -1,6 +1,12 @@
 package com.lanqiao.CRM.action;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +46,24 @@ public class PaymentAction {
                  
 		 return page; 
 	}
+	
+	@RequestMapping(value="/findByPaydate.action",method= {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody  PageUtilPayRecord findByPaydate(int pageno,int pagesize,String date) throws Exception{
+		PageUtilPayRecord page=null;
+		
+		if(date.equals("quanbu")) {
+        	 page=payRecordService.getPage1(pageno, pagesize);
+        	 
+         }else if(date.equals("today")) {
+        	 //PageUtilPayRecord page=payRecordService.findByPaydate(pageno, pagesize,"  ");
+        	 SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
+        	 String paydate=simpleDateFormat.format(new Date());
+        	page=payRecordService.findByPaydate(pageno, pagesize, paydate);
+        	 
+         }
+		   return page;
+	}
+	
 	
 	@RequestMapping(value="/allpayplan.action",method= {RequestMethod.POST,RequestMethod.GET})
 	public @ResponseBody  PageUtilPayPlan test1(int pageno,int pagesize) throws Exception{
@@ -162,5 +186,24 @@ public class PaymentAction {
 			  return "false";
 		}
 	}
+	
+	@RequestMapping(value="/findById.action",method={RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody List findById(int id) {
+		int payTotal=0;
+		PayRecord payRecord=payRecordService.findById(id);
+		PayPlan payPlan=payPlanService.findByCusAndHeTong(payRecord.getCustomer(), payRecord.getContract());
+		List<PayRecord> list1=payRecordService.findByCusAndHetong(payRecord.getCustomer(), payRecord.getContract());
+		for(int i=0;i<list1.size();i++) {
+			payTotal+=list1.get(i).getPaymoney();
+		}
+		List <Object> list=new ArrayList<Object>();
+		list.add(payRecord);
+		list.add(payPlan);
+		list.add(payTotal);
+		return list;
+
+	}
+	
+	
 	
 }

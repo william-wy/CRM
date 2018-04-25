@@ -28,6 +28,7 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
       var s="all";
+      var g="quanbu";
         var currentPagenopp =1 ;
         var currentPagenopr=1;
         var currentPagenobr=1;
@@ -37,7 +38,7 @@
         	payplan(currentPagenopp,s);
    
         	$("#payplan3").click(function(){payplan(currentPagenopp,s)});
-        	$("#payrecord3").click(function(){payrecord(currentPagenopr,s)});
+        	$("#payrecord3").click(function(){payrecord(currentPagenopr,g)});
         	$("#billrecord3").click(function(){billrecord(currentPagenobr,s)});
         	
       	    $("#savePayPlan").click(function(){
@@ -54,7 +55,7 @@
         		   datatype:'json',
         		   contentType:"application/json;charset=utf-8",
         		   success:function(data){
-        			    alert(data);
+        			    
                         if(data=="update succeed"||data=="insert succeed"){
                         	 window.location.reload();
                         }
@@ -81,7 +82,7 @@
         		   datatype:'json',
         		   contentType:"application/json;charset=utf-8",
         		   success:function(data){
-        			    alert(data);
+        			    
                         if(data=="update succeed"||data=="insert succeed"){
                         	 window.location.reload();
                         }
@@ -108,16 +109,57 @@
       		   datatype:'json',
       		   contentType:"application/json;charset=utf-8",
       		   success:function(data){
-      			    alert(data);
+      			    
                       if(data=="update succeed"||data=="insert succeed"){
                       	 window.location.reload();
-                      }
-      		       
-      			   
+                      }  
       		   }
       	   })
    	  });
+      	   <!--根据日期查询回款记录-->
+      	    $("#quanbu2").click(function(){
+      		    payrecord(currentPagenopr,g)
+      	    });
+      	
+        	$("#today2").click(function(){
+        		 g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
+        	
+        	$("#yesterday2").click(function(){
+        		g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
+        	
+        	
+        	$("#thisweek2").click(function(){
+        		g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
+        	
+        	
+        	$("#lastweek2").click(function(){
+        		 alert("today");
+        		 g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
+        	
+        	
+        	$("#thismonth2").click(function(){
+        		 g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
+        	
+        	
+        	$("#lastmonth2").click(function(){
+        		 g="today";
+        		 payrecord(currentPagenopr,g)
+          	});
       	    
+        	$("#zidingyi2").click(function(){
+        		 g="today";
+        		 payrecord(currentPagenopr,g)
+          	})
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -276,10 +318,10 @@
       
       function payplan(currentPagenopp,s){
     	  var pagesize = 6 ;
-    	  $("#deletes").off("onclick");
+    	  $("#deletes").off("click");
     	  $("#deletes").click(function(){deletepayplan()});
-    	  $("#a1").off("onclick");
-    	  $("#a2").off("onclick");
+    	  $("#a1").off("click");
+    	  $("#a2").off("click");
       	  
       	  $("#a1").click(function(){
             if(currentPagenopp<=1){
@@ -335,55 +377,56 @@
       };
       
       
-      function payrecord(currentPagenopr,s){
+      function payrecord(currentPagenopr,g){
+    	 
+    	  
     	  var pagesize = 6 ;
-    	  $("#deletes").off("onclick");
+    	  $("#deletes").off("click");
       	  $("#deletes").click(function(){deletepayrecord()});
-      	  $("#a1").off("onclick");
-  	      $("#a2").off("onclick");
+      	  $("#a1").off("click");
+  	      $("#a2").off("click");
     	  
     	  $("#a1").click(function(){
           if(currentPagenopr<=1){
        	  
-        	  payrecord(1,s);
+        	  payrecord(1,g);
           }else{
        	   
-        	  payrecord(--currentPagenopr,s);
+        	  payrecord(--currentPagenopr,g);
 		   }
 		   });
 	       $('#a2').bind("click", function(){
 	    	  var b=$("#totalpage").html();
 	    	  if(currentPagenopr>=b){
-	    		  payrecord(b,s);
+	    		  payrecord(b,g);
 	    	  }
 		      
 		      else{
-		    	  payrecord(++currentPagenopr,s);
+		    	  payrecord(++currentPagenopr,g);
 		      }
 	    	    
 		   });
     	  $.ajax({
     		type:"get",
-    		url:"/CRM/payment/"+s+"payrecord"+".action",
+    		url:"/CRM/payment/findByPaydate.action",
     		data:{
     			pageno:currentPagenopr,
     			pagesize:pagesize,
-    			
+    			date:g
     		},
     		contentType:"application/json;charset=utf-8",
     		dataType:'json',
     		success:function(data){
-    	       var pagesize = 6 ;
+    	      
     	       var str1 ='<tr><th>选择</th><th>对应客户</th><th>合同名称</th><th>回款金额</th><th>回款期次</th><th>回款类型</th><th>回款日期</th></tr>' ;
     	       var str2='';
 
     			$.each(data.data,function(index,payrecord){
-    				
     				str2 +='<tr>';
     				str2 += '<td><label><input type="checkbox" name="test" value='+payrecord.id+'></label></td>';
     				str2 += '<td><a href="customer-details.html">'+payrecord.customer+'</td>';
     			    str2+= '<td><a href="contract-details.html">'+payrecord.contract+'</td>';
-    				str2 += '<td><a href="payment-details.html">'+payrecord.paymoney+'</td>';
+    				str2 += '<td><a href="payment-details.html?id='+payrecord.id+'">'+payrecord.paymoney+'</td>';
     				str2 += '<td>'+payrecord.payperiod+'</td>';
     				str2 += '<td>'+payrecord.paytype+'</td>';
     				str2 += '<td>'+payrecord.paydate+'</td>';
@@ -400,10 +443,10 @@
       
       function billrecord(currentPagenobr,s){
     	  var pagesize = 6 ;
-    	  $("#deletes").off("onclick");
+    	  $("#deletes").off("click");
       	  $("#deletes").click(function(){deletebillrecord()});
-      	  $("#a1").off("onclick");
-	      $("#a2").off("onclick");
+      	  $("#a1").off("click");
+	      $("#a2").off("click");
   	  
   	      $("#a1").click(function(){
           if(currentPagenobr<=1){
@@ -1007,44 +1050,48 @@
                     <!--回款计划-->
                     <div class="tab-pane fade in active text-left" id="allClue">
                         <div class="btn-toolbar" role="toolbar">
-                            <div class="panel-body">
-                                <span>计划回款日期：&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="今天">
-                                <input type="button" class="btn btn-default" value="明天">
-                                <input type="button" class="btn btn-default" value="本周">
-                                <input type="button" class="btn btn-default" value="下周">
-                                <input type="button" class="btn btn-default" value="本月">
-                                <input type="button" class="btn btn-default" value="下月">
-                                <input type="text" class="btn btn-default" name="daterange" value="" />
+                             <div class="panel-body">
+                                <div style="float: left">
+                                <span>计划回款日期：&nbsp;&nbsp;&nbsp;</span></div>
+                                <select class="btn btn-default" style="float: left" id="planhuikuandate">
+                                    <option>全部</option>
+                                    <option>今天</option>
+                                    <option>明天</option>
+                                    <option>本周</option>
+                                    <option>下周</option>
+                                    <option>本月</option>
+                                    <option>下月</option>
+                                </select>      
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
-                                <span>回款状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="button" class="btn btn-default" value="全部">
-                                <input type="button" class="btn btn-default" value="未完成">
-                                <input type="button" class="btn btn-default" value="完成">
-                                <input type="button" class="btn btn-default" value="逾期未完成">
+                               <div style="float: left">
+                                <span>回款状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                <select class="btn btn-default" style="float: left" id="huikuanstatus"> 
+                                    <option>全部</option>
+                                    <option>未完成</option>
+                                    <option>完成</option>
+                                </select>    
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
                                 <span>合同所属部门：&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
+                                <select class="btn btn-default" style="float: left" id="hetongdept">
                                     <option>请选择部门</option>
                                     <option>销售部</option>
                                     <option>营销部</option>
                                     <option>其他</option>
-                                </select>
+                                </select>      
                             </div>
                         </div>
                         <div class="btn-toolbar" role="toolbar">
                             <div class="panel-body">
                                 <div style="float: left">
-                                    <span>合同负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-                                <select class="btn btn-default" style="float: left">
+                                <span>合同负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+                                <select class="btn btn-default" style="float: left" id="hetongfuzeren">
                                     <option>请选择用户</option>
                                     <option>张三</option>
                                     <option>李四</option>
@@ -1057,14 +1104,14 @@
                     <div class="tab-pane fade" id="myClue">
                         <div class="panel-body">
                             <span>实际回款日期：&nbsp;&nbsp;&nbsp;</span>
-                            <input type="button" class="btn btn-default" value="全部">
-                            <input type="button" class="btn btn-default" value="今天">
-                            <input type="button" class="btn btn-default" value="昨天">
-                            <input type="button" class="btn btn-default" value="本周">
-                            <input type="button" class="btn btn-default" value="上周">
-                            <input type="button" class="btn btn-default" value="本月">
-                            <input type="button" class="btn btn-default" value="上月">
-                            <input type="text" class="btn btn-default" name="daterange" value="" />
+                            <input type="button" class="btn btn-default" value="全部" id="quanbu2">
+                            <input type="button" class="btn btn-default" value="今天"  id="today2">
+                            <input type="button" class="btn btn-default" value="昨天" id="yesterday2">
+                            <input type="button" class="btn btn-default" value="本周" id="thisweek2">
+                            <input type="button" class="btn btn-default" value="上周" id="lastweek2">
+                            <input type="button" class="btn btn-default" value="本月" id="thismonth2">
+                            <input type="button" class="btn btn-default" value="上月" id="lastmonth2">
+                            <input type="text" class="btn btn-default" name="daterange" value=""  id="zidingyi2"/>
                         </div>
                     </div>
                     <!--开票记录-->

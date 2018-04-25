@@ -66,4 +66,10 @@ public class PayPlanServiceImpl implements PayPlanService{
 		payPlanDao.deleteByArray(id);
 	}
 
+	@Override
+	public PayPlan findByCusAndHeTong(String customer, String hetong) {
+		// TODO Auto-generated method stub
+		return payPlanDao.findByCusAndHeTong(customer, hetong);
+	}
+
 }

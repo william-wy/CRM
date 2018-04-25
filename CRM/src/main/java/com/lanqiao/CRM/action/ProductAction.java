@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.entity.Product;
 import com.lanqiao.CRM.service.ProductService;
 import com.lanqiao.CRM.utils.PageUtil;
@@ -27,11 +28,31 @@ public class ProductAction {
 	}
 
 	@RequestMapping(value="/all.action",method= {RequestMethod.POST,RequestMethod.GET})
-	public @ResponseBody  PageUtil test2( int pageno, int pagesize) throws Exception{
-         
+	public @ResponseBody  PageUtil test2( int pageno, int pagesize,String s) throws Exception{
+         if(s.equals("leibie1")) {
+        	 PageUtil page=productService.findByLeibie(pageno, pagesize, "类别1");
+        	 System.out.println("类别1");
+        	 return page; 
+         }
+         else if(s.equals("leibie2")) {
+        	 PageUtil page=productService.findByLeibie(pageno, pagesize, "类别2");
+        	 System.out.println("类别2");
+        	 return page; 
+         }
+         else if(s.equals("leibie3")) {
+        	 PageUtil page=productService.findByLeibie(pageno, pagesize, "类别3");
+        	 System.out.println("类别3");
+        	 return page; 
+         }
+         else if(s.equals("leibie4")) {
+        	 PageUtil page=productService.findByLeibie(pageno, pagesize, "类别4");
+        	 System.out.println("类别4");
+        	 return page; 
+         }else {
          PageUtil page=productService.getPage(pageno, pagesize);
-                 
-		 return page; 
+         return page;
+         }
+		 
 	}
 	
 	
@@ -85,4 +106,17 @@ public class ProductAction {
 			 return "false";
 		 }
 	}
+	  
+	
+	@RequestMapping(value="/findById.action",method={RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody Product test8(int id) throws UnsupportedEncodingException {
+		
+		Product p=productService.findByPid(id);
+		return p;
+		    
+		     
+			   
+	}
+	
+	
 }

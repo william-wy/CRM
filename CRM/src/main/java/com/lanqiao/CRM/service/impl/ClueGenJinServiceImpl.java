@@ -24,7 +24,7 @@ public class ClueGenJinServiceImpl implements ClueGenJinService{
 		// TODO Auto-generated method stub
 		return clueGenJin.findByClue(clue);
 	}
-
+	
 	@Override
 	public void insert(ClueGenJin clue) {
 		// TODO Auto-generated method stub
@@ -35,6 +35,12 @@ public class ClueGenJinServiceImpl implements ClueGenJinService{
 	public List<ClueGenJin> findByWay(String way) {
 		// TODO Auto-generated method stub
 		return clueGenJin.findByWay(way);
+	}
+
+	@Override
+	public List<ClueGenJin> findAll() {
+		// TODO Auto-generated method stub
+		return clueGenJin.findAll();
 	}
 	
 	

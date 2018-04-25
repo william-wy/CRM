@@ -15,4 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from cluegenjin  where way=#{way}
      </select>
      
+     <select id="findAll" resultType="ClueGenJin">
+            select * from cluegenjin
+     </select>
+     
  </mapper>

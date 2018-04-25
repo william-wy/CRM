@@ -15,4 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from customergenjin  where way=#{way}
      </select>
      
+     <select id="findAll" resultType="CustomerGenJin">
+            select * from customergenjin
+     </select>
+     
  </mapper>

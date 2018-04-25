@@ -27,7 +27,67 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
+    var url=window.location.href;
+	var c=url.split("?")[1];
+	var cid=c.split("=")[1];
         $(function() {
+        	
+        	
+        	//显示信息
+        	$.ajax({
+        	   type:"get",
+  			   url:"/CRM/product/findById.action",
+  			   data:{id:cid},
+  		       datatype:'json',
+		           contentType:"application/json;charset=utf-8",
+		           success:function(data){
+                        $("#biaoti1").html(data.pname),
+                        $("#biaoti2").html(data.pname),
+		        	    $("#pname3").html(data.pname),
+		        	    $("#no3").html(data.no),
+		        	    $("#sort3").html(data.sort),
+                	    $("#price3").html("￥"+data.price),
+                	    $("#cost3").html("￥"+data.cost),
+                	    $("#maolilv").html((data.price-data.cost)/data.price+"%"),
+                	    $("#unit3").html(data.unit),
+                	    $("#guige3").html(data.guige),
+                	    $("#img3").html(data.img),
+                	    $("#introdu3").html(data.introdu)
+                	   
+		           }
+        	});
+        	
+        	$("#save").click(function(){
+       	    	
+       		  $.ajax({
+          		   type:'get',
+          		   url:"/CRM/product/saveProduct.action",
+                     data:{
+                  	id:$("#pid1").val(),
+               	    pname:$("#pname1").val(),
+               	    price:$("#price1").val(),
+               	    cost:$("#cost1").val(),
+               	    unit:$("#unit1").val(),
+               	    guige:$("#guige1").val(),
+               	    sort:$("#sort1").val(),
+               	    img:$("#img1").val(), 
+               	    introdu:$('#introdu1').val(),
+               	    no:$("#no1").val()
+                  },      		   
+          		   datatype:'json',
+          		   contentType:"application/json;charset=utf-8",
+          		   success:function(data){
+          			    alert(data);
+                          if(data=="update succeed"||data=="insert succeed"){
+                          	 window.location.reload();
+                          }
+          		       
+          			   
+          		   }
+          	   })
+       	  });
+        	
+        	        	
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -100,6 +160,32 @@
                 location.reload();
             });
         });
+        
+        
+        function update(){ 
+        	$.ajax({
+          		type:'get',
+          		url:'/CRM/product/updateProduct.action',
+          	    data:{
+          	    	 s:cid,
+          	    },
+          		contentType:"application/json;charset=utf-8",
+          		dataType:'json',
+          		success:function(data){
+          			$("#pid1").val(data.pid),
+              	    $("#pname1").val(data.pname),
+              	    $("#price1").val(data.price),
+              	    $("#unit1").val(data.unit),
+              	    $("#cost1").val(data.cost),
+              	    $("#guige1").val(data.guige),
+              	    $("#sort1").val(data.sort),
+              	    $("#img1").val(data.img),
+              	    $("#introdu1").val(data.introdu),
+              	    $("#no1").val(data.no)
+          		}
+          	});
+        	 
+    }
 
     </script>
 
@@ -278,112 +364,66 @@
                     <div class="modal-body text-center pre-scrollable">
 
                         <form class="bs-example bs-example-form" role="form">
+                            <input  type="hidden"  id="pid1"></input>
                             <div class="input-group">
-                                <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">产品名称：</span>
+                                <input type="text" class="form-control" id="pname1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">公司名称：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">产品销量：</span>
+                                <input type="text" class="form-control" id="no1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">标准单价：</span>
+                                <input type="text" class="form-control" id="price1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">销售单位：</span>
+                                <input type="text" class="form-control" id="unit1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">单位成本：</span>
+                                <input type="text" class="form-control" id="cost1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <span class="input-group-addon">规格：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control" id="guige1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice3" class="form-control" value="请选择城市">
-                                <input type="hidden" id="province3" value="">
-                                <input type="hidden" id="city3" value="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">线索状态：</span>
-                                <select class="form-control">
-                                    <option>选择线索状态</option>
-                                    <option>未处理</option>
-                                    <option>联系方式有效</option>
-                                    <option>联系方式无效</option>
-                                    <option>关闭</option>
-                                    <option>100-500人</option>
-                                    <option>500人以上</option>
+                                <span class="input-group-addon">产品分类：</span>
+                                <select class="form-control"  id="sort1">
+                                    <option>选择产品分类</option>
+                                    <option value="类别1">类别1</option>
+                                    <option value="类别2">类别2</option>
+                                    <option value="类别3">类别3</option>
+                                    <option value="类别4">类别4</option>
+                                    <option value="其他">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">线索来源：</span>
-                                <select class="form-control">
-                                    <option>选择线索来源</option>
-                                    <option>广告</option>
-                                    <option>社交推广</option>
-                                    <option>研讨会</option>
-                                    <option>搜索引擎</option>
-                                    <option>客户介绍</option>
-                                    <option>代理商</option>
-                                    <option>其它</option>
-                                </select>
+                                <span class="input-group-addon">产品图片：</span>
+                                <input type="text" class="form-control" id="img1">
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择负责人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">所属部门：</span>
-                                <select class="form-control">
-                                    <option>选择客户状态</option>
-                                    <option>销售部</option>
-                                    <option>营销部</option>
-                                    <option>其它</option>
-                                </select>
+                                <span class="input-group-addon">产品介绍：</span>
+                                <textarea class="form-control" rows="4" id="introdu1"></textarea>
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
-
-                        <button type="button" class="btn btn-primary" name="save">
+                      
+                       <button type="button" class="btn btn-primary" id="save">
                             保存
-                        </button>
+                        </button> 
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
@@ -518,25 +558,23 @@
 
 		<div id="page-wrapper">
 		  <div class="header">
-                        <h1 class="page-header">
-                            竹木纤维系列
+                        <h1 class="page-header" id="biaoti1">
+                              
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
                             <li><a href="#">销售支持</a></li>
 					        <li><a href="product.html">产品</a></li>
-					        <li class="active">竹木纤维系列</li>
+					        <li class="active" id="biaoti2">竹木纤维系列</li>
 					    </ol>
 		  </div>
             <div class="btn-toolbar" role="toolbar">
                 <div class="panel-body">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" onclick="update()" id="xiugai">
                         <i class="fa fa-pencil fa-fw"></i>编辑
                     </button>&nbsp;&nbsp;
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-share fa-fw"></i>删除
-                    </button>
+                    
                 </div>
             </div>
             <div id="page-inner">
@@ -564,12 +602,12 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">产品名称：</td><td>竹木纤维系列</td></tr>
-                                            <tr><td>产品编号：</td><td>01</td></tr>
-                                            <tr><td>标准单价：</td><td>¥ 1,280.00</td></tr>
-                                            <tr><td>销售单位：</td><td>------</td></tr>
-                                            <tr><td>单位成本：</td><td>¥ 680.00</td></tr>
-                                            <tr><td>毛利率：</td><td>46.88%</td></tr>
+                                            <tr><td width="20%">产品名称：</td><td id="pname3"></td></tr>
+                                            <tr><td>产品销量：</td><td id="no3">01</td></tr>
+                                            <tr><td>标准单价：</td><td id="price3"></td></tr>
+                                            <tr><td>销售单位：</td><td id="unit3"></td></tr>
+                                            <tr><td>单位成本：</td><td id="cost3"></td></tr>
+                                            <tr><td>毛利率：</td><td id="maolilv"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -579,7 +617,7 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">规格：</td><td>-----</td></tr>
+                                            <tr><td width="20%" >规格：</td><td id="guige3"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -589,9 +627,9 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">产品分类：</td><td>默认分类</td></tr>
-                                            <tr><td>产品图片：</td><td>------</td></tr>
-                                            <tr><td>产品价格：</td><td>------</td></tr>
+                                            <tr><td width="20%">产品分类：</td><td id="sort3"></td></tr>
+                                            <tr><td>产品图片：</td><td id="img3"></td></tr>
+                                            <tr><td>产品介绍：</td><td id="introdu3"></td></tr>
                                         </table>
                                     </div>
                                 </div>

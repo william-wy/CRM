@@ -28,7 +28,68 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
         $(function() {
-            <!-- 日期选择器配置-->
+        	var url=window.location.href;
+        	var c=url.split("?")[1];
+        	var cid=c.split("=")[1];
+        	
+        	//显示信息
+        	$.ajax({
+        	   type:"get",
+  			   url:"/CRM/payment/findById.action",
+  			   data:{id:cid},
+  		       datatype:'json',
+		           contentType:"application/json;charset=utf-8",
+		           success:function(data){
+		        	   if((data[1].contractcost-data[2])>0){
+		        		      $("#huikuanstatus").html("未完成");
+		        		      
+		        	            }else{
+		        		         $("#huikuanstatus").html("完成");
+		        		        
+		        	          };
+		        	  $("#paydate").html(data[0].paydate);
+		        	  $("#paymoney").html("￥"+data[0].paymoney);
+		        	  $("#payperiod").html(data[0].payperiod);
+		        	  $("#customer").html(data[0].customer);
+		        	  $("#remark").html(data[0].remark);  huikuanstatus
+		        	  $("#contract").html(data[0].contract);
+		        	  $("#biaoti1").html(data[0].contract+data[0].payperiod+"还款计划"),
+		        	  $("#biaoti2").html(data[0].contract+data[0].payperiod+"还款计划"),
+		        	  $("#yihuikuan").html("￥"+data[2]),
+		        	  $("#weihuikuan").html("￥"+(data[1].contractcost-data[2]))
+		        	  
+		        	  
+		              }
+        	});
+            //保存回款记录
+        	$("#savePayRecord").click(function(){
+       	    	
+       		  $.ajax({
+          		   type:'get',
+          		   url:"/CRM/payment/savePayRecord.action",
+                     data:{
+                  	customer:$("#customer2").val(),
+                  	contract:$("#contract2").val(),
+                  	paydate:$("#paydate2").val(),
+                  	paymoney:$("#paymoney2").val(),
+                  	payperiod:$("#payperiod2").val(),
+                  	paymethod:$("#paymethod2").val(),
+                  	paytype:$("#paytype2").val(),
+                  	payee:$("#payee2").val(),
+                  	remark:$("#remark2").val()
+                  },      		   
+          		   datatype:'json',
+          		   contentType:"application/json;charset=utf-8",
+          		   success:function(data){
+          			    alert(data);
+                          
+                          	 document.reload();
+                          
+          		   }
+          	   })
+       	  });
+        	
+		        	  <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
                 singleDatePicker: true,
@@ -336,90 +397,90 @@
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
                                 <span class="input-group-addon">回款日期：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" name="birthdate" value=""  id="paydate2"/>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款金额：</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="paymoney2">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">对应客户：</span>
-                                <select class="form-control">
-                                    <option>请选择客户</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="customer2">
+                                    <option value="请选择客户">请选择客户</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">合同名称：</span>
-                                <select class="form-control">
-                                    <option>请选择合同</option>
-                                    <option>合同1</option>
-                                    <option>合同2</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="contract2">
+                                    <option value="请选择合同">请选择合同</option>
+                                    <option value="合同1">合同1</option>
+                                    <option value="合同2">合同2</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款期次：</span>
-                                <select class="form-control">
-                                    <option>请选择期次</option>
-                                    <option>第一期</option>
-                                    <option>第二期</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="payperiod2">
+                                    <option value="请选择期次">请选择期次</option>
+                                    <option value="第一期">第一期</option>
+                                    <option value="第二期">第二期</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">付款方式：</span>
-                                <select class="form-control">
-                                    <option>请选择付款方式</option>
-                                    <option>支票</option>
-                                    <option>现金</option>
-                                    <option>银行转账</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="paymethod2">
+                                    <option value="请选择付款方式">请选择付款方式</option>
+                                    <option value="支票">支票</option>
+                                    <option value="现金">现金</option>
+                                    <option value="银行转账">银行转账</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">回款类型：</span>
-                                <select class="form-control">
-                                    <option>请选择回款类型</option>
-                                    <option>正常回款</option>
-                                    <option>退款</option>
-                                    <option>保证金</option>
-                                    <option>预收款</option>
-                                    <option>尾款</option>
+                                <select class="form-control" id="paytype2">
+                                    <option value="请选择回款类型">请选择回款类型</option>
+                                    <option value="正常回款">正常回款</option>
+                                    <option value="退款">退款</option>
+                                    <option value="保证金">保证金</option>
+                                    <option value="预收款">预收款</option>
+                                    <option value="尾款">尾款</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">收款人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择收款人</option>
-                                    <option>张三</option>
-                                    <option>李四</option>
-                                    <option>其它</option>
+                                <select class="form-control" id="payee2">
+                                    <option value="选择收款人">选择收款人</option>
+                                    <option value="张三">张三</option>
+                                    <option value="李四">李四</option>
+                                    <option value="其它">其它</option>
                                 </select>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" id="remark2"></textarea>
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" name="save">
+                        <button type="button" class="btn btn-primary" id="savePayRecord">
                             保存
                         </button>
-                    </div>
+                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
@@ -517,14 +578,14 @@
 
 		<div id="page-wrapper">
 		  <div class="header">
-                        <h1 class="page-header">
-                            【业支】维所--亚拉拉特 第1期回款计划
+                        <h1 class="page-header" id="biaoti1">
+                                                                                                          【业支】维所--亚拉拉特 第1期回款计划
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
                             <li><a href="#">销售管理</a></li>
 					        <li><a href="payment.html">回款</a></li>
-					        <li class="active">【业支】维所--亚拉拉特 第1期回款计划</li>
+					        <li class="active" id="biaoti2">【业支】维所--亚拉拉特 第1期回款计划</li>
 					    </ol>
 
 		  </div>
@@ -561,12 +622,12 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">计划回款日期：</td><td>2018-04-09</td></tr>
-                                            <tr><td>计划回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>回款期次：</td><td>1</td></tr>
-                                            <tr><td>合同名称：</td><td>【业支】维所--亚拉拉特</td></tr>
-                                            <tr><td>对应客户：</td><td>维拉斯会所</td></tr>
-                                            <tr><td>备注：</td><td>-------</td></tr>
+                                            <tr><td width="20%">计划回款日期：</td><td id="paydate">2018-04-09</td></tr>
+                                            <tr><td>计划回款金额：</td><td id="paymoney">¥ 19,164.75</td></tr>
+                                            <tr><td>回款期次：</td><td id="payperiod"> 1</td></tr>
+                                            <tr><td>合同名称：</td><td id="contract">【业支】维所--亚拉拉特</td></tr>
+                                            <tr><td>对应客户：</td><td id="customer">维拉斯会所</td></tr>
+                                            <tr><td>备注：</td><td id="remark"></td></tr>
                                         </table>
                                     </div>
                                 </div>
@@ -576,10 +637,10 @@
                                     </div>
                                     <div class="panel-body table-responsive">
                                         <table class="table">
-                                            <tr><td width="20%">回款状态：</td><td>完成</td></tr>
-                                            <tr><td>逾期天数：</td><td>0</td></tr>
-                                            <tr><td>已回款金额：</td><td>¥ 19,164.75</td></tr>
-                                            <tr><td>未回款金额：</td><td>¥ 19,164.75</td></tr>
+                                            <tr><td width="20%" >回款状态：</td><td id="huikuanstatus"></td></tr>
+                                            
+                                            <tr><td>已回款金额：</td><td id="yihuikuan"></td></tr>
+                                            <tr><td>未回款金额：</td><td id="weihuikuan"></td></tr>
                                         </table>
                                     </div>
                                 </div>

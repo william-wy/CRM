@@ -77,17 +77,17 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int getTotalByUnit(String unit) {
+	public int getTotalByUnitAndLeibie(String unit,String sort) {
 		// TODO Auto-generated method stub
-		return productDao.getTotalByUnit(unit);
+		return productDao.getTotalByUnitAndLeibie(unit, sort);
 	}
 
 	@Override
-	public PageUtil findByUnit(int pageno, int pagesize, String unit) {
+	public PageUtil findByUnitAndLeibie(int pageno, int pagesize, String unit,String sort) {
 		Map<Object,Object> map=new HashMap<Object,Object>();
         PageUtil  page=new PageUtil();
         
-		int total=productDao.getTotalByUnit(unit);
+		int total=productDao.getTotalByUnitAndLeibie(unit, sort);
 		int pageTotal=(total%pagesize==0)?total/pagesize:total/pagesize+1;
 		if(pageno>pageTotal) {
 			pageno=pageTotal;
@@ -98,8 +98,9 @@ public class ProductServiceImpl implements ProductService{
 		map.put("start",(pageno-1)*pagesize);
 		map.put("end", pagesize);
 		map.put("unit", unit);
+		map.put("sort", sort);
 
-		List list=productDao.findByUnit(map);
+		List list=productDao.findByUnitAndLeibie(map);
 	    
 		page.setData(list);
 		page.setTotalNum(total);
@@ -109,18 +110,20 @@ public class ProductServiceImpl implements ProductService{
 		return page;
 	}
 
+	
+
 	@Override
-	public int getTotalByGuige(String guige) {
+	public int getTotalByNameAndLeibie(String pname,String sort) {
 		// TODO Auto-generated method stub
-		return productDao.getTotalByGuige(guige);
+		return productDao.getTotalByNameAndLeibie(pname, sort);
 	}
 
 	@Override
-	public PageUtil findByGuige(int pageno, int pagesize, String guige) {
+	public PageUtil findByNameAndLeibie(int pageno, int pagesize, String pname,String sort) {
 		Map<Object,Object> map=new HashMap<Object,Object>();
         PageUtil  page=new PageUtil();
         
-		int total=productDao.getTotalByGuige(guige);
+		int total=productDao.getTotalByNameAndLeibie(pname,sort);
 		int pageTotal=(total%pagesize==0)?total/pagesize:total/pagesize+1;
 		if(pageno>pageTotal) {
 			pageno=pageTotal;
@@ -130,42 +133,11 @@ public class ProductServiceImpl implements ProductService{
 		
 		map.put("start",(pageno-1)*pagesize);
 		map.put("end", pagesize);
-		map.put("guige", guige);
-
-		List list=productDao.findByGuige(map);
-	    
-		page.setData(list);
-		page.setTotalNum(total);
-		page.setTotalPage(pageTotal);
-		page.setCurrentPageno(pageno);
-
-		return page;
-	}
-
-	@Override
-	public int getTotalByIntrodu(String introdu) {
-		// TODO Auto-generated method stub
-		return productDao.getTotalByIntrodu(introdu);
-	}
-
-	@Override
-	public PageUtil findByIntrodu(int pageno, int pagesize, String introdu) {
-		Map<Object,Object> map=new HashMap<Object,Object>();
-        PageUtil  page=new PageUtil();
-        
-		int total=productDao.getTotalByIntrodu(introdu);
-		int pageTotal=(total%pagesize==0)?total/pagesize:total/pagesize+1;
-		if(pageno>pageTotal) {
-			pageno=pageTotal;
-		}else if(pageno<=0) {
-			pageno=1;
-		}
+		map.put("pname", pname);
+		map.put("sort", sort);
 		
-		map.put("start",(pageno-1)*pagesize);
-		map.put("end", pagesize);
-		map.put("introdu", introdu);
 
-		List list=productDao.findByIntrodu(map);
+		List list=productDao.findByNameAndLeibie(map);
 	    
 		page.setData(list);
 		page.setTotalNum(total);
@@ -179,6 +151,39 @@ public class ProductServiceImpl implements ProductService{
 	public void deleteByArray(int[] pid) {
 		// TODO Auto-generated method stub
 		productDao.deleteByArray(pid);
+	}
+
+	@Override
+	public PageUtil findByLeibie(int pageno, int pagesize, String sort) {
+		Map<Object,Object> map=new HashMap<Object,Object>();
+        PageUtil  page=new PageUtil();
+        
+		int total=productDao.getTotalByLeibie(sort);
+		int pageTotal=(total%pagesize==0)?total/pagesize:total/pagesize+1;
+		if(pageno>pageTotal) {
+			pageno=pageTotal;
+		}else if(pageno<=0) {
+			pageno=1;
+		}
+		
+		map.put("start",(pageno-1)*pagesize);
+		map.put("end", pagesize);
+		map.put("sort", sort);
+
+		List list=productDao.findByLeibie(map);
+	    
+		page.setData(list);
+		page.setTotalNum(total);
+		page.setTotalPage(pageTotal);
+		page.setCurrentPageno(pageno);
+
+		return page;
+	}
+
+	@Override
+	public int getTotalByLeibie(String leibie) {
+		
+		return productDao.getTotalByLeibie(leibie);
 	}
     
 }

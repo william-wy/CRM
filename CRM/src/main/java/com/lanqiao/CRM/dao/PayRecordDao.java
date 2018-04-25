@@ -12,4 +12,9 @@ public interface PayRecordDao {
 	public int getTotal();
 	public void insert(PayRecord payRecord);
 	public void deleteByArray(int[] id);
+	
+	public PayRecord findById(int id);
+	public List<PayRecord> findByCusAndHetong(String Customer,String hetong);
+	public List<PayRecord> findByPaydate(Map<String,Object> map);
+	public int getTotalByPaydate(String paydate);
 }

@@ -36,4 +36,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     select *from product where pid=#{pid}
 	</select>
    
+   <select id="findByLeibie" parameterType="map" resultType="product">
+          select  * from ( select *  from  product  where sort=#{sort} ) seeee  limit #{start},#{end}
+   </select>
+   
+   
+    <select id="getTotalByLeibie" resultType="int">
+		 select count(*) from product where sort=#{sort}
+	</select>
+	
+	<select id="findByNameAndLeibie" parameterType="map" resultType="product">
+      
+          
+          select * from (select * from product 
+          <where>
+              <if test="sort!=null and sort!='' ">
+                   and sort=#{sort} 
+              </if>
+              <if test="pname!=null and pname!='' ">
+                   and pname=#{pname} 
+              </if>
+          </where>) seeee  limit #{start},#{end}
+          
+   </select>
+   
+   
+    <select id="getTotalByNameAndLeibie"  parameterType="String"  resultType="int">
+		 select count(*) from product where pname=#{pname} and sort=#{sort}
+	</select>
+	
  </mapper>

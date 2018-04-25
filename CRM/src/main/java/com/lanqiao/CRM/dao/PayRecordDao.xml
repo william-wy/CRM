@@ -10,13 +10,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          select *from payment_record limit #{start},#{end}
      </select>
      
+     <select id="findByPaydate" parameterType="map" resultType="payRecord">
+         select * from (select * from payment_record where paydate=${paydate}) a limit #{start},#{end}
+       
+     </select>
+     
      <select id="getTotal" resultType="int">
 		 select count(*) from payment_record
 	</select>
 	
 	
+	<select id="getTotalByPaydate" parameterType="String" resultType="int">
+	      select count(*) from payment_record where paydate=#{paydate}
+	</select>
+	
 	<insert id="insert" parameterType="payRecord" >
-	    insert into payment_record values(null,#{paydate},#{paymoney},#{customer},#{contract},#{payperiod},#{paymethod},#{paytype},#{payee},#{remark})
+	    insert into payment_record values(#{fid},null,#{paydate},#{paymoney},#{customer},#{contract},#{payperiod},#{paymethod},#{paytype},#{payee},#{remark})
 	</insert>
 	
 	<delete id="deleteByArray"  parameterType="int[]">
@@ -24,6 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <foreach collection="array" open="(" item="id" separator="," close=")">#{id}</foreach>
     </delete>
 	
-
-	
+    <select id="findById" parameterType="int" resultType="payRecord">
+	  select * from payment_record where id=#{id}
+	  </select>
+	  
+	  <select id="findByCusAndHetong" parameterType="String" resultType="payRecord">
+	     select * from payment_record  where customer=#{param1} and contract=#{param2}
+	  </select>
  </mapper>

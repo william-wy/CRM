@@ -37,4 +37,10 @@ public class CustomerGenJinServiceImpl implements CustomerGenJinService {
 		return customerGenJinDao.findByWay(way);
 	}
 
+	@Override
+	public List<CustomerGenJin> findAll() {
+		// TODO Auto-generated method stub
+		return customerGenJinDao.findAll();
+	}
+
 }

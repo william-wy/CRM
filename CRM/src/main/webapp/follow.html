@@ -28,6 +28,33 @@
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
         $(function() {
+            
+        	$.ajax(function(){
+        	   type:"get",
+  			   url:"/CRM/genjinall/find.action",
+  			   data:{},
+  		       datatype:'json',
+		       contentType:"application/json;charset=utf-8",
+		       success:function(data){
+		        	   $.each(data,function(index,genjin){
+		        		   alert("enter");
+		        		   var str = '' ;  
+			        	   str+='<h4> 跟进记录</h4><br/>';
+			        	   str+="<div class='panel panel-success'>"+"<div class='panel-heading'>";
+			        	   str+="<h3 class='panel-title' style='text-align:left'>"+genjin.time+"+</h3>";
+			        	   str+=" </div><div class='panel-body' style='text-align: center'>";
+			        	   str+="<h4><i class='fa fa-user fa-fw'></i>"+genjin.fid+"</h4>";
+			        	   str+="<h4>跟进方式："+genjin.way+"+</h4>";
+			        	   str+="<h4>跟进内容："+genjin.content+"+</h4>";
+			        	   str+="<h4 style='text-align: right'>来自线索 <a href="">"+genjin.clue+"</a></h4>";
+			        	   str+="</div></div>"
+			        	  
+           			    })
+           			    $("#genjinlist").html(str);
+		           }
+        	});
+        	              
+        	
             <!-- 日期选择器配置-->
             $('input[name="daterange"]').daterangepicker({
                 alwaysShowCalendar:true,
@@ -417,58 +444,8 @@
                 <!--数据（从数据库中读取）-->
                 <div class="tab-pane fade in active text-left" style="background-color: white;padding-left: 30px">
                     <div class="row clearfix">
-                        <div class="col-md-6 column">
-                            <h4>
-                                跟进记录
-                            </h4>
-                            <br/>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                </div>
-                                <div class="panel-body" style="text-align: center">
-                                    <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                    <h4>跟进方式：电话通知</h4>
-                                    <h4>跟进内容：电话通知</h4>
-                                    <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                </div>
-                                <div class="panel-body" style="text-align: center">
-                                    <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                    <h4>跟进方式：电话通知</h4>
-                                    <h4>跟进内容：电话通知</h4>
-                                    <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                </div>
-                                <div class="panel-body" style="text-align: center">
-                                    <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                    <h4>跟进方式：电话通知</h4>
-                                    <h4>跟进内容：电话通知</h4>
-                                    <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
-                                </div>
-                                <div class="panel-body" style="text-align: center">
-                                    <h4><i class="fa fa-user fa-fw"></i>张三</h4>
-                                    <h4>跟进方式：电话通知</h4>
-                                    <h4>跟进内容：电话通知</h4>
-                                    <h4 style="text-align: right">来自线索 <a href="">宋总</a></h4>
-                                </div>
-                            </div>
+                        <div class="col-md-6 column" id="genjinlist">
+                            
                         </div>
                     </div>
                 </div>

@@ -12,4 +12,5 @@ public interface PayPlanDao {
 	public int getTotal();
 	public void insert(PayPlan payPlan);
 	public void deleteByArray(int[] id);
+	public PayPlan findByCusAndHeTong(String customer,String hetong);
 }

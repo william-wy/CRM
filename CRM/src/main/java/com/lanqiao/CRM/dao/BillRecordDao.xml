@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="insert" parameterType="billRecord" >
-	    insert into bill_record values(null,#{bitype},#{bino},#{fname},#{bdate},#{bcontent},#{bcost},#{client},#{contract},#{bremark})
+	    insert into bill_record values(#{fid},null,#{bitype},#{bino},#{fname},#{bdate},#{bcontent},#{bcost},#{client},#{contract},#{bremark})
 	</insert>
 	
 	<delete id="deleteByArray"  parameterType="int[]">

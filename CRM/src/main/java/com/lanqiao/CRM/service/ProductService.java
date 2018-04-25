@@ -1,5 +1,8 @@
 package com.lanqiao.CRM.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.lanqiao.CRM.entity.Product;
 import com.lanqiao.CRM.utils.PageUtil;
 
@@ -14,12 +17,12 @@ public interface ProductService {
 	public int getTotal();
 	public PageUtil getPage(int pageno, int pagesize);
 	
-	public int getTotalByUnit(String unit);
-	public PageUtil findByUnit(int pageno, int pagesize,String unit);
+	public int getTotalByUnitAndLeibie(String unit,String sort);
+	public PageUtil findByUnitAndLeibie(int pageno, int pagesize,String unit,String sort);
+		
+	public int getTotalByNameAndLeibie(String pname,String sort);
+	public PageUtil findByNameAndLeibie(int pageno, int pagesize,String pname,String sort);
 	
-	public int getTotalByGuige(String guige);
-	public PageUtil findByGuige(int pageno, int pagesize,String guige);
-	
-	public int getTotalByIntrodu(String introdu);
-	public PageUtil findByIntrodu(int pageno, int pagesize,String introdu);
+	public PageUtil findByLeibie(int pageno, int pagesize,String sort);
+	public int getTotalByLeibie(String sort);
 }
