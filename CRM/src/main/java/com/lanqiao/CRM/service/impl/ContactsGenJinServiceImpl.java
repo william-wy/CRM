@@ -17,7 +17,7 @@ public class ContactsGenJinServiceImpl implements ContactsGenJinService{
 	@Autowired
     private ContactsGenJinDao contactsGenJin;
 
-	public void setClueGenJin(ContactsGenJinDao contactsGenJin) {
+	public void setContactsGenJin(ContactsGenJinDao contactsGenJin) {
 		this.contactsGenJin = contactsGenJin;
 	}
 

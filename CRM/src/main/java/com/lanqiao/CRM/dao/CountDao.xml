@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.CountDao">    
+   <select id="countcontract"  parameterType="HeTong" resultType="HeTong">
+	 select htol_amt,DATE_FORMAT(hcontract_date,'%Y-%m-%d %H:%i:%s')hcontract_date from contract
+	where hcontract_date &gt;="2015-03-08 00:00:00"
+		and hcontract_date  &lt;=NOW()
+		order by hcontract_date asc
+	</select>
+	<select id="countpayplan"  parameterType="HuiKuanJiHua" resultType="HuiKuanJiHua">
+	 select customer,contractcost,DATE_FORMAT(signdate,'%Y-%m-%d %H:%i:%s')signdate from payment_plan
+	where signdate &gt;="2015-03-08 00:00:00"
+		and signdate  &lt;=NOW()
+		order by signdate asc
+	</select>
+	<select id="countproduct"  parameterType="ChanPin" resultType="ChanPin">
+	 select pname,price,no from product
+	</select>
+	<select id="counttime"  parameterType="GenJinCiShu" resultType="GenJinCiShu">
+	 SELECT table_name ,table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CRM'
+	</select>
+	
+ </mapper>

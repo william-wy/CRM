@@ -114,7 +114,7 @@ public class ContactsAction {
 	@RequestMapping(value="/saveContacts.action",method={RequestMethod.GET,RequestMethod.POST})
 	public  @ResponseBody String test6(Contacts contacts,String id) {
 	     
-	     
+	     System.out.println(id+"------------------------------");
          if(id.equals("")) {
         	 
         	 contactsService.insert(contacts);
@@ -141,7 +141,7 @@ public class ContactsAction {
 		    
 		     System.out.println(l_id);
 		Contacts contacts=contactsService.findById(l_id);
-		contacts.setL_area(contactsService.findById2(Integer.parseInt(contacts.getL_area())).getName());
+		//contacts.setL_area(contactsService.findById2(Integer.parseInt(contacts.getL_area())).getName());
 			return contacts;   
 	}
 	

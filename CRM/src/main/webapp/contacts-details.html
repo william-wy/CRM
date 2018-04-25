@@ -634,72 +634,76 @@
                             &times;
                         </button>
                         <h4 class="modal-title">
-                            新增联系人
+                              修改联系人
                         </h4>
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
-                            <div class="input-group">
+                       <form  method="post" enctype="multipart/form-data">
+                         <input type="hidden"  class="form-control"  id="l_id"  name="l_id" readonly/>
+	                       <div class="input-group">
                                 <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="周桂莲">
+                                <input type="text" class="form-control"  id="l_name"  name="l_name"/>
+                              
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">对应客户：</span>
-                                <input type="text" class="form-control" placeholder="青云超市">
+                                <span class="input-group-addon">公司名称：</span>
+                                <input type="text" class="form-control"  id="l_com_name"   name="l_com_name">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_deptno"  name="l_deptno">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_job"  name="l_job">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_phone"  name="l_phone">
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control" placeholder="" id="l_email"  name="l_email">
                             </div>
-                            <br>
-                            <div class="input-group">
+                            <br> 
+                             <div class="input-group">
                                 <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" id="cityChoice" class="form-control" value="请选择城市">
-                                <input type="hidden" id="province" value="">
-                                <input type="hidden" id="city" value="">
+                                <input type="text" id="cityChoice3" class="form-control"  id="l_area"  name="l_area">
+                                <input type="hidden" id="province3" value="">
+                                <input type="hidden" id="city3" value="">
+                            </div>
+                            <br> 
+                             <div class="input-group">
+                                <span class="input-group-addon">地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_address"  name="l_address"/>
                             </div>
                             <br>
-                            <div class="input-group">
+                        <div class="input-group">
                                 <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" placeholder="">
+                                <input type="text" class="form-control"  id="l_zip"  name="l_zip"/>
                             </div>
                             <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <select class="form-control">
-                                    <option>选择性别</option>
-                                    <option>男</option>
-                                    <option>女</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">生日：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
-                            </div>
-                            <br>
-                            <div class="input-group">
+                           <div class="input-group">
                                 <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <textarea class="form-control" rows="4"></textarea>
+                                <input type="text" class="form-control"  id="l_remark"  name="l_remark"/>
                             </div>
+                            <br>
+                           <div class="input-group">
+                                <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="l_fname"  name="l_fname"/>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">负责人部门：</span>
+                                <input type="text" class="form-control" id="l_fdeptno"  name="l_fdeptno"  />
+                            </div>
+                
                         </form>
 
                     </div>
@@ -726,10 +730,10 @@
                     </div>
                     <div class="modal-body text-center pre-scrollable">
 
-                        <form class="bs-example bs-example-form" role="form">
+                        <form method="post" class="bs-example bs-example-form" role="form">
                             <div class="input-group">
                                 <span class="input-group-addon">跟进方式：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="way1"  name="way1">
                                     <option>电话</option>
                                     <option>QQ</option>
                                     <option>微信</option>
@@ -740,22 +744,23 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">跟进时间：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" id="time1"  name="time1"  />
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">跟进内容：</span>
-                                <textarea class="form-control" rows="5"></textarea>
+                                <textarea class="form-control" rows="5" name="content1" id="content1"></textarea>
+                         
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">线索：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <input type="text" class="form-control" id="contacts1" disabled>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">跟进状态：</span>
-                                <select class="form-control">
+                                <select class="form-control" id="status1"  name="status1">
                                     <option>未处理</option>
                                     <option selected>联系方式有效</option>
                                     <option>联系方式无效</option>
@@ -765,7 +770,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">下次跟进：</span>
-                                <input type="text" class="form-control" name="birthdate" value=""  />
+                                <input type="text" class="form-control" id="next1"   name="next1"  />
                             </div>
                         </form>
 

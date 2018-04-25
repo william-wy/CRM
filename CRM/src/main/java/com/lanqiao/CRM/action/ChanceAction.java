@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lanqiao.CRM.entity.Chance;
-import com.lanqiao.CRM.entity.Clue;
 import com.lanqiao.CRM.entity.Contract;
-import com.lanqiao.CRM.entity.Customer;
 import com.lanqiao.CRM.service.ChanceService;
 import com.lanqiao.CRM.service.ContractService;
 import com.lanqiao.CRM.utils.ChancePageUtil;
@@ -27,9 +25,16 @@ public class ChanceAction {
 	
     @Autowired
 	private ChanceService chanceService;
-    
     @Autowired
     private ContractService contractService;
+
+	public void setChanceService(ChanceService chanceService) {
+		this.chanceService = chanceService;
+	}
+
+	public void setContractService(ContractService contractService) {
+		this.contractService = contractService;
+	}
 
 	@RequestMapping(value="/getChanceList.action")
 	public @ResponseBody List<Chance> getChanceList() throws Exception {
@@ -150,7 +155,6 @@ public class ChanceAction {
 		
 			return chance;   
 	}
-	
 	@RequestMapping(value="/zhuanyi.action",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String zhuanyi(int kid,Contract contract) throws UnsupportedEncodingException {	
 		
@@ -172,4 +176,5 @@ public class ChanceAction {
 		}
 			
 	}
+	
 }

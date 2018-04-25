@@ -27,47 +27,172 @@
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
-        	var url=window.location.href;
-        	var c=url.split("?")[1];
-        	var cid=c.split("=")[1];
-        	var clue;
-        	
-        	<!--机会转移-->
-        	$("#chancezhuanyi").click(function(){
-        		$.ajax({
-              	   type:"get",
-        			   url:"/CRM/chance/zhuanyi.action",
-        			   data:{
-        				    kid:cid,
-        				    hname:$("#contractname").val(),
-        				 	hclient_name:$("#contractcon").val(),
-        				 	hchance_name:$("#contractcha").val(),
-        				 	hproduct:$("#contractproduct").val(),
-        				 	htol_amt:$("#contractmoy").val(),
-        				 	hcontract_date:$("#contractday").val(),
-        				 	hstart_date:$("#contractsday").val(),
-        				 	hend_date:$("#contracteday").val(),
-        				 	hstate:$("#contractstate").val(),
-        				 	hnumber:$("#contractnum").val(),
-        				 	hstyle:$("#contractleixing").val(),
-        				 	hpay_method:$("#contractfukuan").val(),
-        				 	hclient_singer:$("#contractnamekehu").val(),
-        				 	hcompany_singer:$("#contractnamewo").val()
-        				     },
-        		       datatype:'json',
-      		           contentType:"application/json;charset=utf-8",
-      		           success:function(data){
-      		        	 alert(data);
-      		        	window.location.href="" 
-      		           }
-              	});
-       		  
-       	  });
-        	
-        	
-        	
-        	
+    $(function() {
+    	var url=window.location.href;
+    	var c=url.split("?")[1];
+    	var cid=c.split("=")[1];
+    	var chance;
+    	 
+    	<!--机会转移-->
+    	$("#chancezhuanyi").click(function(){
+    		$.ajax({
+          	   type:"get",
+    			   url:"/CRM/chance/zhuanyi.action",
+    			   data:{
+    				    kid:cid,
+    				    hname:$("#contractname").val(),
+    				 	hclient_name:$("#contractcon").val(),
+    				 	hchance_name:$("#contractcha").val(),
+    				 	hproduct:$("#contractproduct").val(),
+    				 	htol_amt:$("#contractmoy").val(),
+    				 	hcontract_date:$("#contractday").val(),
+    				 	hstart_date:$("#contractsday").val(),
+    				 	hend_date:$("#contracteday").val(),
+    				 	hstate:$("#contractstate").val(),
+    				 	hnumber:$("#contractnum").val(),
+    				 	hstyle:$("#contractleixing").val(),
+    				 	hpay_method:$("#contractfukuan").val(),
+    				 	hclient_singer:$("#contractnamekehu").val(),
+    				 	hcompany_singer:$("#contractnamewo").val()
+    				     },
+    		       datatype:'json',
+  		           contentType:"application/json;charset=utf-8",
+  		           success:function(data){
+  		        	 alert(data);
+  		        	window.location.href="" 
+  		           }
+          	});
+   		  
+   	  });
+    	
+    	//显示信息
+    	$.ajax({
+    	   type:"get",
+			   url:"/CRM/chance/findByJid.action",
+			   data:{jid:cid},
+		       datatype:'json',
+	           contentType:"application/json;charset=utf-8",
+	           success:function(data){
+	        	   
+	        	   chance=data.jname;
+	        	    
+	        	    $("#chance1").val(data.jname);
+	        	    $("#jname1").html(data.jname),
+            	    $("#jclient1").html(data.jclient),
+            	    $("#jlinkman1").html(data.jlinkman),
+            	    $("#jproduct1").html(data.jproduct),
+            	    $("#jexpectsal1").html(data.jexpectsal),
+            	    $("#jdonetime1").html(data.jdonetime),
+            	    $("#jstage1").html(data.jstage),
+            	    $("#jtype1").html(data.jtype),
+            	    $("#jgetdate1").html(data.jgetdate),
+            	    $("#jsource1").html(data.jsource),
+            	    $("#jdotime1").html(data.jdotime),
+            	    $("#jincharge1").html(data.jincharge)
+            	    $("#jdept1").html(data.jdept)
+	           }
+    	});
+    	
+    	//显示销售动态
+    	$.ajax({
+     	   type:"get",
+			   url:"/CRM/chancegenjin/findByChance.action",
+			   data:{chance:chance},
+		       dataType:'json',
+		           contentType:"application/json;charset=utf-8",
+		           success:function(data){
+		        	   
+		        	   var str="";
+		        	  $.each(data,function(index,contacts){
+		        		  str+="<br/><div class='panel panel-success' ><div class='panel-heading'>";
+		        		  str+=" <h3 class='panel-title' style='text-align:left'>04/13/2018 12:00 AM</h3>";
+		        		  str+="</div>";
+		        		  str+="<div class='panel-body' style='text-align: center' >";
+		        		  str+="<h4><i class='fa fa-user fa-fw'></i >"+chance.fname+"</h4>";
+		        		  str+="<h4 >跟进方式："+chance.way+"</h4>";
+		        		  str+="<h4 >跟进内容："+chance.content+"</h4>";
+		        		  str+="<h4 style='text-align: right'>来自线索 <a>"+chance.chance+"</a></h4>";
+		        		  str+="</div></div><br/>";
+        			}); 
+        			$("#xiaoshou").html(str);
+		           }
+     	});
+    	
+    	//点击编辑按钮事件
+    	$("#edit").click(
+    			function update(){ 
+                	
+                	$("#edit").attr("data-target","#addChance");
+     
+                	$.ajax({
+                  		type:'get',
+                  		url:'/CRM/chance/updateChance.action',
+                  	    data:{
+                  	    	 s:cid
+                  	    },
+                  		contentType:"application/json;charset=utf-8",
+                  		dataType:'json',
+                  		success:function(data){
+                  			
+                  			$("#jid").val(data.jid),
+                      	    $("#jname").val(data.jname),
+                      	    $("#jclient").val(data.jclient),
+                      	    $("#jlinkman").val(data.jlinkman),
+                      	    $("#jproduct").val(data.jproduct),
+                      	    $("#jexpectsal").val(data.jexpectsal),
+                      	    $("#jdonetime").val(data.jdonetime),
+                      	   
+                      	    $("#jstage").val(data.jstage),
+                      	    $("#jtype").val(data.jtype),
+                      	    $("#jgetdate").val(data.jgetdate),
+                      	    $("#jsource").val(data.jsource),
+                      	    $("#birthdate").val(data.jdotime),
+                      	    $("#jincharge").val(data.jincharge),
+                      	    $("#jdept").val(data.jdept)
+ 
+                  		}
+                  	});
+                	} 
+    	)
+    	
+    	
+    	//点击保存信息
+   	 $("#save").click(function(){
+	    	
+		  $.ajax({
+   		   type:'get',
+   		   url:"/CRM/chance/saveChance.action",
+              data:{
+            	  id:$("#jid").val(),
+                 	
+           	   jname:$("#jname").val(),
+           	   jclient:$("#jclient").val(),
+           	   jlinkman:$("#jlinkman").val(),
+           	   jproduct:$("#jproduct").val(),
+           	   jexpectsal:$("#jexpectsal").val(),
+           	   jdonetime:$("jdonetime").val(),
+        	   
+           	   jstage:$("#jstage").val(),
+           	   jtype:$("#jtype").val(),
+           	   jgetdate:$("#jgetdate").val(),
+           	   jsource:$("#jsource").val(),
+           	   jdotime:$("#birthdate").val(),
+           	   jincharge:$("#jincharge").val(),
+           	   jdept:$("#jdept").val(),
+           },      		   
+   		   datatype:'json',
+   		   contentType:"application/json;charset=utf-8",
+   		   success:function(data){
+   			    alert(data);
+                   if(data=="update succeed"||data=="insert succeed"){
+                   	 window.location.reload();
+                   }  
+   		   }
+   	   })
+	  });
+    	
+    	
+        
             <!-- 日期选择器配置-->
             $('input[name="birthdate"]').daterangepicker({
                 autoUpdateInput:true,
@@ -103,6 +228,7 @@
                     "cancelLabel": "取消"
                 }
             });
+            $("#chance1").val(chance);
             $('input[name="daterange"]').daterangepicker({
                 alwaysShowCalendar:true,
                 "locale": {
@@ -140,7 +266,33 @@
                 location.reload();
             });
         });
-
+  //保存跟进
+	function savegenjin(){
+		
+       
+	    	
+		  $.ajax({
+  		   type:'get',
+  		   url:"/CRM/chancegenjin/save.action",
+           data:{
+       	    way:$("#way1").val(),
+       	    time:$("#time1").val(),
+       	    content:$("#content1").val(),
+       	    chance:$("#chance1").val(),
+       	    status:$("#status1").val(),
+       	    next:$("#next1").val(),
+       	    fname:$("#fname1").val()
+          },      		   
+  		   datatype:'json',
+  		   contentType:"application/json;charset=utf-8",
+  		   success:function(data){
+  			    alert(data);
+                  if(data=="insert succeed"){
+                  	 window.location.reload();
+                  }  
+  		   }
+  	   })
+	  };
     </script>
 
 </head>
@@ -304,48 +456,58 @@
         </div><!-- /.modal -->
     </div>
     <!--新增机会-->
-    <div class="modal fade" id="addopp" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
+    <div class="modal fade" id="addchance" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h4 class="modal-title" >
-                        新增机会
+                    <h4 class="modal-title"  id="addChanceLabel">
+                        编辑机会
                     </h4>
                 </div>
                 <div class="modal-body text-center pre-scrollable">
 
                     <form class="bs-example bs-example-form" role="form">
+                    <div class="input-group">
+                                <span class="input-group-addon">机会ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control"  id="jid"  name="jid" readonly/>
+                              
+                            </div>
                         <div class="input-group">
                             <span class="input-group-addon">机会名称：</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="text" class="form-control" id="jname"  name="jname" >
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">对应客户：</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="text" class="form-control" id="jclient"  name="jclient" >
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="text" class="form-control" id="jlinkman"  name="jlinkman" >
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">关联产品：</span>
+                            <input type="text" class="form-control" id="jproduct"  name="jproduct" >
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">预计销售：</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="text" class="form-control" id="jexpectsal"  name="jexpectsal" >
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">预计签单：</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
+                            <input type="date" class="form-control" id="jdonetime" name="jdonetime" />
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">销售阶段：</span>
-                            <select class="form-control">
+                            <select class="form-control" id="jstage" name="jstage">
                                 <option>选择销售阶段</option>
                                 <option>初步接洽</option>
                                 <option>确认需求</option>
@@ -355,15 +517,20 @@
                                 <option>输单</option>
                             </select>
                         </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">机会类型：</span>
+                            <input type="text" class="form-control" id="jtype" name="jtype" />
+                        </div>
+                        <br>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">获取日期：</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
+                            <input type="date" class="form-control" id="jgetdate" name="jgetdate"  />
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">机会来源：</span>
-                            <select class="form-control">
+                            <select class="form-control" id="jsource" name="jsource">
                                 <option>选择机会来源</option>
                                 <option>广告</option>
                                 <option>社交推广</option>
@@ -377,17 +544,13 @@
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">下次跟进：</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
+                            <input type="text" class="form-control"  id="birthdate" name="jdotime"  />
                         </div>
                         <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <textarea class="form-control" rows="4"></textarea>
-                        </div>
-                        <br>
+        
                         <div class="input-group">
                             <span class="input-group-addon">负责人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <select class="form-control">
+                            <select class="form-control" id="jincharge" name="jincharge">
                                 <option>选择负责人</option>
                                 <option>张三</option>
                                 <option>李四</option>
@@ -397,7 +560,7 @@
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">所属部门：</span>
-                            <select class="form-control">
+                            <select class="form-control" id="jdept" name="jdept">
                                 <option>选择客户状态</option>
                                 <option>销售部</option>
                                 <option>营销部</option>
@@ -519,7 +682,7 @@
                     </button>
 
                     <button type="button" class="btn btn-primary" name="save">
-                        保存
+                        保存1
                     </button>
                 </div>
             </div><!-- /.modal-content -->
@@ -533,16 +696,16 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h4 class="modal-title" id="addClueLabel">
+                    <h4 class="modal-title" id="addChanceLabel">
                         新增跟进
                     </h4>
                 </div>
                 <div class="modal-body text-center pre-scrollable">
 
-                    <form class="bs-example bs-example-form" role="form">
+                    <form method="post" class="bs-example bs-example-form" role="form">
                         <div class="input-group">
                             <span class="input-group-addon">跟进方式：</span>
-                            <select class="form-control">
+                            <select class="form-control" id="way1"  name="way1">
                                 <option>电话</option>
                                 <option>QQ</option>
                                 <option>微信</option>
@@ -553,22 +716,22 @@
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">跟进时间：</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
+                            <input type="text" class="form-control" id="time1"  name="time1"  />
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">跟进内容：</span>
-                            <textarea class="form-control" rows="5"></textarea>
+                            <textarea class="form-control" rows="5" name="content1" id="content1"></textarea>
                         </div>
                         <br>
                         <div class="input-group">
-                            <span class="input-group-addon">客户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="祥美化工" disabled>
+                            <span class="input-group-addon">机会：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input type="text" class="form-control" id="chance1" disabled>
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">跟进状态：</span>
-                            <select class="form-control">
+                            <select class="form-control" id="status1"  name="status1">
                                 <option>初步接触</option>
                                 <option selected>意向客户</option>
                                 <option>报价客户</option>
@@ -576,27 +739,18 @@
                                 <option>搁置客户</option>
                             </select>
                         </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">联系人：&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <select class="form-control">
-                                <option>选择联系人</option>
-                                <option>张三</option>
-                                <option>李四</option>
-                                <option>其它</option>
-                            </select>
-                        </div>
+               
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">下次跟进：</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
+                            <input type="text" class="form-control" id="next1"   name="next1"  />
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary" name="save">
+                    <button type="button" class="btn btn-primary" id="savegenjin" onclick="savegenjin()">
                         保存
                     </button>
                 </div>
@@ -819,7 +973,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary" name="save" >
+                    <button type="button" class="btn btn-primary" name="save">
                         保存
                     </button>
                     <button type="button" class="btn btn-default">
@@ -829,94 +983,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-    <!--机会转移-->
-    <div class="modal fade" id="addcontact" tabindex="-1" role="dialog" aria-labelledby="informationLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        新增联系人
-                    </h4>
-                </div>
-                <div class="modal-body text-center pre-scrollable">
-
-                    <form class="bs-example bs-example-form" role="form">
-                        <div class="input-group">
-                            <span class="input-group-addon">姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">对应客户：</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">地区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" id="cityChoice" class="form-control" value="请选择城市">
-                            <input type="hidden" id="province" value="">
-                            <input type="hidden" id="city" value="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">邮编：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <select class="form-control">
-                                <option>选择性别</option>
-                                <option>男</option>
-                                <option>女</option>
-                            </select>
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">生日：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input type="text" class="form-control" name="birthdate" value=""  />
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <textarea class="form-control" rows="4"></textarea>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-primary" name="save">
-                        保存
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <!--机会转移-->
+   <!--机会转移-->
 		<div class="modal fade" id="toht" tabindex="-1" role="dialog"
 			aria-labelledby="informationLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -1028,34 +1095,6 @@
 						<button type="button" class="btn btn-primary" name="save" id="chancezhuanyi">
 							保存</button>
 					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
-		
-    <!--安全退出-->
-    <div class="modal fade" id="out" tabindex="-1" role="dialog" aria-labelledby="outLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="outLabel">
-                        确定要退出吗？
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    &nbsp;
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                        安全退出
-                    </button>
-                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
@@ -1155,18 +1194,16 @@
                     <option selected>赢单</option>
                     <option>输单</option>
                 </select>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toht">
+                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toht" id="chancezhuanyi">
                     <i class="fa fa-share fa-fw"></i>转为合同
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#toother">
                     <i class="fa fa-share fa-fw"></i>转移给他人
                 </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addopp">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addchance">
                     <i class="fa fa-pencil fa-fw"></i>编辑
                 </button>
-                <button type="button" class="btn btn-default">
-                    <i class="fa fa-share fa-fw"></i>删除
-                </button>
+              
             </div>
         </div>
         <div>
@@ -1180,7 +1217,7 @@
 
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
-                    <a href="#allClue" data-toggle="tab">
+                    <a href="#allChance" data-toggle="tab">
                         基本信息
                     </a>
                 </li>
@@ -1195,51 +1232,48 @@
             <div id="myTabContent" class="tab-content breadcrumb" >
                 <br>
                 <!-- 基本信息  -->
-                <div class="tab-pane fade in active text-left" id="allClue">
+                <div class="tab-pane fade in active text-left" id="allChance">
                     <div class="row clearfix">
                         <div class="col-md-6 column" >
                             <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">基本资料</h3>
+                                        <h3 class="panel-title">基本资料</h3>
+                                    </div>
+                                    <div class="panel-body table-responsive">
+                                        <table class="table">
+                                             <tr><td width="20%">机会名称：</td><td id="jname1"></td></tr>
+                                            <tr><td>对应客户：</td><td id="jclient1"></td></tr>
+                                            <tr><td>关联联系人：</td><td id="jlinkman1"></td></tr>
+                                            <tr><td>关联产品：</td><td id="jproduct1"></td></tr>
+                                             <tr><td>预计销售：</td><td id="jexpectsal1"></td></tr>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="panel-body table-responsive">
-                                    <table class="table">
-                                        <tr><td width="20%">机会名称：</td><td>旺旺</td></tr>
-                                        <tr><td>对应客户：</td><td>旺旺</td></tr>
-                                        <tr><td>预计销售金额：</td><td>¥ 1.00</td></tr>
-                                        <tr><td>预计签单日期：</td><td>2018-03-31</td></tr>
-                                        <tr><td>销售阶段：</td><td>赢单</td></tr>
-                                        <tr><td>签单概率：</td><td>100%</td></tr>
-                                    </table>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">其他信息</h3>
+                                    </div>
+                                    <div class="panel-body table-responsive">
+                                        <table class="table">
+                                             <tr><td width="20%">预计签单时间：</td><td id="jdonetime1"></td></tr>
+                                            <tr><td>销售阶段：</td><td id="jstage1"></td></tr>
+                                            <tr><td>机会类型：</td><td id="jtype1"></td></tr>
+                                            <tr><td>机会获取日期：</td><td id="jgetdate1"></td></tr>
+                                             <tr><td>机会来源：</td><td id="jsource1"></td></tr>
+                                              <tr><td>下次跟进时间：</td><td id="jdotime1"></td></tr>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">其它信息</h3>
-                                </div>
-                                <div class="panel-body table-responsive">
-                                    <table class="table">
-                                        <tr><td width="20%">机会类型：</td><td>------</td></tr>
-                                        <tr><td>机会获取日期：</td><td>2018-03-31</td></tr>
-                                        <tr><td>机会来源：</td><td>广告</td></tr>
-                                        <tr><td>下次跟进时间：</td><td>2018-03-31</td></tr>
-                                        <tr><td>备注：</td><td>------</td></tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">系统信息</h3>
-                                </div>
-                                <div class="panel-body table-responsive">
-                                    <table class="table">
-                                        <tr><td width="20%">负责人：</td><td>张三</td></tr>
-                                        <tr><td>创建人：</td><td>张三</td></tr>
-                                        <tr><td>前负责人：</td><td>李四</td></tr>
-                                        <tr><td>所属部门：</td><td>销售部</td></tr>
-                                        <tr><td>前所属部门：</td><td>营销部</td></tr>
-                                        <tr><td>创建时间：</td><td>2018-03-31</td></tr>
-                                    </table>
+                               
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">系统信息</h3>
+                                    </div>
+                                    <div class="panel-body table-responsive">
+                                        <table class="table">
+                                           <tr><td width="20%">负责人：</td><td id="jincharge1"></td></tr>
+                                           <tr><td>负责人部门：</td><td id="jdept1"></td></tr>
+                                        </table>
                                 </div>
                             </div>
                         </div>
@@ -1248,7 +1282,7 @@
                                 销售动态
                             </h4>
                             <br/>
-                            <div class="panel panel-success">
+                            <div class="xiaoshou">
                                 <div class="panel-heading">
                                     <h3 class="panel-title" style="text-align:left">04/13/2018 12:00 AM</h3>
                                 </div>

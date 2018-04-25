@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lanqiao.CRM.entity.Area;
-import com.lanqiao.CRM.entity.Clue;
+
 import com.lanqiao.CRM.entity.Contacts;
 
 public interface ContactsDao {

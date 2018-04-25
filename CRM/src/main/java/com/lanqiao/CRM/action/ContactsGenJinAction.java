@@ -27,7 +27,7 @@ public class ContactsGenJinAction {
 	@RequestMapping(value="/save.action",method={RequestMethod.GET,RequestMethod.POST})
 	public  @ResponseBody String test1(ContactsGenJin contacts,HttpServletRequest req,HttpServletResponse res) {
 		try {
-		
+	
 		contactsGenJinService.insert(contacts);
 		return "insert succeed";
 		}catch(Exception e) {

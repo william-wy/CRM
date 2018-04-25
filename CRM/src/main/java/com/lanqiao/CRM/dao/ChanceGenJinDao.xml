@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.CRM.dao.ChanceGenJinDao">    
+     <select id="findByChance" parameterType="String" resultType="ChanceGenJin">
+         select * from chancegenjin  where chance=#{chance}
+     </select>
+     
+     <select id="insert" parameterType="ChanceGenJin">
+         insert  into  chancegenjin values (null,#{way},#{time},#{content},#{chance},#{status},#{next},#{fname} )
+     </select>
+     
+     
+ </mapper>
