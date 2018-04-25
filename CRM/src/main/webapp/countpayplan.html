@@ -1,49 +1,50 @@
 <html>
 <head>
-    <title>- »Ø¿î¼Æ»®Í³¼Æ -</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <title>- å›žæ¬¾è®¡åˆ’ç»Ÿè®¡ -</title>
 </head>
 		<base href="<%=basePath%>">
 		 <script src="assets/js/jquery-1.10.2.js"></script>
 		<script src="assets/js/echarts.js"></script>
 
 	<body>
-<!-- ÏÔÊ¾EchartsÍ¼±í -->
+<!-- æ˜¾ç¤ºEchartså›¾è¡¨ -->
 		<div style="height:410px;min-height:100px;margin:0 auto;" id="main"></div>						
             		
   	
   
 		<script type="text/javascript">
 			
-		// »ùÓÚ×¼±¸ºÃµÄdom£¬³õÊ¼»¯echartsÊµÀý
+		// åŸºäºŽå‡†å¤‡å¥½çš„domï¼Œåˆå§‹åŒ–echartså®žä¾‹
         var myChart = echarts.init(document.getElementById('main'));
 
-        // Ö¸¶¨Í¼±íµÄÅäÖÃÏîºÍÊý¾Ý
+        // æŒ‡å®šå›¾è¡¨çš„é…ç½®é¡¹å’Œæ•°æ®
         var option = {
-            title: {	//Í¼±í±êÌâ
-                text: '»ã¿î¼Æ»®Í³¼Æ±í'
+            title: {	//å›¾è¡¨æ ‡é¢˜
+                text: 'æ±‡æ¬¾è®¡åˆ’ç»Ÿè®¡è¡¨'
             },
             tooltip: {
-                trigger: 'axis', //×ø±êÖá´¥·¢ÌáÊ¾¿ò£¬¶àÓÃÓÚÖù×´¡¢ÕÛÏßÍ¼ÖÐ
+                trigger: 'axis', //åæ ‡è½´è§¦å‘æç¤ºæ¡†ï¼Œå¤šç”¨äºŽæŸ±çŠ¶ã€æŠ˜çº¿å›¾ä¸­
                
             },
             dataZoom: [
                  {
-                     type: 'slider',	//Ö§³ÖÊó±ê¹öÂÖËõ·Å
-                     start: 0,			//Ä¬ÈÏÊý¾Ý³õÊ¼Ëõ·Å·¶Î§Îª10%µ½90%
+                     type: 'slider',	//æ”¯æŒé¼ æ ‡æ»šè½®ç¼©æ”¾
+                     start: 0,			//é»˜è®¤æ•°æ®åˆå§‹ç¼©æ”¾èŒƒå›´ä¸º10%åˆ°90%
                      end: 100
                  },
                  {
-                     type: 'inside',	//Ö§³Öµ¥¶ÀµÄ»¬¶¯ÌõËõ·Å
-                     start: 0,			//Ä¬ÈÏÊý¾Ý³õÊ¼Ëõ·Å·¶Î§Îª10%µ½90%
+                     type: 'inside',	//æ”¯æŒå•ç‹¬çš„æ»‘åŠ¨æ¡ç¼©æ”¾
+                     start: 0,			//é»˜è®¤æ•°æ®åˆå§‹ç¼©æ”¾èŒƒå›´ä¸º10%åˆ°90%
                      end: 100
                  }
             ],
-            legend: {	//Í¼±íÉÏ·½µÄÀà±ðÏÔÊ¾           	
+            legend: {	//å›¾è¡¨ä¸Šæ–¹çš„ç±»åˆ«æ˜¾ç¤º           	
             	show:true,
-            	data:['½ð¶î£¨Ôª£©']
+            	data:['é‡‘é¢ï¼ˆå…ƒï¼‰']
             },
             color:[
-                   '#FFF333',	//½ð¶îÇúÏßÑÕÉ«
+                   '#FFF333',	//é‡‘é¢æ›²çº¿é¢œè‰²
                   
                    ],
            toolbox: {
@@ -54,63 +55,63 @@
                  saveAsImage: {show: true}
                }
              },
-            xAxis:  {	//XÖá       	
+            xAxis:  {	//Xè½´       	
                 type : 'category',
-                name : 'ÈÕÆÚ',
-                data : []	//ÏÈÉèÖÃÊý¾ÝÖµÎª¿Õ£¬ºóÃæÓÃAjax»ñÈ¡¶¯Ì¬Êý¾ÝÌîÈë
+                name : 'æ—¥æœŸ',
+                data : []	//å…ˆè®¾ç½®æ•°æ®å€¼ä¸ºç©ºï¼ŒåŽé¢ç”¨AjaxèŽ·å–åŠ¨æ€æ•°æ®å¡«å…¥
             },
-            yAxis : [	//YÖá£¨ÕâÀïÎÒÉèÖÃÁËÁ½¸öYÖá£¬×óÓÒ¸÷Ò»¸ö£©
+            yAxis : [	//Yè½´ï¼ˆè¿™é‡Œæˆ‘è®¾ç½®äº†ä¸¤ä¸ªYè½´ï¼Œå·¦å³å„ä¸€ä¸ªï¼‰
 						{
-            				//µÚÒ»¸ö£¨×ó±ß£©YÖá£¬yAxisIndexÎª0
+            				//ç¬¬ä¸€ä¸ªï¼ˆå·¦è¾¹ï¼‰Yè½´ï¼ŒyAxisIndexä¸º0
 	                         type : 'value',
-	                         name : '½ð¶î',
+	                         name : 'é‡‘é¢',
 	                         /* max: 120,
 	                         min: -40, */
 	                         axisLabel : {
-	                             formatter: '{value} Ôª'	//¿ØÖÆÊä³ö¸ñÊ½
+	                             formatter: '{value} å…ƒ'	//æŽ§åˆ¶è¾“å‡ºæ ¼å¼
 	                         }
 	                     },
 	          
             ],
-            series : [	//ÏµÁÐ£¨ÄÚÈÝ£©ÁÐ±í                      
+            series : [	//ç³»åˆ—ï¼ˆå†…å®¹ï¼‰åˆ—è¡¨                      
 						{
-		                    name:'½ð¶î£¨Ôª£©',
-		                    type:'line',	//ÕÛÏßÍ¼±íÊ¾£¨Éú³É½ð¶îÇúÏß£©
-		                    symbol:'emptycircle',	//ÉèÖÃÕÛÏßÍ¼ÖÐ±íÊ¾Ã¿¸ö×ø±êµãµÄ·ûºÅ£»emptycircle£º¿ÕÐÄÔ²£»emptyrect£º¿ÕÐÄ¾ØÐÎ£»circle£ºÊµÐÄÔ²£»emptydiamond£ºÁâÐÎ	                    
-		                    data:[]		//Êý¾ÝÖµÍ¨¹ýAjax¶¯Ì¬»ñÈ¡
+		                    name:'é‡‘é¢ï¼ˆå…ƒï¼‰',
+		                    type:'line',	//æŠ˜çº¿å›¾è¡¨ç¤ºï¼ˆç”Ÿæˆé‡‘é¢æ›²çº¿ï¼‰
+		                    symbol:'emptycircle',	//è®¾ç½®æŠ˜çº¿å›¾ä¸­è¡¨ç¤ºæ¯ä¸ªåæ ‡ç‚¹çš„ç¬¦å·ï¼›emptycircleï¼šç©ºå¿ƒåœ†ï¼›emptyrectï¼šç©ºå¿ƒçŸ©å½¢ï¼›circleï¼šå®žå¿ƒåœ†ï¼›emptydiamondï¼šè±å½¢	                    
+		                    data:[]		//æ•°æ®å€¼é€šè¿‡AjaxåŠ¨æ€èŽ·å–
 		                }     
             ]
         };
 		 
-		myChart.showLoading();	//Êý¾Ý¼ÓÔØÍêÖ®Ç°ÏÈÏÔÊ¾Ò»¶Î¼òµ¥µÄloading¶¯»­
+		myChart.showLoading();	//æ•°æ®åŠ è½½å®Œä¹‹å‰å…ˆæ˜¾ç¤ºä¸€æ®µç®€å•çš„loadingåŠ¨ç”»
 		 
-		 var contractcosts=[];		//½ð¶îÊý×é£¨´æ·Å·þÎñÆ÷·µ»ØµÄËùÓÐ½ð¶îÖµ£©
+		 var contractcosts=[];		//é‡‘é¢æ•°ç»„ï¼ˆå­˜æ”¾æœåŠ¡å™¨è¿”å›žçš„æ‰€æœ‰é‡‘é¢å€¼ï¼‰
 		
-		 var signdates=[];		//Ê±¼äÊý×é
+		 var signdates=[];		//æ—¶é—´æ•°ç»„
 		 
-         $.ajax({	//Ê¹ÓÃJQueryÄÚÖÃµÄAjax·½·¨
-         type : "post",		//postÇëÇó·½Ê½
-         async : true,		//Òì²½ÇëÇó£¨Í¬²½ÇëÇó½«»áËø×¡ä¯ÀÀÆ÷£¬ÓÃ»§ÆäËû²Ù×÷±ØÐëµÈ´ýÇëÇóÍê³É²Å¿ÉÒÔÖ´ÐÐ£©
-         url : "echarts/countpayplan.action",	//ÇëÇó·¢ËÍµ½ShowInfoIndexServlet´¦
+         $.ajax({	//ä½¿ç”¨JQueryå†…ç½®çš„Ajaxæ–¹æ³•
+         type : "post",		//postè¯·æ±‚æ–¹å¼
+         async : true,		//å¼‚æ­¥è¯·æ±‚ï¼ˆåŒæ­¥è¯·æ±‚å°†ä¼šé”ä½æµè§ˆå™¨ï¼Œç”¨æˆ·å…¶ä»–æ“ä½œå¿…é¡»ç­‰å¾…è¯·æ±‚å®Œæˆæ‰å¯ä»¥æ‰§è¡Œï¼‰
+         url : "echarts/countpayplan.action",	//è¯·æ±‚å‘é€åˆ°ShowInfoIndexServletå¤„
         
-         dataType : "json",		//·µ»ØÊý¾ÝÐÎÊ½Îªjson
+         dataType : "json",		//è¿”å›žæ•°æ®å½¢å¼ä¸ºjson
          success : function(result) {
-        	 //ÇëÇó³É¹¦Ê±Ö´ÐÐ¸Ãº¯ÊýÄÚÈÝ£¬result¼´Îª·þÎñÆ÷·µ»ØµÄjson¶ÔÏó
+        	 //è¯·æ±‚æˆåŠŸæ—¶æ‰§è¡Œè¯¥å‡½æ•°å†…å®¹ï¼Œresultå³ä¸ºæœåŠ¡å™¨è¿”å›žçš„jsonå¯¹è±¡
 	         if (result != null && result.length > 0) {
 	                for(var i=0;i<result.length;i++){       
-	                	contractcosts.push(result[i].contractcost);		//°¤¸öÈ¡³öÎÂ¶È¡¢Êª¶È¡¢Ñ¹Ç¿µÈÖµ²¢ÌîÈëÇ°ÃæÉùÃ÷µÄÎÂ¶È¡¢Êª¶È¡¢Ñ¹Ç¿µÈÊý×é
+	                	contractcosts.push(result[i].contractcost);		//æŒ¨ä¸ªå–å‡ºæ¸©åº¦ã€æ¹¿åº¦ã€åŽ‹å¼ºç­‰å€¼å¹¶å¡«å…¥å‰é¢å£°æ˜Žçš„æ¸©åº¦ã€æ¹¿åº¦ã€åŽ‹å¼ºç­‰æ•°ç»„
 	                	signdates.push(result[i].signdate);
 	                }
-	                myChart.hideLoading();	//Òþ²Ø¼ÓÔØ¶¯»­
+	                myChart.hideLoading();	//éšè—åŠ è½½åŠ¨ç”»
 	                
-	                myChart.setOption({		//ÔØÈëÊý¾Ý
+	                myChart.setOption({		//è½½å…¥æ•°æ®
 	   		         xAxis: {
-	   		             data:signdates	//ÌîÈëXÖáÊý¾Ý
+	   		             data:signdates	//å¡«å…¥Xè½´æ•°æ®
 	   		         },
-	   		         series: [	//ÌîÈëÏµÁÐ£¨ÄÚÈÝ£©Êý¾Ý
+	   		         series: [	//å¡«å…¥ç³»åˆ—ï¼ˆå†…å®¹ï¼‰æ•°æ®
 	   		               		{
-			   		             // ¸ù¾ÝÃû×Ö¶ÔÓ¦µ½ÏàÓ¦µÄÏµÁÐ
-			   		             name: '½ð¶î',
+			   		             // æ ¹æ®åå­—å¯¹åº”åˆ°ç›¸åº”çš„ç³»åˆ—
+			   		             name: 'é‡‘é¢',
 			   		             data: contractcosts
 	   		         		}
 	   		        ]
@@ -118,20 +119,20 @@
 	                
 	         }
 	         else {
-	        	 //·µ»ØµÄÊý¾ÝÎª¿ÕÊ±ÏÔÊ¾ÌáÊ¾ÐÅÏ¢
-	        	 alert("Í¼±íÇëÇóÊý¾ÝÎª¿Õ£¬¿ÉÄÜ·þÎñÆ÷ÔÝÎ´Â¼Èë½üÎåÌìµÄ¹Û²âÊý¾Ý£¬Äú¿ÉÒÔÉÔºóÔÙÊÔ£¡");
+	        	 //è¿”å›žçš„æ•°æ®ä¸ºç©ºæ—¶æ˜¾ç¤ºæç¤ºä¿¡æ¯
+	        	 alert("å›¾è¡¨è¯·æ±‚æ•°æ®ä¸ºç©ºï¼Œå¯èƒ½æœåŠ¡å™¨æš‚æœªå½•å…¥è¿‘äº”å¤©çš„è§‚æµ‹æ•°æ®ï¼Œæ‚¨å¯ä»¥ç¨åŽå†è¯•ï¼");
 	          	 myChart.hideLoading();
 	         }
          
 		},
      	error : function(errorMsg) {
-     		//ÇëÇóÊ§°ÜÊ±Ö´ÐÐ¸Ãº¯Êý
-         	alert("Í¼±íÇëÇóÊý¾ÝÊ§°Ü£¬¿ÉÄÜÊÇ·þÎñÆ÷¿ªÐ¡²îÁË");
+     		//è¯·æ±‚å¤±è´¥æ—¶æ‰§è¡Œè¯¥å‡½æ•°
+         	alert("å›¾è¡¨è¯·æ±‚æ•°æ®å¤±è´¥ï¼Œå¯èƒ½æ˜¯æœåŠ¡å™¨å¼€å°å·®äº†");
          	myChart.hideLoading();    	
      	}
     })
 
-    myChart.setOption(option);	//ÔØÈëÍ¼±í
+    myChart.setOption(option);	//è½½å…¥å›¾è¡¨
 		 
     </script>
 		

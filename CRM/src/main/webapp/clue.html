@@ -26,9 +26,38 @@
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
+    <style type="text/css">
+    #msg{
+    height: 4rem;
+    text-align: center;
+    position: fixed;
+    top: 20%;
+    margin-top: -1rem;
+    line-height: 4rem;
+    width: 100%;
+    }
+    #msg span{
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+    height: 4rem;
+    display: inline-block;
+    padding: 0 3rem;
+    border-radius: 5px;
+    }
+    </style>
     <script type="text/javascript">
     
         $(function() {
+        	
+        	function alert(e){
+                $("body").append("<div id='msg'><span>"+e+"</span></div>");
+                clearmsg();
+            }
+            function clearmsg(){
+                var t = setTimeout(function(){
+                    $("#msg").remove();
+                },2000)
+            };
         	
         	
         	var xid;
@@ -287,6 +316,15 @@
         		}
         	});
         }
+        function byebye(){
+    		$.ajax({
+    			url:'byebye.action',
+    			type:'post',
+    			success:function(data){
+    				location.reload();
+    			}
+    		})
+    	}
         
         function getPage(currentPageno,c){
         	
@@ -348,6 +386,7 @@
           	    data:{
           	    	 s:s
           	    },
+          	  async: false,
           	    contentType:"application/json;charset=utf-8",
           	    dataType:'json',
           		error:function(data){
@@ -385,6 +424,7 @@
               	    data:{
               	    	 s:s,
               	    },
+              	  async: false,
               		contentType:"application/json;charset=utf-8",
               		dataType:'json',
               		success:function(data){
@@ -409,15 +449,7 @@
               	});
             	} 
         }
-        function byebye(){
-    		$.ajax({
-    			url:'byebye.action',
-    			type:'post',
-    			success:function(data){
-    				location.reload();
-    			}
-    		})
-    	}
+        
 
            	
     </script>
@@ -1025,8 +1057,8 @@
                     <li>共有<span  id="totalNum"></span>条数据&nbsp;&nbsp;&nbsp;&nbsp;
                                                                                                   当前第<span id="pageno"></span>页，共<span id="totalpage"> </span>页
                     </li>
-                    <li class="previous"><a id="a1">&larr;上一页</a></li>
-                    <li class="next"><a id="a2">下一页 &rarr;</a></li>
+                    <li class="previous" style="cursor: pointer"><a id="a1">&larr;上一页</a></li>
+                    <li class="next" style="cursor: pointer"><a id="a2">下一页 &rarr;</a></li>
                 </ul>
 
 

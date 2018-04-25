@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM系统-费用详情</title>
+    <title>CRM系统-产品</title>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Styles-->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -37,26 +37,54 @@
     border-radius: 5px;
     }
     </style>
+    
+
     <script type="text/javascript">
     
-    $(function(){
-    	
-    	function alert(e){
-            $("body").append("<div id='msg'><span>"+e+"</span></div>");
-            clearmsg();
-        }
-        function clearmsg(){
-            var t = setTimeout(function(){
-                $("#msg").remove();
-            },2000)
-        };
-        
-        getName();
-    	
-    	getMenu();
-    	
-    })
-    function getName(){
+    
+       var s="all";
+       var currentPageno =1 ;
+        $(function() {
+        	
+        	function alert(e){
+                $("body").append("<div id='msg'><span>"+e+"</span></div>");
+                clearmsg();
+            }
+            function clearmsg(){
+                var t = setTimeout(function(){
+                    $("#msg").remove();
+                },2000)
+            };
+            
+            getName();
+        	
+        	getMenu();
+        	
+        	$("#panel-element-11").click(function(){
+        		$("#tubiao").load("countchance.html");
+       		});
+        	
+        	$("#panel-element-22").click(function(){
+        		$("#tubiao").load("countcontract.html");
+       		});
+        	
+        	$("#panel-element-33").click(function(){
+        		$("#tubiao").load("countpayplan.html");
+       		});
+        	
+        	$("#panel-element-44").click(function(){
+        		$("#tubiao").load("countproduct.html");
+       		});
+       
+        	
+        	
+            <!-- 保存按钮点击事件-->
+            $("button[name='save']").click(function(){
+                alert("保存成功");
+                location.reload();
+            });
+        });
+        function getName(){
         	
         	$.ajax({
         		url:'getname.action',
@@ -125,7 +153,9 @@
     			}
     		})
     	}
-    
+        
+        
+      
     </script>
 
 </head>
@@ -289,7 +319,8 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-         <!--安全退出-->
+
+        <!--安全退出-->
         <div class="modal fade" id="out" tabindex="-1" role="dialog" aria-labelledby="outLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -321,88 +352,85 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            11111111  <small>负责人：李四</small>
+                                                                          统计分析 
                         </h1>
 						<ol class="breadcrumb" >
-					        <li><a href="index.html">CRM系统</a></li>
-                            <li><a href="#">销售支持</a></li>
-					        <li><a href="reimbursement.html">费用报销</a></li>
-                            <li><a href="reimbursement-details.html">报销详情</a></li>
-					        <li class="active">11111111</li>
-					    </ol>
-		  </div>
+					  <li><a href="index.html">CRM系统</a></li>
+					  
+					  <li class="active">统计分析 </li>
+					</ol>
 
-            <div id="page-inner">
+          </div>
+            <div>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
+                    <i class="fa fa-folder fa-fw"></i>新建产品
+                </button>
+            </div>
+            <div id="page-inner" class="container">
 
-                <!-- /. ROW  -->
-
-                <ul id="myTab" class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#allClue" data-toggle="tab">
-                            基本信息
-                        </a>
-                    </li>
-
-                </ul>
-                <div id="myTabContent" class="tab-content breadcrumb" >
-                    <br>
-                    <!--基本信息 -->
-                    <div class="tab-pane fade in active text-left" id="allClue">
-                        <div class="row clearfix">
-                            <div class="col-md-6 column" >
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">基本信息</h3>
-                                    </div>
-                                    <div class="panel-body table-responsive">
-                                        <table class="table">
-                                            <tr><td width="20%">费用编号：</td><td>1111111</td></tr>
-                                            <tr><td>费用类型：</td><td>通讯费</td></tr>
-                                            <tr><td>费用描述：</td><td>-------</td></tr>
-                                            <tr><td>费用金额：</td><td>¥ 1,280.00</td></tr>
-                                            <tr><td>发生时间：</td><td>-------</td></tr>
-                                        </table>
-                                    </div>
+                <div class="row clearfix">
+                    <div class="col-md-2 column">
+                        <br/>
+                        <h3 class="page-header" >
+                            统计类型
+                        </h3>
+                        <div class="panel-group" id="panel-1">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-11">销售产品</a>
                                 </div>
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">其它信息</h3>
+                                <div id="panel-element-11" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="cursor: pointer">
+                                        预计销售产品
                                     </div>
-                                    <div class="panel-body table-responsive">
-                                        <table class="table">
-                                            <tr><td width="20%">对应客户：</td><td>张三</td></tr>
-                                            <tr><td>联系人：</td><td>李四</td></tr>
-                                            <tr><td>机会/合同：</td><td>-------</td></tr>
-                                            <tr><td>跟进记录：</td><td>-------</td></tr>
-                                            <tr><td>拜访签到：</td><td>-------</td></tr>
-                                            <tr><td>报销状态：</td><td>已报销</td></tr>
-                                            <tr><td>对应报销单：</td><td>6451654</td></tr>
-                                            <tr><td>附件：</td><td>-------</td></tr>
-                                        </table>
-                                    </div>
+                                    
                                 </div>
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">系统信息</h3>
+
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-22">合同</a>
+                                </div>
+                                <div id="panel-element-22" class="panel-collapse collapse">
+                                    <div class="panel-body" style="cursor: pointer">
+                                        合同统计
                                     </div>
-                                    <div class="panel-body table-responsive">
-                                        <table class="table">
-                                            <tr><td width="20%">创建人：</td><td>张三</td></tr>
-                                            <tr><td>创建时间：</td><td>2018-04-22 15:00</td></tr>
-                                            <tr><td>更新于：</td><td>2018-04-22 15:00</td></tr>
-                                        </table>
-                                    </div>
+                                    
                                 </div>
                             </div>
-                        </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-33">回款计划</a>
+                                </div>
+                                <div id="panel-element-33" class="panel-collapse collapse">
+                                    <div class="panel-body" style="cursor: pointer">
+                                        回款计划统计
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-44">产品</a>
+                                </div>
+                                <div id="panel-element-44" class="panel-collapse collapse">
+                                    <div class="panel-body" style="cursor: pointer">
+                                        产品销售
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            </div>
                     </div>
-
-
-
+                    <div class="col-md-10 column">
+                        <h3 class="page-header"  >
+                            统计图表
+                        </h3>
+                        <!--数据（从数据库中读取）-->
+                        <div id="tubiao"></div>
+                        
+                    </div>
                 </div>
-
-                <!-- /. ROW  -->
-
 				<footer>
 
                     <br/><br/><br/>
@@ -433,7 +461,6 @@
 	
     <!-- Custom Js -->
     <script src="assets/js/custom-scripts.js"></script>
-
 
 
 </body>

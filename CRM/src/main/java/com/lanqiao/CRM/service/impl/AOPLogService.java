@@ -38,7 +38,7 @@ public class AOPLogService {
 		String log_createtime=df.format(new Date());
 		
 		log.setLog_createtime(log_createtime);
-		log.setLog_operation("插入一条线索");
+		log.setLog_operation("增加一条线索");
 		log.setLog_type("clue");
 		
 		logDao.insert(log);

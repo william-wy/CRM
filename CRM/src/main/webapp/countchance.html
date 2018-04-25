@@ -1,49 +1,50 @@
 <html>
 <head>
-    <title>- Ԥ�����۲�Ʒ -</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>- 预计销售产品 -</title>
 </head>
 		<base href="<%=basePath%>">
 		 <script src="assets/js/jquery-1.10.2.js"></script>
 		<script src="assets/js/echarts.js"></script>
 
 	<body>
-<!-- ��ʾEchartsͼ�� -->
+<!-- 显示Echarts图表 -->
 		<div style="height:410px;min-height:100px;margin:0 auto;" id="main"></div>						
             		
   	
   
 		<script type="text/javascript">
 			
-		// ����׼���õ�dom����ʼ��echartsʵ��
+		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
 
-        // ָ��ͼ���������������
+        // 指定图表的配置项和数据
         var option = {
-            title: {	//ͼ������
-                text: 'Ԥ�����۲�Ʒ'
+            title: {	//图表标题
+                text: '预计销售产品'
             },
             tooltip: {
-                trigger: 'axis', //�����ᴥ����ʾ�򣬶�������״������ͼ��
+                trigger: 'axis', //坐标轴触发提示框，多用于柱状、折线图中
                
             },
             dataZoom: [
                  {
-                     type: 'slider',	//֧������������
-                     start: 0,			//Ĭ�����ݳ�ʼ���ŷ�ΧΪ10%��90%
+                     type: 'slider',	//支持鼠标滚轮缩放
+                     start: 0,			//默认数据初始缩放范围为10%到90%
                      end: 100
                  },
                  {
-                     type: 'inside',	//֧�ֵ����Ļ���������
-                     start: 0,			//Ĭ�����ݳ�ʼ���ŷ�ΧΪ10%��90%
+                     type: 'inside',	//支持单独的滑动条缩放
+                     start: 0,			//默认数据初始缩放范围为10%到90%
                      end: 100
                  }
             ],
-            legend: {	//ͼ���Ϸ��������ʾ           	
+            legend: {	//图表上方的类别显示           	
             	show:true,
-            	data:['Ԥ������']
+            	data:['预计销售']
             },
             color:[
-                   '#8A2BE2',	//���������ɫ
+                   '#8A2BE2',	//金额曲线颜色
                   
                    ],
            toolbox: {
@@ -54,62 +55,62 @@
                  saveAsImage: {show: true}
                }
              },
-            xAxis:  {	//X��       	
+            xAxis:  {	//X轴       	
                 type : 'category',
-                data : []	//����������ֵΪ�գ�������Ajax��ȡ��̬��������
+                data : []	//先设置数据值为空，后面用Ajax获取动态数据填入
             },
-            yAxis : [	//Y�ᣨ����������������Y�ᣬ���Ҹ�һ����
+            yAxis : [	//Y轴（这里我设置了两个Y轴，左右各一个）
 						{
-            				//��һ������ߣ�Y�ᣬyAxisIndexΪ0
+            				//第一个（左边）Y轴，yAxisIndex为0
 	                         type : 'value',
-	                         name : 'Ԥ������',
+	                         name : '预计销售',
 	                         /* max: 120,
 	                         min: -40, */
 	                         axisLabel : {
-	                             formatter: '{value} ��'	//���������ʽ
+	                             formatter: '{value} 件'	//控制输出格式
 	                         }
 	                     },
 	          
             ],
-            series : [	//ϵ�У����ݣ��б�                      
+            series : [	//系列（内容）列表                      
 						{
-		                    name:'Ԥ������',
-		                    type:'line',	//����ͼ��ʾ�����ɽ�����ߣ�
-		                    symbol:'emptycircle',	//��������ͼ�б�ʾÿ�������ķ��ţ�emptycircle������Բ��emptyrect�����ľ��Σ�circle��ʵ��Բ��emptydiamond������	                    
-		                    data:[]		//����ֵͨ��Ajax��̬��ȡ
+		                    name:'预计销售',
+		                    type:'line',	//折线图表示（生成金额曲线）
+		                    symbol:'emptycircle',	//设置折线图中表示每个坐标点的符号；emptycircle：空心圆；emptyrect：空心矩形；circle：实心圆；emptydiamond：菱形	                    
+		                    data:[]		//数据值通过Ajax动态获取
 		                }     
             ]
         };
 		 
-		myChart.showLoading();	//���ݼ�����֮ǰ����ʾһ�μ򵥵�loading����
+		myChart.showLoading();	//数据加载完之前先显示一段简单的loading动画
 		 
-		 var jexpectsals=[];		//������飨��ŷ��������ص����н��ֵ��
+		 var jexpectsals=[];		//金额数组（存放服务器返回的所有金额值）
 		
-		 var jproducts=[];		//ʱ������
+		 var jproducts=[];		//时间数组
 		 
-         $.ajax({	//ʹ��JQuery���õ�Ajax����
-         type : "post",		//post����ʽ
-         async : true,		//�첽����ͬ�����󽫻���ס��������û�������������ȴ�������ɲſ���ִ�У�
-         url : "/CRM/chance/getChanceList.action",	//�����͵�ShowInfoIndexServlet��
+         $.ajax({	//使用JQuery内置的Ajax方法
+         type : "post",		//post请求方式
+         async : true,		//异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+         url : "/CRM/chance/getChanceList.action",	//请求发送到ShowInfoIndexServlet处
         
-         dataType : "json",		//����������ʽΪjson
+         dataType : "json",		//返回数据形式为json
          success : function(result) {
-        	 //����ɹ�ʱִ�иú������ݣ�result��Ϊ���������ص�json����
+        	 //请求成功时执行该函数内容，result即为服务器返回的json对象
 	         if (result != null && result.length > 0) {
 	                for(var i=0;i<result.length;i++){       
-	                	jexpectsals.push(result[i].jexpectsal);		//����ȡ���¶ȡ�ʪ�ȡ�ѹǿ��ֵ������ǰ���������¶ȡ�ʪ�ȡ�ѹǿ������
+	                	jexpectsals.push(result[i].jexpectsal);		//挨个取出温度、湿度、压强等值并填入前面声明的温度、湿度、压强等数组
 	                	jproducts.push(result[i].jproduct);
 	                }
-	                myChart.hideLoading();	//���ؼ��ض���
+	                myChart.hideLoading();	//隐藏加载动画
 	                
-	                myChart.setOption({		//��������
+	                myChart.setOption({		//载入数据
 	   		         xAxis: {
-	   		             data:jproducts	//����X������
+	   		             data:jproducts	//填入X轴数据
 	   		         },
-	   		         series: [	//����ϵ�У����ݣ�����
+	   		         series: [	//填入系列（内容）数据
 	   		               		{
-			   		             // �������ֶ�Ӧ����Ӧ��ϵ��
-			   		             name: 'Ԥ������',
+			   		             // 根据名字对应到相应的系列
+			   		             name: '预计销量',
 			   		             data: jexpectsals
 	   		         		}
 	   		        ]
@@ -117,20 +118,20 @@
 	                
 	         }
 	         else {
-	        	 //���ص�����Ϊ��ʱ��ʾ��ʾ��Ϣ
-	        	 alert("ͼ����������Ϊ�գ����ܷ�������δ¼�������Ĺ۲����ݣ��������Ժ����ԣ�");
+	        	 //返回的数据为空时显示提示信息
+	        	 alert("图表请求数据为空，可能服务器暂未录入近五天的观测数据，您可以稍后再试！");
 	          	 myChart.hideLoading();
 	         }
          
 		},
      	error : function(errorMsg) {
-     		//����ʧ��ʱִ�иú���
-         	alert("ͼ����������ʧ�ܣ������Ƿ�������С����");
+     		//请求失败时执行该函数
+         	alert("图表请求数据失败，可能是服务器开小差了");
          	myChart.hideLoading();    	
      	}
     })
 
-    myChart.setOption(option);	//����ͼ��
+    myChart.setOption(option);	//载入图表
 		 
     </script>
 		

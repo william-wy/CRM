@@ -26,12 +26,44 @@
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
     <script type="text/javascript" src="assets/js/moment.js"></script>
     <script type="text/javascript" src="assets/js/daterangepicker.js"></script>
+    <style type="text/css">
+    #msg{
+    height: 4rem;
+    text-align: center;
+    position: fixed;
+    top: 20%;
+    margin-top: -1rem;
+    line-height: 4rem;
+    width: 100%;
+    }
+    #msg span{
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+    height: 4rem;
+    display: inline-block;
+    padding: 0 3rem;
+    border-radius: 5px;
+    }
+    </style>
+    
     <script type="text/javascript">
     var s="all";
     $(function() {
+    	
+    	function alert(e){
+            $("body").append("<div id='msg'><span>"+e+"</span></div>");
+            clearmsg();
+        }
+        function clearmsg(){
+            var t = setTimeout(function(){
+                $("#msg").remove();
+            },2000)
+        };
     	var l_id;
         var currentPageno =1 ;
-        
+        getName();
+    	
+    	getMenu();
     	
         getPage(currentPageno,s);
 
@@ -214,6 +246,76 @@
                 location.reload();
             });
         });
+    
+    function getName(){
+    	
+    	$.ajax({
+    		url:'getname.action',
+    		type: "post",
+    		async: false,
+    		dataType: 'json',
+            success: function (data) {
+            	
+            	$("#PICname").val(data.pc_id);
+            	
+            	$("#userName").html(data.pc_name);
+            	
+            	
+            }
+    		
+    	})
+    }
+    function getMenu(){
+    	
+    	  $.ajax({
+    		type:"get",
+    		url:"/CRM/menu/getMenuTreeByRole.action",
+    		data:{
+    			user:$("#PICname").val()
+    		},
+    		async: false,
+    		contentType:"application/json;charset=utf-8",
+    		dataType:'json',
+    		
+    		
+    		success:function(data){
+    	       var str = '' ;
+    	       
+    	       str += '<nav class="navbar-default navbar-side" role="navigation"><div class="sidebar-collapse">';
+    	       str += '<ul class="nav" id="main-menu"><li id="addMenu">';
+    	       str += '<a href="index.html"><i class="fa fa-home"></i> 首页</a></li>';
+    	       
+    	       
+    			$.each(data,function(index,menuTree){
+    				str += '<li><a href="#"><i class="fa fa-sitemap"></i>'+menuTree.text+'<span class="fa arrow"></span></a>' ;
+    				str += '<ul class="nav nav-second-level">';
+    				$.each(menuTree.children,function(index,menu){
+        				str += '<li><a href="'+menu.url+'">'+menu.text+'</a></li>' ;
+        			})
+        			str += '</ul></li>';
+    			})
+    			
+    	
+    			
+    			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+    			str += '</li></ul></div></nav>';
+    			
+    			$('#addMenu').html(str);
+
+    		
+    			
+    		}
+    	});
+    }
+    function byebye(){
+		$.ajax({
+			url:'byebye.action',
+			type:'post',
+			success:function(data){
+				location.reload();
+			}
+		})
+	}
     
    
         function getPage(currentPageno,s){
@@ -417,7 +519,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i>
-                        张三
+                       <input type="hidden" id="PICname"  readonly/>
+                        <span id="userName"></span>
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -603,7 +706,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" onclick="byebye()">
                             安全退出
                         </button>
                     </div>
@@ -611,70 +714,7 @@
             </div><!-- /.modal -->
         </div>
         <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <li>
-                        <a href="index.html"><i class="fa fa-home"></i> 首页</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> 销售管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="active-menu" href="clue.html">线索</a>
-                            </li>
-                            <li>
-                                <a href="customer.html">客户</a>
-                            </li>
-                            <li>
-                                <a href="public-customers.html">客户公海</a>
-                            </li>
-                            <li>
-                                <a href="contacts.html">联系人</a>
-                            </li>
-                            <li>
-                                <a href="opportunity.html">机会</a>
-                            </li>
-                            <li>
-                                <a href="contract.html">合同</a>
-                            </li>
-                            <li>
-                                <a href="payment.html">回款</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-file"></i> 销售支持<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="product.html">产品</a>
-                            </li>
-                            <li>
-                                <a href="report.html">工作报告</a>
-                            </li>
-                            <li>
-                                <a href="knowledge.html">知识库</a>
-                            </li>
-                            <li>
-                                <a href="message.html">短信群发</a>
-                            </li>
-                            <li>
-                                <a href="reimbursement.html">费用报销</a>
-                            </li>
-                            <li>
-                                <a href="follow.html">跟进记录</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
+        <div id="addMenu"></div>
         <!-- /. NAV SIDE  -->
 
 		<div id="page-wrapper">
