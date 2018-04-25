@@ -23,14 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            <if test="xnext!=null and xnext!=''">
                and ${xnext} 
            </if>
-           <if test="xfid!=null and xfid!=''">
-               and xfid=#{xfid} 
-           </if>
-           <if test="xdeptno!=null and xdeptno!=''">
-               and xdeptno=#{xdeptno} 
-           </if>
            <if test="xsource!=null and xsource!=''">
                and xsource=#{xsource} 
+           </if>
+           <if test="xname!=null and xname!=''">
+               and xname=#{xname} 
+           </if>
+           <if test="xcomname!=null and xcomname!=''">
+               and xcomname=#{xcomname} 
            </if>
            </where>
     </select>
@@ -50,14 +50,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            <if test="clue.xnext!=null and clue.xnext!=''">
                and ${clue.xnext} 
            </if>
-           <if test="clue.xfid!=null and clue.xfid!=''">
-               and xfid=#{clue.xfid} 
-           </if>
-           <if test="clue.xdeptno!=null and clue.xdeptno!=''">
-               and xdeptno=#{clue.xdeptno} 
-           </if>
            <if test="clue.xsource!=null and clue.xsource!=''">
                and xsource=#{clue.xsource} 
+           </if>
+           <if test="clue.xname!=null and clue.xname!=''">
+               and xname=#{clue.xname} 
+           </if>
+           <if test="clue.xcomname!=null and clue.xcomname!=''">
+               and xcomname=#{clue.xcomname} 
            </if>
            </where>
            limit #{start},#{end}

@@ -120,7 +120,7 @@ public class ClueAction {
 	}
 	
 	@RequestMapping(value="/findBySome.action",method= {RequestMethod.POST,RequestMethod.GET})
-	public @ResponseBody  PageUtil findBySome(int pageno,int pagesize,String xszt,String dq,String sjgj,String xcgj,String fzr,String ssbm,String ssly) throws Exception{
+	public @ResponseBody  PageUtil findBySome(int pageno,int pagesize,String xszt,String dq,String sjgj,String xcgj,String xsly,String name,String gsmc) throws Exception{
          
 		if(xszt!=null&&!xszt.equals("")) {
 			if(xszt.equals("all")) {
@@ -150,25 +150,25 @@ public class ClueAction {
 				some[3]=xcgj;
 			}
 		}
-		if(fzr!=null&&!fzr.equals("")) {
-			if(fzr.equals("all")) {
+		if(xsly!=null&&!xsly.equals("")) {
+			if(xsly.equals("all")) {
 				some[4]=null;
 			}else {
-				some[4]=fzr;
+				some[4]=xsly;
 			}
 		}
-		if(ssbm!=null&&!ssbm.equals("")) {
-			if(ssbm.equals("all")) {
+		if(name!=null&&!name.equals("")) {
+			if(name.equals("all")) {
 				some[5]=null;
 			}else {
-				some[5]=ssbm;
+				some[5]=name;
 			}
 		}
-		if(ssly!=null&&!ssly.equals("")) {
-			if(ssly.equals("all")) {
+		if(gsmc!=null&&!gsmc.equals("")) {
+			if(gsmc.equals("all")) {
 				some[6]=null;
 			}else {
-				some[6]=ssly;
+				some[6]=gsmc;
 			}
 		}
 		
@@ -177,9 +177,9 @@ public class ClueAction {
 		clue.setXarea(some[1]);
 		clue.setXactual(some[2]);
 		clue.setXnext(some[3]);
-		clue.setXfid(some[4]);
-		clue.setXdeptno(some[5]);
-		clue.setXsource(some[6]);
+		clue.setXsource(some[4]);
+		clue.setXname(some[5]);
+		clue.setXcomname(some[6]);
 		
 		for(String s:some) {
 			System.out.println(s);
