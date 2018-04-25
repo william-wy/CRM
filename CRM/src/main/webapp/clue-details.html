@@ -56,6 +56,31 @@
        	  });
         	
         	
+        	<!--操作日志-->
+        	$("#rizhi").click(function(){
+        		$.ajax({
+              	       type:"get",
+        			   url:"/CRM/log/all.action",
+        			   data:{
+        				     s:"clue"
+        				     },
+        		       datatype:'json',
+      		           contentType:"application/json;charset=utf-8",
+      		           success:function(data){
+      		        	 var str="";
+    		        	  $.each(data,function(index,clue){
+    		        		
+                          str+="<tr><td>"+clue.log_id+"</td>";
+                          str+="<td>"+clue.log_createtime+"</td>"
+                          str+="<td>"+clue.log_operation+"</td>"
+                          str+="<td>"+clue.log_type+"</td> </tr>"  
+               			}); 
+               			   $("#caozuorizhi").html(str);
+      		           }
+              	});
+       		  
+       	  });
+        	
         	//显示信息
         	$.ajax({
         	   type:"get",
@@ -952,7 +977,7 @@
                     </li>
                     <li><a href="#myClue" data-toggle="tab">提醒</a></li>
                     <li><a href="#customer" data-toggle="tab">附件</a></li>
-                    <li><a href="#journal" data-toggle="tab">操作日志</a></li>
+                    <li><a href="#journal" data-toggle="tab" id="rizhi">操作日志</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content breadcrumb" >
                     <br>
@@ -1179,79 +1204,15 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                <th>操作ID</th>
                                 <th>操作时间</th>
-                                <th>操作人员</th>
-                                <th>操作类型</th>
-                                <th>字段名</th>
-                                <th>旧字段值</th>
-                                <th>新字段值</th>
+                                <th>具体操作</th>
                                 <th>备注</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>Tanmay</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Mumbai</td>
-                                <td>400003</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Pune</td>
-                                <td>411027</td>
-                                <td>Bangalore</td>
-                                <td>560001</td>
-                                <td>Bangalore</td>
-                            </tr>
+                            <tbody id="caozuorizhi">
+                            
+                            
                             </tbody>
                         </table>
                     </div>

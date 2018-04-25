@@ -8,6 +8,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    insert into log values(null,#{log_createtime},#{log_operation},#{log_type})
 	</insert>
 	
+	<select id="findAll" parameterType="String" resultType="log">
+      select * from (select *  from log where log_type=#{s}) aa
+    
+    </select>
+    
+    
+    <select id="getTotal" parameterType="String" resultType="int">
+              select count(*)  from  log  where log_type=#{s}
+    </select>
+	
 	
 	
  </mapper>
