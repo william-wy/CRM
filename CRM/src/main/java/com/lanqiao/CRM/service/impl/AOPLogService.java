@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +34,7 @@ public class AOPLogService {
 		
 		Log log = new Log();
 		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String log_createtime=df.format(new Date());
 		
 		log.setLog_createtime(log_createtime);
@@ -53,7 +52,7 @@ public class AOPLogService {
 		
 		Log log = new Log();
 		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String log_createtime=df.format(new Date());
 		
 		log.setLog_createtime(log_createtime);
@@ -71,11 +70,29 @@ public class AOPLogService {
 		
 		Log log = new Log();
 		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String log_createtime=df.format(new Date());
 		
 		log.setLog_createtime(log_createtime);
 		log.setLog_operation("修改一条线索");
+		log.setLog_type("clue");
+		
+		logDao.insert(log);
+		
+		System.out.println("====数据插入完毕====");
+		
+	}
+	
+	@After(value="execution(* com.lanqiao.CRM.action.ClueAction.zhuanyi(..))")
+	public void aftertokh() {
+		
+		Log log = new Log();
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String log_createtime=df.format(new Date());
+		
+		log.setLog_createtime(log_createtime);
+		log.setLog_operation("一条线索转换为客户");
 		log.setLog_type("clue");
 		
 		logDao.insert(log);
