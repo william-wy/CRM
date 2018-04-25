@@ -127,6 +127,8 @@
 		        	    
 		        	    $("#clue1").val(data.xname);
 		        	    $("#xname1").html(data.xname),
+		        	    $("#clueName1").html(data.xname),
+		        	    $("#clueName2").html(data.xname),
                 	    $("#xcomname1").html(data.xcomname),
                 	    $("#xdeptno1").html(data.xdeptno),
                 	    $("#xjob1").html(data.xjob),
@@ -391,7 +393,7 @@ function getName(){
         			
         	
         			
-        			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+        			str += '<li><a href="analysis.html"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
         			str += '</li></ul></div></nav>';
         			
         			$('#addMenu').html(str);
@@ -970,13 +972,13 @@ function getName(){
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            宋总 <small>负责人：张三</small>
+                            <span id="clueName1"></span> <small>负责人：张三</small>
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
                             <li><a href="#">销售管理</a></li>
 					        <li><a href="clue.html">线索</a></li>
-					        <li class="active">宋总</li>
+					        <li class="active"><span id="clueName2"></span></li>
 					    </ol>
               <span style="float: right">下次跟进时间：4月22日 15:00</span>
 

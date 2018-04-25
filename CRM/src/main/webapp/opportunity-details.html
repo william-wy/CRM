@@ -111,6 +111,8 @@
 	        	    
 	        	    $("#chance1").val(data.jname);
 	        	    $("#jname1").html(data.jname),
+	        	    $("#oppName1").html(data.jname),
+	        	    $("#oppName2").html(data.jname),
             	    $("#jclient1").html(data.jclient),
             	    $("#jlinkman1").html(data.jlinkman),
             	    $("#jproduct1").html(data.jproduct),
@@ -350,7 +352,7 @@
     			
     	
     			
-    			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+    			str += '<li><a href="analysis.html"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
     			str += '</li></ul></div></nav>';
     			
     			$('#addMenu').html(str);
@@ -1235,7 +1237,7 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                旺旺
+                <span id="oppName1"></span>
                 <small>
                     负责人：张三&nbsp;&nbsp;&nbsp;&nbsp;
                                 <span class="" data-toggle="tooltip" data-placement="right" title=" 协作人仅能查看、编辑此数据，以及写跟进。">
@@ -1247,7 +1249,7 @@
                 <li><a href="index.html">CRM系统</a></li>
                 <li><a href="#">销售管理</a></li>
                 <li><a href="opportunity.html">机会</a></li>
-                <li class="active">旺旺</li>
+                <li class="active"><span id="oppName2"></span></li>
             </ol>
 
         </div>

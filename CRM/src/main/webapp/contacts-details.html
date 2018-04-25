@@ -78,6 +78,8 @@
 	        	    
 	        	    $("#contacts1").val(data.l_name);
 	        	    $("#l_name1").html(data.l_name),
+	        	    $("#contactsName1").html(data.l_name),
+	        	    $("#contactsName2").html(data.l_name),
             	    $("#l_com_name1").html(data.l_com_name),
             	    $("#l_deptno1").html(data.l_deptno),
             	    $("#l_job1").html(data.l_job),
@@ -336,7 +338,7 @@
     			
     	
     			
-    			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+    			str += '<li><a href="analysis.html"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
     			str += '</li></ul></div></nav>';
     			
     			$('#addMenu').html(str);
@@ -918,14 +920,14 @@
 		<div id="page-wrapper">
 		  <div class="header">
                         <h1 class="page-header">
-                            周桂莲
+                            <span id="contactsName1"></span>
                             <small>客户：青云超市</small>
                         </h1>
 						<ol class="breadcrumb" >
 					        <li><a href="index.html">CRM系统</a></li>
                             <li><a href="#">销售管理</a></li>
 					        <li><a href="contacts.html">联系人</a></li>
-					        <li class="active">周桂莲</li>
+					        <li class="active"><span id="contactsName2"></span></li>
 					    </ol>
 
 		  </div>

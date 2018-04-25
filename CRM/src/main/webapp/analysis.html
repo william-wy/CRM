@@ -59,6 +59,7 @@
             getName();
         	
         	getMenu();
+        	$("#tubiao").load("countchance.html");
         	
         	$("#panel-element-11").click(function(){
         		$("#tubiao").load("countchance.html");
@@ -134,7 +135,7 @@
         			
         	
         			
-        			str += '<li><a href="#"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
+        			str += '<li><a href="analysis.html"><i class="fa fa-bar-chart-o"></i> 统计分析</a>';
         			str += '</li></ul></div></nav>';
         			
         			$('#addMenu').html(str);
@@ -361,11 +362,7 @@
 					</ol>
 
           </div>
-            <div>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClue" style="float: right;margin-right: 40px">
-                    <i class="fa fa-folder fa-fw"></i>新建产品
-                </button>
-            </div>
+            
             <div id="page-inner" class="container">
 
                 <div class="row clearfix">
@@ -422,6 +419,7 @@
                             </div>
                             </div>
                     </div>
+                    <br>
                     <div class="col-md-10 column">
                         <h3 class="page-header"  >
                             统计图表
