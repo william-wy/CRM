@@ -60,6 +60,14 @@ public class ChanceAction {
                  
 		 return page; 
 	}
+	
+	@RequestMapping(value="/getCount.action",method= {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody int getCount() throws Exception{
+         
+         int count=chanceService.getTotal();
+                 
+		 return count; 
+	}
     
 	
 	@RequestMapping(value="/ByJdept.action",method= {RequestMethod.POST,RequestMethod.GET})

@@ -1,5 +1,6 @@
 package com.lanqiao.CRM.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,14 @@ private CountService countService;
     @RequestMapping(value = "/counttime")
     public @ResponseBody  Object getCountTime(){
         List<GenJinCiShu> list=countService.counttime();
+       List<GenJinCiShu> list1=new ArrayList<>();
+       
+        list1.add(list.get(28));
+       
+        list1.add(list.get(30));
+        list1.add(list.get(32));
+        list1.add(list.get(36));
         
-            return list;
+            return list1;
     }
 }

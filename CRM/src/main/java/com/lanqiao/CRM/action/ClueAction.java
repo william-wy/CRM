@@ -37,6 +37,14 @@ public class ClueAction {
 		 return page; 
 	}
 	
+	@RequestMapping(value="/getCount.action",method= {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody int getCount() throws Exception{
+         
+         int count=clueService.getTotal();
+                 
+		 return count; 
+	}
+	
 	@RequestMapping(value="/ByXfid.action",method= {RequestMethod.POST,RequestMethod.GET})
 	public @ResponseBody  PageUtil ByXfid( int pageno, int pagesize,String fid) throws Exception{
          

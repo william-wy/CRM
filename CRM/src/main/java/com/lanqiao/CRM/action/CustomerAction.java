@@ -54,6 +54,14 @@ import com.lanqiao.CRM.utils.CustomerPage;
 	                 
 			 return page; 
 		}
+		
+		@RequestMapping(value="/getCount.action",method= {RequestMethod.POST,RequestMethod.GET})
+		public @ResponseBody int getCount() throws Exception{
+	         
+	         int count=customerService.getTotal();
+	                 
+			 return count; 
+		}
 	    
 		
 		@RequestMapping(value="/ByKfid.action",method= {RequestMethod.POST,RequestMethod.GET})

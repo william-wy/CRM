@@ -71,4 +71,12 @@ public class ContractAction {
 	
 	}
 	
+	@RequestMapping(value="/getCount.action",method= {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody int getCount() throws Exception{
+         
+         int count=service.getTotal();
+                 
+		 return count; 
+	}
+	
 }
