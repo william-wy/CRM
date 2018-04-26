@@ -77,6 +77,8 @@
     		}
     	})
     	
+    	getPage(1);
+    	
     	function alert(e){
             $("body").append("<div id='msg'><span>"+e+"</span></div>");
             clearmsg();
@@ -160,6 +162,59 @@
     			}
     		})
     	}
+        
+        function getPage(currentPageno) {
+            var i = 1;
+            var pageno = $("#pageno").val(i);
+
+            $.ajax({
+                url: "/CRM/contract/getPage.action",
+                type: "post",
+                data: {
+                    pageno: currentPageno,
+                    pagesize: 6
+                },
+                dataType: 'json',
+
+                success: function (data) {
+                    var str = '';
+                    $.each(data.data, function (index, contract) {
+                    	var state;
+                    	if(contract.hstate==null||contract.hstate=="作废"){
+                    		state="0%";
+                    	}else if(contract.hstate=="等待总经理审批"){
+                    		state="30%";
+                    	}else if(contract.hstate=="等待产品经理理审批"){
+                    		state="60%";
+                    	}else if(contract.hstate=="完成审核"){
+                    		state="100%";
+                    	}
+
+                        str += '<tr>';
+                        str += '<td>'+index+'</td>';
+                        str += '<td>' + contract.hname + '</td>';
+                        str += '<td>' + contract.hclient_name + '</td>';
+                        
+                        str += '<td><span class="label label-success">' + contract.hstate + '</span></td>';
+                        str += '<td><div class="progress progress-striped">';
+                        str += '<div class="progress-bar progress-bar-success" role="progressbar"';
+                        str += 'aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"';
+                        str += 'style="width: '+state+';">';
+                        str += '<span class="sr-only"></span>';
+                        str += '</div></div></td>';
+
+                        
+                        str += '</tr>';
+
+                    })
+                    $("#contractbody").html(str);
+                    
+                  
+
+                    
+                }
+            })
+        }
     </script>
 </head>
 
@@ -437,7 +492,7 @@
                                             <th>合同进度</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody  id="contractbody">
                                         <tr>
                                             <td>1</td>
                                             <td>John</td>
