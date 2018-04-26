@@ -300,11 +300,11 @@ function getName(){
         			    str += '<tr>' ;
         				str += '<td><label><input type="checkbox" name="test" value='+customer.kid+'></label></td>'; 				
         				str += '<td>'+customer.kname+'</td>';
-        				str += '<td>'+customer.karea+'</td>';
+        				str += '<td>'+customer.kdegree+'</td>';
         				str += '<td>'+customer.kphone+'</td>';
-        				str += '<td>'+customer.kremark+'</td>';       				
-        				str += '<td>'+customer.knext+'</td>';
-        				str += '<td>'+customer.kfid+'</td>';
+        				str += '<td>'+customer.kstatus+'</td>';       				
+        				str += '<td>'+customer.ksource+'</td>';
+        				str += '<td>'+customer.ktrade+'</td>';
         			    str += '</tr>' ;
         			})
         			
@@ -676,11 +676,11 @@ function getName(){
                         <tr>
                             <th>选择</th>
                             <th>客户名称</th>
-                            <th>跟进记录</th>
-                            <th>跟进时间</th>
-                            <th>备注</th>
-                            <th>创建时间</th>
-                            <th>前负责人</th>
+                            <th>客户类型</th>
+                            <th>联系方式</th>
+                            <th>客户状态</th>
+                            <th>客户来源</th>
+                            <th>所属行业</th>
                         </tr>
                         </thead>
                         <tbody id="customerlist">
