@@ -83,19 +83,14 @@ public class ContractServiceImpl implements ContractService{
 		return page;
 	}
 
+	//工作流
 	@Override
-	public PageUtil<?> findByXFid(int pageno, int pagesize, String xfid) {
+	public PageUtil<Contract> findByXFid(int pageno, int pagesize, String xfid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void updateStatus(String hstatus) {
-		
-		dao.updateStatus(hstatus);
-		
-	}
-
+	
 	@Override
 	public Contract getContract(String hstatus) {
 		// TODO Auto-generated method stub
@@ -109,5 +104,27 @@ public class ContractServiceImpl implements ContractService{
 		return dao.getBusiness(pc_id, hstatus);
 		
 	}
+	@Override
+	public void updateStatusById(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		dao.updateStatusById(map);
+	}
+
+	@Override
+	public Contract get(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.get(id);
+	}
+
+	@Override
+	public void updateStatus(String statu,int hid){
+		// TODO Auto-generated method stub
+		Map<String,Object> map= new HashMap<>();
+		map.put("hstate", statu);
+		map.put("hid", hid);
+		
+		dao.updateStatus(map);
+	}
+	
 
 }

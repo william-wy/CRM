@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateStatus" parameterType="Contract">
 		update contract set 
 		
-		hstate = #{hstate},
+		hstate = #{hstate}
 		
 		where hid = #{hid}
 	</update>
@@ -85,4 +85,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{hid}
 		</foreach>
 	</delete>
+	<update parameterType="map" id="updateStatusById"> update contract set hstate = #{hstate} where hid = #{hid} </update>
 </mapper>

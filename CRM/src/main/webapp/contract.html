@@ -276,13 +276,14 @@ function getName(){
                 $.each(data.data, function (index, contract) {
 
                     str += '<tr>';
-                    str += '<td><label><input type="checkbox" value=""></label></td>';
+                    str += '<td><label><input type="checkbox" name="test" value='+contract.hid+'></label></td>';
                     str += '<td><a href="contract-details.html">' + contract.hname + '</a></td>';
                     str += '<td><a href="customer-details.html">' + contract.hclient_name + '</a></td>';
                     str += '<td>' + contract.hnumber + '</td>';
                     str += '<td>' + contract.htol_amt + '</td>';
                     str += '<td>' + contract.hstate + '</td>';
                     str += '<td>' + contract.hproduct + '</td>';
+                    str += '<td><input type="hidden" id="taskId" value="'+contract.deptno+'" </td>';
                     str += '</tr>';
 
                 })
@@ -295,6 +296,31 @@ function getName(){
         })
     }
 	 
+	//提交流程
+    function start(){ 
+    	var obj=document.getElementsByName('test'); //选择所有name="'test'"的对象，返回数组 
+    	//取到对象数组后，我们来循环检测它是不是被选中 
+    	var s=''; 
+    	for(var i=0; i<obj.length; i++){ 
+    	if(obj[i].checked) 
+    	s+=obj[i].value; //如果选中，将value添加到变量s中 
+    	} 
+    	//那么现在来检测s的值就知道选中的复选框的值了 
+    	alert(s==''?'你还没有选择任何内容！':s);
+    	$.ajax({
+    		  url:'/CRM/WF/startProcess.action',
+    		  type:'post',
+				data:{
+					leaveId:s
+				},
+				
+      		dataType:'text',
+      		success:function(data){        			
+      			alert(data);
+                window.location.reload();
+      		} 				
+      	}); 
+    	} 
 
             </script>
 
@@ -869,14 +895,9 @@ function getName(){
 									<i class="fa fa-pencil fa-fw"></i> &nbsp;&nbsp;修改&nbsp;&nbsp;
 								</button>
 								<button type="button" class="btn btn-default"
-									style="float: right">搜索</button>
-								<input type="text" style="height: 35px; float: right" /> <select
-									class="btn btn-default" style="float: right">
-									<option>请选择搜索方式</option>
-									<option>按姓名查找</option>
-									<option>按部门查找</option>
-									<option>其他</option>
-								</select>
+									data-toggle="modal"  onclick="start()" style="float: left"id="xiugai">
+									 &nbsp;&nbsp;提交合同&nbsp;&nbsp;
+								</button>
 							</div>
 						</caption>
 						<thead>
