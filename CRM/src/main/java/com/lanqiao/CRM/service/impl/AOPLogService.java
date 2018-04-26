@@ -21,7 +21,7 @@ import com.lanqiao.CRM.entity.Log;
 public class AOPLogService {
 	
 	@Autowired
-	private LogDao logDao;
+	private LogDao logDao1;
 	
 	public AOPLogService(){
 		
@@ -41,7 +41,7 @@ public class AOPLogService {
 		log.setLog_operation("增加一条线索");
 		log.setLog_type("clue");
 		
-		logDao.insert(log);
+		logDao1.insert(log);
 		
 		System.out.println("====数据插入完毕====");
 		
@@ -59,7 +59,7 @@ public class AOPLogService {
 		log.setLog_operation("删除一条线索");
 		log.setLog_type("clue");
 		
-		logDao.insert(log);
+		logDao1.insert(log);
 		
 		System.out.println("====数据插入完毕====");
 		
@@ -77,7 +77,7 @@ public class AOPLogService {
 		log.setLog_operation("修改一条线索");
 		log.setLog_type("clue");
 		
-		logDao.insert(log);
+		logDao1.insert(log);
 		
 		System.out.println("====数据插入完毕====");
 		
@@ -95,7 +95,7 @@ public class AOPLogService {
 		log.setLog_operation("一条线索转换为客户");
 		log.setLog_type("clue");
 		
-		logDao.insert(log);
+		logDao1.insert(log);
 		
 		System.out.println("====数据插入完毕====");
 		

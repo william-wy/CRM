@@ -267,7 +267,7 @@ function getName(){
             type: "post",
             data: {
                 pageno: currentPageno,
-                pagesize: 2
+                pagesize: 6
             },
             dataType: 'json',
 
@@ -280,9 +280,9 @@ function getName(){
                     str += '<td><a href="contract-details.html">' + contract.hname + '</a></td>';
                     str += '<td><a href="customer-details.html">' + contract.hclient_name + '</a></td>';
                     str += '<td>' + contract.hnumber + '</td>';
-                    str += '<td>' + contract.hcontract_date + '</td>';
+                    str += '<td>' + contract.htol_amt + '</td>';
                     str += '<td>' + contract.hstate + '</td>';
-                    str += '<td>' + contract.hcompany_singer + '</td>';
+                    str += '<td>' + contract.hproduct + '</td>';
                     str += '</tr>';
 
                 })
@@ -887,7 +887,7 @@ function getName(){
 								<th>合同编号</th>
 								<th>签约日期</th>
 								<th>合同状态</th>
-								<th>负责人</th>
+								<th>对应产品</th>
 							</tr>
 						</thead>
 						<tbody id="contractbody">

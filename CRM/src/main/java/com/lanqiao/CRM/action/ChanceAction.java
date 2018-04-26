@@ -87,8 +87,7 @@ public class ChanceAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		  
-		System.out.println(chance.getJname());
+		
 		chanceService.insert(chance);
 		   
 			
@@ -127,6 +126,10 @@ public class ChanceAction {
 	     
 	    
          if(id.equals("")) {
+        	 System.out.println("============");
+     		System.out.println("============");
+     		System.out.println(chance.getJdonetime());
+     		System.out.println("============");
         	 
         	 chanceService.insert(chance);
 			 return "insert succeed";
@@ -158,8 +161,7 @@ public class ChanceAction {
 	@RequestMapping(value="/zhuanyi.action",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String zhuanyi(int kid,Contract contract) throws UnsupportedEncodingException {	
 		
-		   Chance chance=new Chance();
-		   chanceService.findById(kid);
+		   Chance chance=chanceService.findById(kid);
 		   
 		   
 		try {

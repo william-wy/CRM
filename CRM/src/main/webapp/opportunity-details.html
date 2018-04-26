@@ -1146,10 +1146,10 @@
 								<span class="input-group-addon">合同状态：</span> <select
 									class="form-control" id="contractstate">
 									<option>选择合同状态</option>
-									<option>签约</option>
-									<option>执行中</option>
-									<option>成功结束</option>
-									<option>意外终止</option>
+									<option value="签约">签约</option>
+									<option value="执行中">执行中</option>
+									<option value="成功结束">成功结束</option>
+									<option value="意外终止">意外终止</option>
 								</select>
 							</div>
 							<br>
@@ -1162,17 +1162,26 @@
 								<span class="input-group-addon">合同类型：</span> <select
 									class="form-control" id="contractleixing">
 									<option>选择合同类型</option>
-									<option>直销合同</option>
-									<option>代理合同</option>
-									<option>采购合同</option>
-									<option>服务合同</option>
-									<option>其它</option>
+									<option value="直销合同">直销合同</option>
+									<option value="代理合同">代理合同</option>
+									<option value="采购合同">采购合同</option>
+									<option value="服务合同">服务合同</option>
+									
 								</select>
 							</div>
 							<br>
 							<div class="input-group">
-								<span class="input-group-addon">付款方式：</span> <input type="text"
-									class="form-control" placeholder="" id="contractfukuan">
+								<span class="input-group-addon">付款方式：</span> 
+								<select
+									class="form-control" id="contractfukuan">
+									<option>选择付款方式</option>
+									<option value="支票">支票</option>
+									<option value="现金">现金</option>
+									<option value="银行转账">银行转账</option>
+									
+								</select>
+								
+								
 							</div>
 							<br>
 							<div class="input-group">
