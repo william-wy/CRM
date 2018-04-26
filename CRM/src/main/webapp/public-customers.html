@@ -277,7 +277,7 @@ function getName(){
 
 
         function getPage(currentPageno,s){    	
-            var pagesize = 6 ;     
+            var pagesize = 10 ;     
             var fid=$("#searchtext").val();
             if(fid==""){
           	  fid=0;
@@ -294,7 +294,7 @@ function getName(){
         		contentType:"application/json;charset=utf-8",
         		dataType:'json',
         		success:function(data){
-        	       var pagesize = 6 ;
+        	       var pagesize = 10 ;
         	       var str = '' ;
         			$.each(data.data,function(index,customer){
         			    str += '<tr>' ;
@@ -690,8 +690,7 @@ function getName(){
                 </form>
                 <ul class="pager">
                     <br/>
-                    <li>共有100条数据&nbsp;&nbsp;&nbsp;&nbsp;
-                        当前第1页，共10页
+                    <li>
                     </li>
                     <li class="previous"><a href="#">&larr; 上一页</a></li>
                     <li class="next"><a href="#">下一页 &rarr;</a></li>
