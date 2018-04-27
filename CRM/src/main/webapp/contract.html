@@ -306,7 +306,7 @@ function getName(){
     	s+=obj[i].value; //如果选中，将value添加到变量s中 
     	} 
     	//那么现在来检测s的值就知道选中的复选框的值了 
-    	alert(s==''?'你还没有选择任何内容！':s);
+    	
     	$.ajax({
     		  url:'/CRM/WF/startProcess.action',
     		  type:'post',
