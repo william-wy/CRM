@@ -46,6 +46,8 @@ public class PIChargeAction {
 	
 		try {
 			PICharge pc= service.login(username, password);
+			System.out.println(username);
+			System.out.println(password);
 			session.setAttribute("PICharge", pc);
 			System.out.println(pc);
 			if (pc!=null) {
